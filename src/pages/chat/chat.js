@@ -255,33 +255,47 @@ async function handleAssistantResponse(userMessage) {
         }
         
         // 创建一个空的回复消息
-        addMessage({
-            type: 'assistant',
-            content: '正在思考...'
-        });
+        const messageEl = document.createElement('div');
+        messageEl.className = 'message assistant';
+        messageEl.innerHTML = `
+            <div class="message-content">
+                <div class="message-avatar" style="color: ${chatState.currentExpert.themeColor}">
+                    ${chatState.currentExpert.avatar.startsWith('./') ? 
+                        `<img src="${chatState.currentExpert.avatar}" alt="${chatState.currentExpert.name}">` : 
+                        chatState.currentExpert.avatar}
+                </div>
+                <div class="message-text">正在思考...</div>
+            </div>
+        `;
+        
+        const messageList = document.querySelector('.message-list');
+        messageList.appendChild(messageEl);
+        const messageText = messageEl.querySelector('.message-text');
         
         // 发送消息并获取流式响应
+        console.log('准备发送消息到 API...');
         const stream = await window.api.sendMessage(
             chatState.conversationId,
             userMessage,
             chatState.currentExpert
         );
-        
-        // 更新最后一条消息
-        const messageList = document.querySelector('.message-list');
-        const lastMessage = messageList.lastElementChild;
-        const messageText = lastMessage.querySelector('.message-text');
+        console.log('获取到 API 响应流');
         
         // 处理流式响应
         let fullResponse = '';
-        for await (const chunk of window.api.handleStream(stream)) {
-            console.log('收到响应块:', chunk);
-            if (chunk.event === 'message') {
-                const content = chunk.message || '';
-                fullResponse += content;
-                messageText.innerHTML = marked.parse(fullResponse);
-                messageList.scrollTop = messageList.scrollHeight;
+        try {
+            for await (const chunk of window.api.handleStream(stream)) {
+                console.log('收到响应块:', chunk);
+                if (chunk.event === 'message') {
+                    const content = chunk.answer || chunk.message || '';
+                    fullResponse += content;
+                    messageText.innerHTML = marked.parse(fullResponse);
+                    messageList.scrollTop = messageList.scrollHeight;
+                }
             }
+        } catch (streamError) {
+            console.error('处理响应流时出错:', streamError);
+            messageText.textContent = '抱歉，处理响应时出错了';
         }
         
         // 保存消息
@@ -290,7 +304,7 @@ async function handleAssistantResponse(userMessage) {
             content: userMessage
         }, {
             type: 'assistant',
-            content: fullResponse
+            content: fullResponse || '抱歉，没有收到有效的回复'
         });
         
     } catch (error) {
