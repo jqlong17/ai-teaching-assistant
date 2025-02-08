@@ -4,100 +4,125 @@ const DIFY_API_KEY = 'app-l3SdhDG6QxQCYYlvMGMVbBpc';
 
 // 创建对话
 async function createConversation() {
+    console.log('开始创建对话...');
     try {
+        const requestBody = {
+            inputs: {},
+            query: '',
+            response_mode: 'streaming',
+            conversation_id: '',
+            user: 'user'
+        };
+        console.log('创建对话请求体:', requestBody);
+        
         const response = await fetch(`${DIFY_API_URL}/chat-messages`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${DIFY_API_KEY}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                inputs: {},
-                query: '',
-                response_mode: 'streaming',
-                conversation_id: '',
-                user: 'user'
-            })
+            body: JSON.stringify(requestBody)
         });
+        
+        console.log('创建对话响应状态:', response.status);
+        console.log('创建对话响应头:', Object.fromEntries(response.headers.entries()));
         
         if (!response.ok) {
             const errorData = await response.json();
-            console.error('API错误:', errorData);
+            console.error('创建对话失败，API错误:', errorData);
             throw new Error(errorData.message || '创建对话失败');
         }
         
         const data = await response.json();
+        console.log('创建对话成功，返回数据:', data);
         return data.conversation_id;
     } catch (error) {
-        console.error('创建对话失败:', error);
+        console.error('创建对话发生异常:', error);
         throw error;
     }
 }
 
 // 发送消息并获取流式响应
 async function sendMessage(conversationId, message, expert) {
+    console.log('开始发送消息...', {conversationId, message, expert: expert.id});
     try {
+        const requestBody = {
+            inputs: {
+                role: expert.id,
+                background: `您是一位${expert.description}。请用专业、友善的语气回答问题。`,
+                greeting: expert.greeting
+            },
+            query: message,
+            response_mode: 'streaming',
+            conversation_id: conversationId,
+            user: 'user'
+        };
+        console.log('发送消息请求体:', requestBody);
+        
         const response = await fetch(`${DIFY_API_URL}/chat-messages`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${DIFY_API_KEY}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                inputs: {
-                    role: expert.id,
-                    background: `您是一位${expert.description}。请用专业、友善的语气回答问题。`,
-                    greeting: expert.greeting
-                },
-                query: message,
-                response_mode: 'streaming',
-                conversation_id: conversationId,
-                user: 'user'
-            })
+            body: JSON.stringify(requestBody)
         });
+        
+        console.log('发送消息响应状态:', response.status);
+        console.log('发送消息响应头:', Object.fromEntries(response.headers.entries()));
         
         if (!response.ok) {
             const errorData = await response.json();
-            console.error('API错误:', errorData);
+            console.error('发送消息失败，API错误:', errorData);
             throw new Error(errorData.message || '发送消息失败');
         }
         
         return response.body;
     } catch (error) {
-        console.error('发送消息失败:', error);
+        console.error('发送消息发生异常:', error);
         throw error;
     }
 }
 
 // 处理流式响应
 async function* handleStream(stream) {
+    console.log('开始处理流式响应...');
     const reader = stream.getReader();
     const decoder = new TextDecoder();
     
     try {
         while (true) {
             const { done, value } = await reader.read();
-            if (done) break;
+            if (done) {
+                console.log('流式响应结束');
+                break;
+            }
             
             const chunk = decoder.decode(value);
-            const lines = chunk.split('\n');
+            console.log('收到数据块:', chunk);
             
+            const lines = chunk.split('\n');
             for (const line of lines) {
                 if (line.trim() === '') continue;
                 if (line.startsWith('data: ')) {
                     const data = line.slice(6);
-                    if (data === '[DONE]') return;
+                    if (data === '[DONE]') {
+                        console.log('收到结束标记');
+                        return;
+                    }
                     try {
                         const parsed = JSON.parse(data);
+                        console.log('解析的消息:', parsed);
                         yield parsed;
                     } catch (e) {
-                        console.error('解析响应数据失败:', e);
+                        console.error('解析响应数据失败:', e, '原始数据:', data);
                     }
                 }
             }
         }
     } finally {
         reader.releaseLock();
+        console.log('释放流读取器');
     }
 }
 
