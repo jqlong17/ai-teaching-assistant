@@ -232,13 +232,18 @@ function updateTabBar() {
 
 // 初始化
 window.addEventListener('load', () => {
-    renderHomePage();
-    updateTabBar(); // 总是更新导航栏状态
+    const hash = location.hash.slice(1);
+    handleRoute(hash);
 });
 
 // 处理路由变化
 window.addEventListener('hashchange', () => {
     const hash = location.hash.slice(1);
+    handleRoute(hash);
+});
+
+// 路由处理函数
+function handleRoute(hash) {
     if (!hash || hash === '/' || hash === '') {
         renderHomePage();
     } else if (hash === '/teaching-design') {
@@ -248,5 +253,5 @@ window.addEventListener('hashchange', () => {
         // 调用我的页面的渲染函数
         window.my.renderMyPage();
     }
-    updateTabBar(); // 每次路由变化都更新导航栏状态
-}); 
+    updateTabBar();
+} 

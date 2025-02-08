@@ -137,18 +137,4 @@ function showToast(message) {
 // 暴露到全局
 window.my = {
     renderMyPage
-};
-
-// 初始化
-function init() {
-    const hash = location.hash.slice(1);
-    if (hash === '/my') {
-        renderMyPage();
-    }
-}
-
-// 页面加载时初始化
-window.addEventListener('load', init);
-
-// 路由变化时初始化
-window.addEventListener('hashchange', init); 
+}; 
