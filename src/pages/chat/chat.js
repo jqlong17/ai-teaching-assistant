@@ -248,13 +248,51 @@ async function handleAssistantResponse(userMessage) {
     chatState.isLoading = true;
     
     try {
-        // 模拟的回复消息
-        const response = "这是一个模拟的回复消息。后续将替换为实际的API调用。";
+        // 如果是第一条消息，创建新对话
+        if (!chatState.conversationId) {
+            chatState.conversationId = await window.api.createConversation();
+            console.log('创建新对话:', chatState.conversationId);
+        }
         
+        // 创建一个空的回复消息
         addMessage({
             type: 'assistant',
-            content: response
+            content: '正在思考...'
         });
+        
+        // 发送消息并获取流式响应
+        const stream = await window.api.sendMessage(
+            chatState.conversationId,
+            userMessage,
+            chatState.currentExpert
+        );
+        
+        // 更新最后一条消息
+        const messageList = document.querySelector('.message-list');
+        const lastMessage = messageList.lastElementChild;
+        const messageText = lastMessage.querySelector('.message-text');
+        
+        // 处理流式响应
+        let fullResponse = '';
+        for await (const chunk of window.api.handleStream(stream)) {
+            console.log('收到响应块:', chunk);
+            if (chunk.event === 'message') {
+                const content = chunk.message || '';
+                fullResponse += content;
+                messageText.innerHTML = marked.parse(fullResponse);
+                messageList.scrollTop = messageList.scrollHeight;
+            }
+        }
+        
+        // 保存消息
+        chatState.messages.push({
+            type: 'user',
+            content: userMessage
+        }, {
+            type: 'assistant',
+            content: fullResponse
+        });
+        
     } catch (error) {
         console.error('获取回复失败:', error);
         addMessage({
