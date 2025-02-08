@@ -26,12 +26,9 @@ async function sendMessage(conversationId, message, expert) {
             },
             query: message,
             user: 'user',
-            response_mode: 'streaming'
+            response_mode: 'streaming',
+            conversation_id: conversationId || undefined
         };
-        
-        if (conversationId) {
-            requestBody.conversation_id = conversationId;
-        }
         
         console.log('发送消息请求体:', requestBody);
         
@@ -90,7 +87,10 @@ async function* handleStream(stream) {
                     try {
                         const parsed = JSON.parse(data);
                         console.log('解析的消息:', parsed);
-                        yield parsed;
+                        yield {
+                            event: 'message',
+                            message: parsed.answer || parsed.message || ''
+                        };
                     } catch (e) {
                         console.error('解析响应数据失败:', e, '原始数据:', data);
                     }
