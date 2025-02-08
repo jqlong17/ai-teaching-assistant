@@ -2,6 +2,8 @@
 
 这是一个基于 Web 的智能教学助手系统，旨在为教师提供全方位的教学支持。目前支持数学、德育等多个学科领域的智能对话和教学设计辅助。
 
+🌐 [在线演示](https://jqlong17.github.io/ai-teaching-assistant)
+
 ## 功能特点
 
 - 多领域专家系统：支持数学、德育等多个学科的专家角色
@@ -16,15 +18,15 @@
 2. 使用任意 Web 服务器运行项目
 3. 在浏览器中访问 index.html
 
-## 在线演示
-
-访问 GitHub Pages 链接（部署后更新）
-
 ## 主要功能模块
 
 - 📚 教学设计生成
 - 🎯 项目式学习指导
 - 🔬 学科实验模拟
 - 📊 知识可视化
-- �� 思维训练题库
-- 📖 学习资源推荐 
+- 🧩 思维训练题库
+- 📖 学习资源推荐
+
+## 在线访问
+
+访问 [https://jqlong17.github.io/ai-teaching-assistant](https://jqlong17.github.io/ai-teaching-assistant) 体验完整功能。 
