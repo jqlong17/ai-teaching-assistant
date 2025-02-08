@@ -1,20 +1,21 @@
 // Dify API 配置
-const DIFY_API_URL = 'https://cloud.dify.ai/v1/chat-messages';
+const DIFY_API_URL = 'https://cloud.dify.ai/v1';
 const DIFY_API_KEY = 'app-l3SdhDG6QxQCYYlvMGMVbBpc';
 
 // 创建对话
 async function createConversation() {
     try {
-        const response = await fetch(DIFY_API_URL, {
+        const response = await fetch(`${DIFY_API_URL}/chat-messages`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${DIFY_API_KEY}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                user_input: '',
                 inputs: {},
+                query: '',
                 response_mode: 'streaming',
+                conversation_id: '',
                 user: 'user'
             })
         });
@@ -36,21 +37,21 @@ async function createConversation() {
 // 发送消息并获取流式响应
 async function sendMessage(conversationId, message, expert) {
     try {
-        const response = await fetch(DIFY_API_URL, {
+        const response = await fetch(`${DIFY_API_URL}/chat-messages`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${DIFY_API_KEY}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                conversation_id: conversationId,
-                user_input: message,
                 inputs: {
                     role: expert.id,
                     background: `您是一位${expert.description}。请用专业、友善的语气回答问题。`,
                     greeting: expert.greeting
                 },
+                query: message,
                 response_mode: 'streaming',
+                conversation_id: conversationId,
                 user: 'user'
             })
         });
