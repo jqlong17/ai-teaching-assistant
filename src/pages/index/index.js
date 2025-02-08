@@ -68,7 +68,13 @@ let state = {
 
 // 渲染首页
 async function renderHomePage() {
+    console.log('开始渲染首页');
     const container = document.getElementById('page-container');
+    
+    if (!container) {
+        console.error('找不到页面容器元素');
+        return;
+    }
     
     // 显示加载状态
     container.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
@@ -128,8 +134,11 @@ async function renderHomePage() {
         container.appendChild(categoryTabs);
         container.appendChild(grid);
         
+        console.log('首页内容渲染完成');
+        
         // 绑定事件
         bindEvents(categoryTabs, grid);
+        console.log('首页事件绑定完成');
         
     } catch (error) {
         console.error('渲染首页失败:', error);
@@ -202,56 +211,109 @@ function showToast(message) {
     }, 2000);
 }
 
-// 更新底部导航栏状态
-function updateTabBar() {
-    // 移除所有tab的active类
-    document.querySelectorAll('.tab-item').forEach(tab => {
-        tab.classList.remove('active');
-    });
-    
-    const hash = location.hash.slice(1);
-    
-    // 根据当前hash设置对应tab的active状态
-    if (!hash || hash === '/' || hash === '') {
-        const homeTab = document.querySelector('.tab-item[href="#/"]');
-        if (homeTab) {
-            homeTab.classList.add('active');
-        }
-    } else if (hash.startsWith('/chat')) {
-        const chatTab = document.querySelector('.tab-item[href="#/chat"]');
-        if (chatTab) {
-            chatTab.classList.add('active');
-        }
-    } else if (hash === '/my') {
-        const myTab = document.querySelector('.tab-item[href="#/my"]');
-        if (myTab) {
-            myTab.classList.add('active');
-        }
-    }
-}
-
 // 初始化
 window.addEventListener('load', () => {
+    console.log('页面加载，初始化路由');
     const hash = location.hash.slice(1);
     handleRoute(hash);
 });
 
 // 处理路由变化
 window.addEventListener('hashchange', () => {
+    console.log('路由变化');
     const hash = location.hash.slice(1);
     handleRoute(hash);
 });
 
 // 路由处理函数
 function handleRoute(hash) {
-    if (!hash || hash === '/' || hash === '') {
-        renderHomePage();
-    } else if (hash === '/teaching-design') {
-        // 调用教学设计页面的渲染函数
-        window.teachingDesign.renderTeachingDesign();
-    } else if (hash === '/my') {
-        // 调用我的页面的渲染函数
-        window.my.renderMyPage();
+    console.log('处理路由:', hash);
+    
+    // 清空页面容器
+    const container = document.getElementById('page-container');
+    if (!container) {
+        console.error('找不到页面容器元素');
+        return;
     }
-    updateTabBar();
+    
+    try {
+        if (!hash || hash === '/' || hash === '') {
+            console.log('渲染首页');
+            renderHomePage();
+        } else if (hash === '/teaching-design') {
+            console.log('渲染教学设计页面');
+            if (window.teachingDesign && typeof window.teachingDesign.renderTeachingDesign === 'function') {
+                window.teachingDesign.renderTeachingDesign();
+            } else {
+                console.error('教学设计渲染函数未定义');
+                renderHomePage();
+            }
+        } else if (hash.startsWith('/chat')) {
+            console.log('渲染对话页面');
+            if (window.chat && typeof window.chat.renderExpertList === 'function') {
+                window.chat.renderExpertList();
+            } else {
+                console.error('对话页面渲染函数未定义');
+                // 显示友好的错误提示
+                container.innerHTML = `
+                    <div class="error-container">
+                        <h2>页面加载失败</h2>
+                        <p>对话功能暂时无法使用，请稍后再试</p>
+                        <button onclick="location.hash='/'">返回首页</button>
+                    </div>
+                `;
+            }
+        } else if (hash === '/my') {
+            console.log('渲染我的页面');
+            if (window.my && typeof window.my.renderMyPage === 'function') {
+                window.my.renderMyPage();
+            } else {
+                console.error('我的页面渲染函数未定义');
+                renderHomePage();
+            }
+        } else {
+            console.log('未知路由，显示首页');
+            renderHomePage();
+        }
+        
+        // 更新导航栏状态
+        updateTabBar();
+    } catch (error) {
+        console.error('路由处理出错:', error);
+        container.innerHTML = '<div class="error">页面加载失败，请刷新重试</div>';
+    }
+}
+
+// 更新底部导航栏状态
+function updateTabBar() {
+    console.log('更新导航栏状态');
+    
+    // 移除所有tab的active类
+    document.querySelectorAll('.tab-item').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    const hash = location.hash.slice(1);
+    console.log('当前hash:', hash);
+    
+    // 根据当前hash设置对应tab的active状态
+    if (!hash || hash === '/' || hash === '') {
+        console.log('激活首页标签');
+        const homeTab = document.querySelector('.tab-item[href="#/"]');
+        if (homeTab) {
+            homeTab.classList.add('active');
+        }
+    } else if (hash.startsWith('/chat')) {
+        console.log('激活对话标签');
+        const chatTab = document.querySelector('.tab-item[href="#/chat"]');
+        if (chatTab) {
+            chatTab.classList.add('active');
+        }
+    } else if (hash === '/my') {
+        console.log('激活我的标签');
+        const myTab = document.querySelector('.tab-item[href="#/my"]');
+        if (myTab) {
+            myTab.classList.add('active');
+        }
+    }
 } 

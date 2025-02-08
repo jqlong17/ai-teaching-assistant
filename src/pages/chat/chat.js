@@ -338,6 +338,12 @@ function init() {
     }
 }
 
+// 暴露到全局
+window.chat = {
+    renderExpertList,
+    init
+};
+
 // 页面加载时初始化
 window.addEventListener('load', init);
 
