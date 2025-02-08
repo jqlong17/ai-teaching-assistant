@@ -1,3 +1,17 @@
+/* 我的页面头部 */
+.my-header {
+    padding: 16px;
+    background: linear-gradient(135deg, #4a90e2, #63b3ed);
+}
+
+.my-header h1 {
+    font-size: 20px;
+    color: #fff;
+    margin: 0;
+    font-weight: 600;
+    text-align: left;
+}
+
 /* 我的页面样式 */
 .my-container {
     padding: 20px 16px;

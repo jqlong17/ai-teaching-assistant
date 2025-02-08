@@ -30,11 +30,12 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 50px;
+    height: 64px; /* 增加高度 */
     background-color: #fff;
     display: flex;
     box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
     z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom); /* 添加安全区域padding */
 }
 
 .tab-item {
@@ -45,7 +46,7 @@ body {
     justify-content: center;
     color: #666;
     text-decoration: none;
-    font-size: 12px;
+    font-size: 14px; /* 增加字体大小 */
 }
 
 .tab-item.active {
@@ -53,8 +54,8 @@ body {
 }
 
 .tab-item i {
-    font-size: 20px;
-    margin-bottom: 2px;
+    font-size: 24px; /* 增加图标大小 */
+    margin-bottom: 4px; /* 增加间距 */
 }
 
 /* 通用样式 */
@@ -148,4 +149,26 @@ body {
 
 .error-container button:hover {
     background: #1565C0;
+}
+
+/* 通用页面头部样式 */
+.page-header {
+    padding: 20px 15px;
+    background: linear-gradient(135deg, #4a90e2, #63b3ed);
+    color: #fff;
+}
+
+.page-header h1 {
+    font-size: 24px;
+    margin: 0;
+    font-weight: 600;
+    color: #fff;
+    text-align: left; /* 修改为左对齐 */
+}
+
+.page-header p {
+    font-size: 14px;
+    margin: 8px 0 0;
+    opacity: 0.9;
+    color: #fff;
 } 

@@ -60,6 +60,11 @@ function renderMyPage() {
     try {
         // 构建页面内容
         const content = `
+            <!-- 页面头部 -->
+            <div class="my-header">
+                <h1>我的</h1>
+            </div>
+            
             <div class="my-container">
                 <!-- 用户信息卡片 -->
                 <div class="user-card">
