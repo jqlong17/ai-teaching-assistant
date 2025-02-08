@@ -152,12 +152,9 @@ function enterChatRoom(expert) {
             </div>
         </header>
         <div class="chat-content">
-            <!-- 视频展示区域 -->
-            <div class="video-container">
-                <video controls width="100%">
-                    <source src="src/assets/视频.mp4" type="video/mp4">
-                    您的浏览器不支持视频播放。
-                </video>
+            <!-- 专家图片 -->
+            <div class="expert-image-container">
+                <img src="src/assets/images/experts/math.png" alt="数学专家" class="expert-image">
             </div>
             <!-- 消息列表 -->
             <div class="message-list"></div>
