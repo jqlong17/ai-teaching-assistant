@@ -148,15 +148,20 @@ function enterChatRoom(expert) {
         <header class="chat-header">
             <div class="back-button">←</div>
             <div class="expert-chat-info">
-                <div class="expert-chat-avatar" style="color: ${expert.themeColor}">
-                    ${expert.avatar.startsWith('./') ? 
-                        `<img src="${expert.avatar}" alt="${expert.name}">` : 
-                        expert.avatar}
-                </div>
                 <div class="expert-chat-name">${expert.name}</div>
             </div>
         </header>
-        <div class="message-list"></div>
+        <div class="chat-content">
+            <!-- 视频展示区域 -->
+            <div class="video-container">
+                <video controls width="100%">
+                    <source src="src/assets/视频.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+            </div>
+            <!-- 消息列表 -->
+            <div class="message-list"></div>
+        </div>
         <div class="chat-input-area">
             <textarea class="chat-input" placeholder="输入你的问题..." rows="1"></textarea>
             <button class="send-btn">发送</button>
@@ -229,12 +234,6 @@ function addMessage(message) {
     
     messageEl.innerHTML = `
         <div class="message-content">
-            ${message.type === 'assistant' ? 
-                `<div class="message-avatar" style="color: ${chatState.currentExpert.themeColor}">
-                    ${chatState.currentExpert.avatar.startsWith('./') ? 
-                        `<img src="${chatState.currentExpert.avatar}" alt="${chatState.currentExpert.name}">` : 
-                        chatState.currentExpert.avatar}
-                </div>` : ''}
             <div class="message-text">${message.content}</div>
         </div>
     `;
@@ -259,11 +258,6 @@ async function handleAssistantResponse(userMessage) {
         messageEl.className = 'message assistant';
         messageEl.innerHTML = `
             <div class="message-content">
-                <div class="message-avatar" style="color: ${chatState.currentExpert.themeColor}">
-                    ${chatState.currentExpert.avatar.startsWith('./') ? 
-                        `<img src="${chatState.currentExpert.avatar}" alt="${chatState.currentExpert.name}">` : 
-                        chatState.currentExpert.avatar}
-                </div>
                 <div class="message-text">正在思考...</div>
             </div>
         `;
