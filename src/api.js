@@ -1,27 +1,28 @@
 // Dify API 配置
-const DIFY_API_URL = 'https://api.dify.ai/v1';
+const DIFY_API_URL = 'https://cloud.dify.ai/v1/chat-messages';
 const DIFY_API_KEY = 'app-l3SdhDG6QxQCYYlvMGMVbBpc';
 
 // 创建对话
 async function createConversation() {
     try {
-        const response = await fetch(`${DIFY_API_URL}/chat-messages`, {
+        const response = await fetch(DIFY_API_URL, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${DIFY_API_KEY}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                conversation_id: null,
+                user_input: '',
                 inputs: {},
-                query: '',
                 response_mode: 'streaming',
                 user: 'user'
             })
         });
         
         if (!response.ok) {
-            throw new Error('创建对话失败');
+            const errorData = await response.json();
+            console.error('API错误:', errorData);
+            throw new Error(errorData.message || '创建对话失败');
         }
         
         const data = await response.json();
@@ -35,7 +36,7 @@ async function createConversation() {
 // 发送消息并获取流式响应
 async function sendMessage(conversationId, message, expert) {
     try {
-        const response = await fetch(`${DIFY_API_URL}/chat-messages`, {
+        const response = await fetch(DIFY_API_URL, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${DIFY_API_KEY}`,
@@ -43,19 +44,21 @@ async function sendMessage(conversationId, message, expert) {
             },
             body: JSON.stringify({
                 conversation_id: conversationId,
+                user_input: message,
                 inputs: {
-                    expert: expert.name,
                     role: expert.id,
-                    background: `您是一位${expert.description}。请用专业、友善的语气回答问题。`
+                    background: `您是一位${expert.description}。请用专业、友善的语气回答问题。`,
+                    greeting: expert.greeting
                 },
-                query: message,
                 response_mode: 'streaming',
                 user: 'user'
             })
         });
         
         if (!response.ok) {
-            throw new Error('发送消息失败');
+            const errorData = await response.json();
+            console.error('API错误:', errorData);
+            throw new Error(errorData.message || '发送消息失败');
         }
         
         return response.body;
@@ -107,7 +110,9 @@ async function getConversationHistory(conversationId) {
         });
         
         if (!response.ok) {
-            throw new Error('获取对话历史失败');
+            const errorData = await response.json();
+            console.error('API错误:', errorData);
+            throw new Error(errorData.message || '获取对话历史失败');
         }
         
         const data = await response.json();
