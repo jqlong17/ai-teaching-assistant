@@ -111,7 +111,7 @@ function renderMyPage() {
         // 确保 DOM 已更新后再绑定事件
         setTimeout(() => {
             try {
-                bindEvents();
+                bindMyPageEvents();
                 console.log('事件绑定完成');
             } catch (error) {
                 console.error('绑定事件失败:', error);
@@ -124,10 +124,10 @@ function renderMyPage() {
     }
 }
 
-// 绑定事件
-function bindEvents() {
+// 绑定我的页面事件
+function bindMyPageEvents() {
     try {
-        console.log('开始绑定事件');
+        console.log('开始绑定我的页面事件');
         
         // 功能项点击
         const featureItems = document.querySelectorAll('.feature-item');
@@ -152,9 +152,9 @@ function bindEvents() {
             });
         }
         
-        console.log('事件绑定完成');
+        console.log('我的页面事件绑定完成');
     } catch (error) {
-        console.error('绑定事件出错:', error);
+        console.error('绑定我的页面事件出错:', error);
     }
 }
 
