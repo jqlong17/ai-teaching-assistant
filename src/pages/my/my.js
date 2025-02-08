@@ -134,6 +134,9 @@ function showToast(message) {
     }, 2000);
 }
 
+// 暴露到全局
+window.renderMyPage = renderMyPage;
+
 // 初始化
 function init() {
     const hash = location.hash.slice(1);

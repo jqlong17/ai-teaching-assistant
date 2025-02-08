@@ -222,6 +222,11 @@ function updateTabBar() {
         if (chatTab) {
             chatTab.classList.add('active');
         }
+    } else if (hash === '/my') {
+        const myTab = document.querySelector('.tab-item[href="#/my"]');
+        if (myTab) {
+            myTab.classList.add('active');
+        }
     }
 }
 
@@ -239,6 +244,9 @@ window.addEventListener('hashchange', () => {
     } else if (hash === '/teaching-design') {
         // 调用教学设计页面的渲染函数
         window.teachingDesign.renderTeachingDesign();
+    } else if (hash === '/my') {
+        // 调用我的页面的渲染函数
+        renderMyPage();
     }
     updateTabBar(); // 每次路由变化都更新导航栏状态
 }); 
