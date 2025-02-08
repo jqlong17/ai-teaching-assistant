@@ -1,41 +1,13 @@
 // Dify API 配置
-const DIFY_API_URL = 'https://cloud.dify.ai/v1';
+const DIFY_API_URL = 'https://api.dify.ai/v1';
 const DIFY_API_KEY = 'app-l3SdhDG6QxQCYYlvMGMVbBpc';
 
 // 创建对话
 async function createConversation() {
     console.log('开始创建对话...');
     try {
-        const requestBody = {
-            inputs: {},
-            query: '',
-            response_mode: 'streaming',
-            conversation_id: '',
-            user: 'user'
-        };
-        console.log('创建对话请求体:', requestBody);
-        
-        const response = await fetch(`${DIFY_API_URL}/chat-messages`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${DIFY_API_KEY}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestBody)
-        });
-        
-        console.log('创建对话响应状态:', response.status);
-        console.log('创建对话响应头:', Object.fromEntries(response.headers.entries()));
-        
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error('创建对话失败，API错误:', errorData);
-            throw new Error(errorData.message || '创建对话失败');
-        }
-        
-        const data = await response.json();
-        console.log('创建对话成功，返回数据:', data);
-        return data.conversation_id;
+        // 直接返回空字符串，因为 Dify API 不需要预先创建对话
+        return '';
     } catch (error) {
         console.error('创建对话发生异常:', error);
         throw error;
@@ -53,17 +25,22 @@ async function sendMessage(conversationId, message, expert) {
                 greeting: expert.greeting
             },
             query: message,
-            response_mode: 'streaming',
-            conversation_id: conversationId,
-            user: 'user'
+            user: 'user',
+            response_mode: 'streaming'
         };
+        
+        if (conversationId) {
+            requestBody.conversation_id = conversationId;
+        }
+        
         console.log('发送消息请求体:', requestBody);
         
         const response = await fetch(`${DIFY_API_URL}/chat-messages`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${DIFY_API_KEY}`,
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'text/event-stream'
             },
             body: JSON.stringify(requestBody)
         });
@@ -72,9 +49,9 @@ async function sendMessage(conversationId, message, expert) {
         console.log('发送消息响应头:', Object.fromEntries(response.headers.entries()));
         
         if (!response.ok) {
-            const errorData = await response.json();
+            const errorData = await response.json().catch(() => ({}));
             console.error('发送消息失败，API错误:', errorData);
-            throw new Error(errorData.message || '发送消息失败');
+            throw new Error(errorData.message || `HTTP错误 ${response.status}`);
         }
         
         return response.body;
