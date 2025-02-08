@@ -246,7 +246,7 @@ window.addEventListener('hashchange', () => {
         window.teachingDesign.renderTeachingDesign();
     } else if (hash === '/my') {
         // 调用我的页面的渲染函数
-        renderMyPage();
+        window.my.renderMyPage();
     }
     updateTabBar(); // 每次路由变化都更新导航栏状态
 }); 

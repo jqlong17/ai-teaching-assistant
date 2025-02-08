@@ -135,7 +135,9 @@ function showToast(message) {
 }
 
 // 暴露到全局
-window.renderMyPage = renderMyPage;
+window.my = {
+    renderMyPage
+};
 
 // 初始化
 function init() {
