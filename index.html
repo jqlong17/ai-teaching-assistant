@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>云小睿</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="src/assets/css/main.css">
+    <link rel="stylesheet" href="src/pages/index/index.css">
+    <link rel="stylesheet" href="src/pages/chat/chat.css">
+    <link rel="stylesheet" href="src/pages/teaching-design/teaching-design.css">
+    <script src="src/lib/marked.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <div id="page-container"></div>
+        </main>
+
+        <!-- 底部导航栏 -->
+        <nav class="tab-bar">
+            <a href="#/" class="tab-item active">
+                <i class="icon-home"></i>
+                <span>首页</span>
+            </a>
+            <a href="#/chat" class="tab-item">
+                <i class="icon-chat"></i>
+                <span>对话</span>
+            </a>
+            <a href="#/my" class="tab-item">
+                <i class="icon-my"></i>
+                <span>我的</span>
+            </a>
+        </nav>
+    </div>
+    <script src="src/api.js"></script>
+    <script src="src/pages/index/index.js"></script>
+    <script src="src/pages/chat/chat.js"></script>
+    <script src="src/pages/teaching-design/teaching-design.js"></script>
+</body>
+</html> 

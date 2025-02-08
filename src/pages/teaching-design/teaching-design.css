@@ -1,0 +1,301 @@
+/* 教学设计页面样式 */
+.design-header {
+    padding: 16px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.design-header .back-button {
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+}
+
+.design-header h1 {
+    font-size: 18px;
+    color: #333;
+    margin: 0;
+    font-weight: 600;
+}
+
+.design-content {
+    padding: 20px 16px;
+    background: #f5f7fa;
+    min-height: calc(100vh - 50px);
+}
+
+.design-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-section {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.form-field {
+    margin-bottom: 20px;
+}
+
+.form-field:last-child {
+    margin-bottom: 0;
+}
+
+.form-field label {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.form-field .required {
+    color: #ff4d4f;
+    margin-right: 4px;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    background: #fff;
+    transition: all 0.3s ease;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+    outline: none;
+    border-color: #1976D2;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
+}
+
+.form-field input:disabled,
+.form-field select:disabled,
+.form-field textarea:disabled {
+    background: #f5f5f5;
+    cursor: not-allowed;
+}
+
+.form-field textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-actions {
+    margin-top: 24px;
+    text-align: center;
+}
+
+.generate-btn {
+    width: 100%;
+    height: 44px;
+    border: none;
+    border-radius: 8px;
+    background: #1976D2;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.generate-btn:hover {
+    background: #1565C0;
+}
+
+.generate-btn:active {
+    transform: scale(0.98);
+}
+
+/* 响应式布局 */
+@media screen and (max-width: 768px) {
+    .design-content {
+        padding: 16px 12px;
+    }
+    
+    .form-section {
+        padding: 16px;
+    }
+}
+
+/* 教案预览区域 */
+.lesson-plan-preview {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.preview-header {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.preview-header h2 {
+    font-size: 18px;
+    color: #333;
+    margin: 0;
+}
+
+.preview-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.preview-actions button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.edit-btn {
+    background: #f5f5f5;
+    color: #666;
+}
+
+.edit-btn:hover {
+    background: #e8e8e8;
+}
+
+.download-btn {
+    background: #1976D2;
+    color: #fff;
+}
+
+.download-btn:hover {
+    background: #1565C0;
+}
+
+/* Markdown 样式 */
+.markdown-body {
+    padding: 20px;
+    color: #24292e;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.markdown-body h1 {
+    font-size: 28px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+    margin: 24px 0 16px;
+}
+
+.markdown-body h2 {
+    font-size: 24px;
+    padding-bottom: 8px;
+    margin: 24px 0 16px;
+}
+
+.markdown-body h3 {
+    font-size: 20px;
+    margin: 20px 0 12px;
+}
+
+.markdown-body p {
+    margin: 12px 0;
+}
+
+.markdown-body ul, 
+.markdown-body ol {
+    padding-left: 24px;
+    margin: 12px 0;
+}
+
+.markdown-body li {
+    margin: 6px 0;
+}
+
+.markdown-body code {
+    background: #f6f8fa;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+.markdown-body pre {
+    background: #f6f8fa;
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+.markdown-body blockquote {
+    margin: 12px 0;
+    padding: 0 16px;
+    color: #666;
+    border-left: 4px solid #ddd;
+}
+
+.markdown-body table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 12px 0;
+}
+
+.markdown-body th,
+.markdown-body td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+}
+
+.markdown-body th {
+    background: #f5f5f5;
+    font-weight: 600;
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 768px) {
+    .lesson-plan-preview {
+        margin: 0;
+        border-radius: 0;
+    }
+    
+    .preview-header {
+        padding: 16px;
+    }
+    
+    .markdown-body {
+        padding: 16px;
+        font-size: 14px;
+    }
+    
+    .markdown-body h1 {
+        font-size: 24px;
+    }
+    
+    .markdown-body h2 {
+        font-size: 20px;
+    }
+    
+    .markdown-body h3 {
+        font-size: 18px;
+    }
+} 
