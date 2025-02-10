@@ -3,7 +3,7 @@ const experts = [
     {
         id: 'math',
         name: '章建跃',
-        avatar: './src/assets/images/experts/math.png',
+        avatar: './src/assets/images/experts/数字人示意图.png',
         description: '著名数学教育专家，教育部基础教育课程教材专家工作委员会委员，国家级教学成果奖获得者。',
         detailedDescription: `
             章建跃教授是我国著名的数学教育专家，从事数学教育研究与实践40余年。他长期致力于中学数学教育理论研究与教学改革实践，在数学教育领域具有重要影响力。
