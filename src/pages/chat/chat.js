@@ -99,8 +99,14 @@ const experts = [
 let chatState = {
     currentExpert: null,
     messages: [],
-    isLoading: false
+    isLoading: false,
+    isVoiceMode: true, // 默认使用语音输入
+    isRecording: false,
+    recognition: null
 };
+
+// 在 experts 数组后添加
+let chatMode = 'immersive'; // 修改默认模式为 'immersive'
 
 // 渲染专家选择页面
 function renderExpertList() {
@@ -201,15 +207,28 @@ function enterChatRoom(expert) {
     chatState.currentExpert = expert;
     chatState.messages = [];
     
+    if (chatMode === 'immersive') {
+        const immersiveChat = new ImmersiveChat(expert);
+        immersiveChat.render();
+        return;
+    }
+    
     const container = document.getElementById('page-container');
     container.className = 'chat-container';
     
     // 创建对话界面
     container.innerHTML = `
         <div class="expert-side">
-            <!-- 专家图片 -->
+            <!-- 专家图片和音频波形 -->
             <div class="expert-image-container">
                 <img src="${expert.avatar}" alt="${expert.name}" class="expert-image">
+                <div class="audio-wave inactive">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                </div>
             </div>
             <div class="expert-description-panel">
                 <div class="expert-title">${expert.name}</div>
@@ -237,13 +256,23 @@ function enterChatRoom(expert) {
                 <div class="expert-chat-info">
                     <div class="expert-chat-name">${expert.name}</div>
                 </div>
+                <button class="mode-switch-btn" onclick="window.chat.switchChatMode()">
+                    切换模式
+                </button>
             </header>
             <div class="chat-content">
                 <div class="message-list"></div>
             </div>
             <div class="chat-input-area">
-                <textarea class="chat-input" placeholder="输入你的问题..." rows="1"></textarea>
-                <button class="send-btn">发送</button>
+                <div class="chat-input-wrapper voice-mode">
+                    <button class="input-mode-switch" title="切换输入模式">🎤</button>
+                    <textarea class="chat-input" placeholder="输入你的问题..." rows="1"></textarea>
+                    <button class="voice-input-button">
+                        按住说话
+                    </button>
+                    <button class="send-btn">发送</button>
+                    <div class="voice-status">按住说话</div>
+                </div>
             </div>
         </div>
     `;
@@ -261,41 +290,44 @@ function enterChatRoom(expert) {
 // 绑定对话界面事件
 function bindChatEvents() {
     const backButton = document.querySelector('.back-button');
+    const inputModeSwitch = document.querySelector('.input-mode-switch');
     const input = document.querySelector('.chat-input');
-    const sendBtn = document.querySelector('.send-btn');
+    const voiceButton = document.querySelector('.voice-input-button');
+    const sendButton = document.querySelector('.send-btn');
+    const voiceStatus = document.querySelector('.voice-status');
+    const inputWrapper = document.querySelector('.chat-input-wrapper');
     
-    // 返回按钮
-    backButton.addEventListener('click', () => {
-        renderExpertList();
+    // 切换输入模式
+    inputModeSwitch.addEventListener('click', () => {
+        const isVoiceMode = inputWrapper.classList.contains('voice-mode');
+        if (isVoiceMode) {
+            inputWrapper.classList.remove('voice-mode');
+            inputWrapper.classList.add('text-mode');
+            inputModeSwitch.textContent = '⌨️';
+            voiceStatus.classList.remove('show');
+        } else {
+            inputWrapper.classList.remove('text-mode');
+            inputWrapper.classList.add('voice-mode');
+            inputModeSwitch.textContent = '🎤';
+            input.value = '';
+        }
     });
     
-    // 发送消息
-    const sendMessage = () => {
+    // 发送按钮点击事件
+    sendButton.addEventListener('click', () => {
         const content = input.value.trim();
-        if (!content || chatState.isLoading) return;
-        
-        // 添加用户消息
-        addMessage({
-            type: 'user',
-            content
-        });
-        
-        // 清空输入
-        input.value = '';
-        input.style.height = 'auto';
-        
-        // 获取回复
-        handleAssistantResponse(content);
-    };
-    
-    // 发送按钮
-    sendBtn.addEventListener('click', sendMessage);
+        if (content) {
+            handleUserMessage(content);
+            input.value = '';
+            input.style.height = 'auto';
+        }
+    });
     
     // 回车发送
     input.addEventListener('keypress', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            sendMessage();
+            sendButton.click();
         }
     });
     
@@ -304,6 +336,115 @@ function bindChatEvents() {
         input.style.height = 'auto';
         input.style.height = input.scrollHeight + 'px';
     });
+    
+    // 初始化语音识别
+    if ('webkitSpeechRecognition' in window) {
+        chatState.recognition = new webkitSpeechRecognition();
+        chatState.recognition.continuous = false;
+        chatState.recognition.interimResults = true;
+        chatState.recognition.lang = 'zh-CN';
+        
+        chatState.recognition.onstart = () => {
+            chatState.isRecording = true;
+            voiceButton.classList.add('recording');
+            voiceButton.textContent = '松开结束';
+            voiceStatus.textContent = '正在聆听...';
+            voiceStatus.classList.add('show');
+        };
+        
+        chatState.recognition.onend = () => {
+            chatState.isRecording = false;
+            voiceButton.classList.remove('recording');
+            voiceButton.textContent = '按住说话';
+            voiceStatus.classList.remove('show');
+        };
+        
+        chatState.recognition.onresult = (event) => {
+            const transcript = Array.from(event.results)
+                .map(result => result[0].transcript)
+                .join('');
+            
+            if (event.results[0].isFinal) {
+                handleUserMessage(transcript);
+            }
+        };
+        
+        chatState.recognition.onerror = (event) => {
+            console.error('语音识别错误:', event.error);
+            voiceStatus.textContent = '未能识别语音，请重试';
+            voiceStatus.classList.add('show');
+            setTimeout(() => {
+                voiceStatus.classList.remove('show');
+            }, 2000);
+        };
+    }
+    
+    // 返回按钮
+    backButton.addEventListener('click', () => {
+        renderExpertList();
+    });
+    
+    // 语音输入按钮事件
+    let touchStartTime;
+    
+    const startRecording = () => {
+        if (!chatState.recognition) {
+            showToast('您的浏览器不支持语音识别功能');
+            return;
+        }
+        
+        touchStartTime = Date.now();
+        if (!chatState.isRecording) {
+            chatState.recognition.start();
+        }
+    };
+    
+    const stopRecording = () => {
+        const touchDuration = Date.now() - touchStartTime;
+        
+        if (touchDuration < 500) {
+            chatState.recognition.stop();
+            voiceStatus.textContent = '说话时间太短了';
+            voiceStatus.classList.add('show');
+            setTimeout(() => {
+                voiceStatus.classList.remove('show');
+            }, 1500);
+            return;
+        }
+        
+        if (chatState.isRecording) {
+            chatState.recognition.stop();
+        }
+    };
+    
+    // 支持鼠标和触摸事件
+    voiceButton.addEventListener('mousedown', startRecording);
+    voiceButton.addEventListener('mouseup', stopRecording);
+    voiceButton.addEventListener('mouseleave', stopRecording);
+    
+    voiceButton.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        startRecording();
+    });
+    
+    voiceButton.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        stopRecording();
+    });
+}
+
+// 处理用户消息
+function handleUserMessage(content) {
+    if (!content || chatState.isLoading) return;
+    
+    // 添加用户消息
+    addMessage({
+        type: 'user',
+        content
+    });
+    
+    // 获取回复
+    handleAssistantResponse(content);
 }
 
 // 添加消息到列表
@@ -320,15 +461,37 @@ function addMessage(message) {
         ? '<div class="message-avatar">我</div>'
         : `<div class="message-avatar"><img src="${expert.avatar}" alt="${expert.name}"></div>`;
     
+    // 为助手消息添加音频波形
+    const audioWave = message.type === 'assistant' 
+        ? `<div class="audio-wave">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+           </div>`
+        : '';
+    
     messageEl.innerHTML = `
         ${avatar}
         <div class="message-content">
             <div class="message-text">${message.type === 'assistant' ? marked.parse(message.content) : message.content}</div>
         </div>
+        ${audioWave}
     `;
     
     messageList.appendChild(messageEl);
     messageList.scrollTop = messageList.scrollHeight;
+
+    // 如果是助手消息，添加动画效果
+    if (message.type === 'assistant') {
+        const wave = messageEl.querySelector('.audio-wave');
+        wave.classList.remove('inactive');
+        // 3秒后停止动画
+        setTimeout(() => {
+            wave.classList.add('inactive');
+        }, 3000);
+    }
 }
 
 // 处理助手回复
@@ -336,6 +499,12 @@ async function handleAssistantResponse(userMessage) {
     chatState.isLoading = true;
     
     try {
+        // 激活专家头像下方的音频波形
+        const expertWave = document.querySelector('.expert-side .audio-wave');
+        if (expertWave) {
+            expertWave.classList.remove('inactive');
+        }
+
         // 如果是第一条消息，创建新对话
         if (!chatState.conversationId) {
             chatState.conversationId = await window.api.createConversation();
@@ -409,8 +578,18 @@ async function handleAssistantResponse(userMessage) {
             content: fullResponse || '抱歉，没有收到有效的回复'
         });
         
+        // 停用专家头像下方的音频波形
+        if (expertWave) {
+            expertWave.classList.add('inactive');
+        }
+        
     } catch (error) {
         console.error('获取回复失败:', error);
+        // 停用专家头像下方的音频波形
+        const expertWave = document.querySelector('.expert-side .audio-wave');
+        if (expertWave) {
+            expertWave.classList.add('inactive');
+        }
         addMessage({
             type: 'system',
             content: '抱歉，获取回复失败，请稍后重试。'
@@ -440,10 +619,19 @@ function init() {
     }
 }
 
-// 暴露到全局
+// 添加切换模式的函数
+function switchChatMode() {
+    chatMode = chatMode === 'normal' ? 'immersive' : 'normal';
+    enterChatRoom(chatState.currentExpert);
+}
+
+// 更新导出
 window.chat = {
     renderExpertList,
-    init
+    init,
+    enterChatRoom,
+    switchChatMode,
+    handleUserMessage
 };
 
 // 页面加载时初始化
