@@ -1,52 +1,244 @@
 // 首页功能配置
 const features = [
     {
-        id: 'teaching-design',
-        title: '数学教学设计生成',
-        desc: '快速生成专业的教学设计方案',
+        id: 'unit-teaching-design',
+        title: '数学单元教学设计',
+        desc: '智能生成完整的数学单元教学设计方案',
         icon: '📚',
         path: '/teaching-design',
         category: 'design'
     },
     {
-        id: 'project-learning',
-        title: '数学项目式学习指导',
-        desc: '个性化的项目学习规划与指导',
+        id: 'project-learning-design',
+        title: '数学项目式学习教学设计',
+        desc: '基于项目式学习理念的数学教学设计助手',
         icon: '🎯',
-        path: '/chat?type=project-learning',
-        category: 'learning'
+        path: '/project-learning',
+        category: 'design'
     },
     {
-        id: 'simulation',
-        title: '数学实验模拟',
-        desc: '交互式数学概念可视化体验',
-        icon: '🔬',
-        path: '/simulation',
-        category: 'tools'
+        id: 'interdisciplinary-design',
+        title: '数学跨学科教学设计',
+        desc: '融合多学科知识的数学教学设计方案',
+        icon: '🔄',
+        path: '/interdisciplinary',
+        category: 'design'
     },
     {
-        id: 'visualization',
-        title: '数学可视化工具',
-        desc: '数学函数与图形可视化工具',
+        id: 'essay-evaluation',
+        title: '语文作文评价',
+        desc: '拍照上传作文图片，AI进行评价修改',
+        icon: '📝',
+        path: '/essay-evaluation',
+        category: 'chinese'
+    },
+    {
+        id: 'ppt-to-plan',
+        title: 'PPT转教案',
+        desc: '上传PPT自动转换成完整教案',
         icon: '📊',
-        path: '/visualization',
+        path: '/ppt-conversion',
         category: 'tools'
     },
     {
-        id: 'exercises',
-        title: '思维训练题库',
-        desc: '针对性的数学思维训练题目',
-        icon: '🧩',
-        path: '/exercises',
-        category: 'practice'
+        id: 'math-concept-explain',
+        title: '数学概念可视化',
+        desc: '复杂数学概念的3D动态演示',
+        icon: '🎥',
+        path: '/math-visualization',
+        category: 'math'
     },
     {
-        id: 'resources',
-        title: '学习资源推荐',
-        desc: '精选数学学习资源与教材',
+        id: 'homework-generator',
+        title: '智能作业生成',
+        desc: '基于学生水平的个性化作业设计',
         icon: '📖',
-        path: '/resources',
-        category: 'resources'
+        path: '/homework',
+        category: 'tools'
+    },
+    {
+        id: 'exam-analysis',
+        title: '试卷分析助手',
+        desc: '快速分析试卷难度和知识点分布',
+        icon: '📊',
+        path: '/exam-analysis',
+        category: 'tools'
+    },
+    {
+        id: 'student-portrait',
+        title: '学情画像系统',
+        desc: '基于大数据的学生学习特征分析',
+        icon: '👤',
+        path: '/student-portrait',
+        category: 'analysis'
+    },
+    {
+        id: 'lesson-record',
+        title: '课堂实录助手',
+        desc: '自动记录课堂教学过程和要点',
+        icon: '🎥',
+        path: '/lesson-record',
+        category: 'tools'
+    },
+    {
+        id: 'math-problem-solver',
+        title: '数学解题步骤生成',
+        desc: '详细的数学题目解析和步骤说明',
+        icon: '🔢',
+        path: '/problem-solver',
+        category: 'math'
+    },
+    {
+        id: 'chinese-reading',
+        title: '语文阅读理解助手',
+        desc: '智能分析文章结构和写作手法',
+        icon: '📚',
+        path: '/reading-assistant',
+        category: 'chinese'
+    },
+    {
+        id: 'english-speaking',
+        title: '英语口语教练',
+        desc: 'AI驱动的英语口语训练和评估',
+        icon: '🗣️',
+        path: '/english-speaking',
+        category: 'english'
+    },
+    {
+        id: 'physics-simulation',
+        title: '物理实验模拟',
+        desc: '虚拟物理实验室和现象模拟',
+        icon: '⚡',
+        path: '/physics-lab',
+        category: 'science'
+    },
+    {
+        id: 'chemistry-3d',
+        title: '化学分子3D展示',
+        desc: '交互式3D分子结构展示',
+        icon: '🧪',
+        path: '/chemistry-3d',
+        category: 'science'
+    },
+    {
+        id: 'biology-virtual',
+        title: '生物虚拟显微镜',
+        desc: 'AI辅助的生物样本观察工具',
+        icon: '🔬',
+        path: '/virtual-microscope',
+        category: 'science'
+    },
+    {
+        id: 'geography-maps',
+        title: '地理知识地图',
+        desc: '交互式地理知识可视化系统',
+        icon: '🌍',
+        path: '/geo-maps',
+        category: 'social'
+    },
+    {
+        id: 'history-timeline',
+        title: '历史时间线生成',
+        desc: '智能历史事件关联和时间线制作',
+        icon: '⏳',
+        path: '/history-timeline',
+        category: 'social'
+    },
+    {
+        id: 'art-appreciation',
+        title: '美术作品赏析',
+        desc: 'AI辅助的艺术作品解读工具',
+        icon: '🎨',
+        path: '/art-appreciation',
+        category: 'art'
+    },
+    {
+        id: 'music-teaching',
+        title: '音乐教学助手',
+        desc: '智能乐理讲解和曲目分析',
+        icon: '🎵',
+        path: '/music-teaching',
+        category: 'art'
+    },
+    {
+        id: 'pe-posture',
+        title: '体育动作分析',
+        desc: 'AI体育动作规范度评估',
+        icon: '⚽',
+        path: '/pe-analysis',
+        category: 'pe'
+    },
+    {
+        id: 'classroom-helper',
+        title: '课堂互动助手',
+        desc: '智能课堂提问和互动管理',
+        icon: '🤝',
+        path: '/classroom-interaction',
+        category: 'tools'
+    },
+    {
+        id: 'parent-communication',
+        title: '家校沟通助手',
+        desc: '智能生成家校沟通建议和报告',
+        icon: '👨‍👩‍👧‍👦',
+        path: '/parent-comm',
+        category: 'tools'
+    },
+    {
+        id: 'learning-plan',
+        title: '个性化学习方案',
+        desc: '基于学生特点的学习规划',
+        icon: '📋',
+        path: '/learning-plan',
+        category: 'tools'
+    },
+    {
+        id: 'resource-recommend',
+        title: '教学资源推荐',
+        desc: '智能匹配教学资源和材料',
+        icon: '📚',
+        path: '/resource',
+        category: 'tools'
+    },
+    {
+        id: 'quiz-generator',
+        title: '随堂测试生成',
+        desc: '快速生成课堂小测验',
+        icon: '✍️',
+        path: '/quiz',
+        category: 'tools'
+    },
+    {
+        id: 'mistake-analysis',
+        title: '错题分析系统',
+        desc: '智能分析错题原因和知识点',
+        icon: '❌',
+        path: '/mistake-analysis',
+        category: 'analysis'
+    },
+    {
+        id: 'study-report',
+        title: '学习报告生成',
+        desc: '自动生成个性化学习报告',
+        icon: '📊',
+        path: '/study-report',
+        category: 'analysis'
+    },
+    {
+        id: 'teaching-reflection',
+        title: '教学反思助手',
+        desc: 'AI辅助教学反思和改进建议',
+        icon: '🤔',
+        path: '/teaching-reflection',
+        category: 'tools'
+    },
+    {
+        id: 'lesson-optimization',
+        title: '课程优化建议',
+        desc: '基于教学效果的优化建议',
+        icon: '⭐',
+        path: '/lesson-optimization',
+        category: 'analysis'
     }
 ];
 
@@ -54,10 +246,15 @@ const features = [
 const categories = [
     { id: 'all', name: '全部' },
     { id: 'design', name: '教学设计' },
-    { id: 'learning', name: '学习指导' },
     { id: 'tools', name: '教学工具' },
-    { id: 'practice', name: '练习题库' },
-    { id: 'resources', name: '学习资源' }
+    { id: 'math', name: '数学教学' },
+    { id: 'chinese', name: '语文教学' },
+    { id: 'english', name: '英语教学' },
+    { id: 'science', name: '理科教学' },
+    { id: 'social', name: '文科教学' },
+    { id: 'art', name: '艺术教学' },
+    { id: 'pe', name: '体育教学' },
+    { id: 'analysis', name: '数据分析' }
 ];
 
 // 页面状态
@@ -76,20 +273,20 @@ async function renderHomePage() {
         return;
     }
     
-    // 显示加载状态
-    container.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
-    
     try {
-        // 创建头部区域（包含标题和搜索框）
+        // 创建头部区域
         const header = document.createElement('header');
         header.className = 'page-header';
         header.innerHTML = `
             <div class="header-content">
-                <h1>云小睿</h1>
+                <div class="header-text">
+                    <h1>云小睿</h1>
+                    <span class="ai-badge">AI</span>
+                </div>
                 <p>智能教学助手，让教学更轻松</p>
             </div>
             <div class="search-bar">
-                <input type="text" placeholder="搜索功能" class="search-input">
+                <input type="text" placeholder="搜索AI教学功能" class="search-input">
             </div>
         `;
         
@@ -102,6 +299,10 @@ async function renderHomePage() {
                 ${category.name}
             </span>
         `).join('');
+        
+        // 创建可滚动内容区域
+        const scrollableContent = document.createElement('div');
+        scrollableContent.className = 'scrollable-content';
         
         // 创建功能网格
         const grid = document.createElement('div');
@@ -128,17 +329,17 @@ async function renderHomePage() {
         
         grid.innerHTML = featuresHTML || '<div class="empty-state">暂无相关功能</div>';
         
+        // 将网格添加到可滚动区域
+        scrollableContent.appendChild(grid);
+        
         // 清空容器并添加内容
         container.innerHTML = '';
         container.appendChild(header);
         container.appendChild(categoryTabs);
-        container.appendChild(grid);
-        
-        console.log('首页内容渲染完成');
+        container.appendChild(scrollableContent);
         
         // 绑定事件
         bindEvents(categoryTabs, grid);
-        console.log('首页事件绑定完成');
         
     } catch (error) {
         console.error('渲染首页失败:', error);

@@ -51,8 +51,10 @@
     max-width: 400px;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 80px;
     box-sizing: border-box;
-    transition: all 0.3s ease;
+    position: relative;
+    z-index: 10;
 }
 
 .control-btn {
@@ -223,8 +225,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 60px 20px;
+    justify-content: flex-start;
+    padding: 20px 20px 100px;
 }
 
 .digital-human-image {

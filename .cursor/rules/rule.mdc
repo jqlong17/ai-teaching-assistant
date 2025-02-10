@@ -1,10 +1,9 @@
 ---
-description: 
-globs: 
+description:
+globs:
 ---
 
 # Your rule content
 
-- 我们是一个mvp的版本，因此一定要简化设计
-- 目录结构按照/Users/srt/日志/项目/数学专家智能体/h5/开发计划.md 中的目录结构进行
-- 遵循 YAGNI (You Ain't Gonna Need It) 原则,避免过度设计
+- You can @ files here
+- You can use markdown but dont have to

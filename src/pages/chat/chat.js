@@ -25,6 +25,7 @@ const experts = [
         id: 'moral',
         name: '李德育',
         avatar: '👩‍🏫',
+        qrcode: './src/assets/images/experts/1_1036350563_171_85_3_981752988_439c1f688e4f333d0b5d63c683b232b1.png',
         description: '资深德育专家，从事德育教育研究与实践30余年，国家级德育示范课题负责人。',
         detailedDescription: `
             李德育教授专注于青少年品德教育和心理健康教育研究，在班级管理、心理辅导等方面具有丰富经验。她提出的"情境德育"教学模式在全国多所学校推广应用。
@@ -45,6 +46,7 @@ const experts = [
         id: 'physics',
         name: '张物理',
         avatar: '👨‍🔬',
+        qrcode: './src/assets/images/experts/1_1036350563_171_85_3_981752988_439c1f688e4f333d0b5d63c683b232b1.png',
         description: '国家级物理教学名师，物理教育研究会副会长，擅长物理实验教学设计。',
         detailedDescription: `
             张物理教授是国内知名的物理教育专家，在物理实验教学和科学探究教育方面有独特见解。他开发的多个创新物理实验获得国家专利，并在中学物理教学中广泛应用。
@@ -66,6 +68,7 @@ const experts = [
         id: 'chemistry',
         name: '化学专家',
         avatar: '👩‍🔬',
+        qrcode: './src/assets/images/experts/1_1036350563_171_85_3_981752988_439c1f688e4f333d0b5d63c683b232b1.png',
         description: '化学实验与教学指导专家',
         achievements: [
             '国家级化学教学名师',
@@ -82,6 +85,7 @@ const experts = [
         id: 'biology',
         name: '生物专家',
         avatar: '🧬',
+        qrcode: './src/assets/images/experts/1_1036350563_171_85_3_981752988_439c1f688e4f333d0b5d63c683b232b1.png',
         description: '生物教学与实验指导专家',
         achievements: [
             '生物教育研究会会员',
@@ -112,14 +116,14 @@ let chatMode = 'immersive'; // 修改默认模式为 'immersive'
 // 渲染专家选择页面
 function renderExpertList() {
     const container = document.getElementById('page-container');
-    container.className = 'expert-list-container';  // 添加专家列表容器类名
+    container.className = 'expert-list-container';  
     
     // 创建头部
     const header = document.createElement('header');
     header.className = 'expert-list-header';
     header.innerHTML = `
-        <h1>专家数字人</h1>
-        <p>选择专家开始对话</p>
+        <h1>AI 教学助手</h1>
+        <p>选择专业的数字人助手，开启智能教学之旅</p>
     `;
     
     // 创建专家网格
@@ -127,20 +131,21 @@ function renderExpertList() {
     grid.className = 'expert-grid';
     
     // 渲染专家卡片
-    const expertsHTML = experts.map(expert => {
+    grid.innerHTML = experts.map(expert => {
         // 设置专家特定的颜色
         const style = `
-            --expert-color: ${expert.themeColor};
+            --expert-color: ${expert.themeColor || '#4F46E5'};
+            --expert-color-light: ${expert.backgroundColor || '#0EA5E9'};
             --tag-bg: ${expert.themeColor}15;
             --tag-color: ${expert.themeColor};
             --tag-bg-hover: ${expert.themeColor}25;
         `;
         
-        // 处理成就列表，确保存在且不为空
+        // 处理成就列表
         const achievements = expert.achievements || [];
         const achievementsHTML = achievements.length > 0 ? `
             <div class="expert-achievements">
-                <h4>主要成就：</h4>
+                <h4>主要成就</h4>
                 <ul>
                     ${achievements.slice(0, 3).map(achievement => 
                         `<li>${achievement}</li>`
@@ -151,10 +156,9 @@ function renderExpertList() {
         
         return `
             <div class="expert-card" data-id="${expert.id}" style="${style}">
-                ${expert.comingSoon ? '<div class="coming-soon">即将上线</div>' : ''}
                 <div class="qrcode-hover">
-                    <img src="${expert.qrcode || '/images/qrcode.png'}" alt="扫码体验">
-                    <p>扫码可在移动端体验数字人</p>
+                    <img src="${expert.qrcode || '/images/qrcode-placeholder.png'}" alt="扫码体验">
+                    <p>扫码在移动端体验数字人</p>
                 </div>
                 <div class="expert-avatar">
                     ${expert.avatar.startsWith('./') ? 
@@ -164,9 +168,8 @@ function renderExpertList() {
                 <div class="expert-info">
                     <div class="expert-name">${expert.name}</div>
                     <div class="expert-description">${expert.description}</div>
-                    ${achievementsHTML}
                     <div class="expert-tags">
-                        ${expert.tags.map(tag => `
+                        ${(expert.tags || []).map(tag => `
                             <span class="expert-tag">${tag}</span>
                         `).join('')}
                     </div>
@@ -174,8 +177,6 @@ function renderExpertList() {
             </div>
         `;
     }).join('');
-    
-    grid.innerHTML = expertsHTML;
     
     // 清空容器并添加内容
     container.innerHTML = '';
@@ -197,7 +198,7 @@ function bindExpertEvents(grid) {
         
         if (expert) {
             if (expert.comingSoon) {
-                showToast('该专家正在开发中，敬请期待');
+                showToast('即将上线，敬请期待');
                 return;
             }
             

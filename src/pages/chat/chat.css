@@ -13,18 +13,39 @@
     height: calc(100vh - 50px); /* 减去底部导航栏的高度 */
     background: #f5f7fa;
     position: relative;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
-/* 对话头部 */
-.chat-header {
-    padding: 12px 16px;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: white;
+/* 对话页面布局 */
+#page-container.chat-container {
     display: flex;
-    align-items: center;
-    border-bottom: 1px solid #eee;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    background: #f5f7fa;
+    overflow: hidden;
+}
+
+/* 聊天主体区域 */
+.chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* 重要：允许flex子项收缩 */
+    position: relative;
+    background: #fff;
+}
+
+/* 聊天头部 */
+.chat-header {
+    flex-shrink: 0; /* 防止头部被压缩 */
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #4a90e2, #63b3ed);
+    color: white;
+    z-index: 10;
 }
 
 .chat-header h1 {
@@ -43,69 +64,79 @@
 
 /* 专家列表页面样式 */
 .expert-list-header {
-    padding: 40px;
-    text-align: center;
-    background: linear-gradient(135deg, #4a90e2, #63b3ed);
+    padding: 32px 24px;
+    background: linear-gradient(135deg, #4F46E5, #0EA5E9);
     color: #fff;
-    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
+.expert-list-header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.8), transparent 60%);
+    pointer-events: none;
 }
 
 .expert-list-header h1 {
-    font-size: 32px;
+    font-size: 26px;
     margin: 0;
     font-weight: 600;
+    letter-spacing: -0.5px;
+    position: relative;
+    z-index: 1;
 }
 
 .expert-list-header p {
-    font-size: 16px;
-    margin: 12px 0 0;
+    font-size: 14px;
+    margin: 6px 0 0;
     opacity: 0.9;
+    position: relative;
+    z-index: 1;
 }
 
 /* 专家网格 */
 .expert-grid {
+    padding: 24px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 24px;
-    padding: 24px;
-    max-width: 1400px;
-    margin: 0 auto;
+    gap: 20px;
+    background: #f5f7fa;
+    min-height: 0;
+    overflow: visible;
+    position: relative;
 }
 
 /* 专家卡片 */
 .expert-card {
     background: #fff;
     border-radius: 16px;
-    padding: 24px;
-    transition: all 0.3s ease;
-    border: 1px solid #eee;
+    padding: 20px;
+    position: relative;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #E5E7EB;
     display: flex;
     flex-direction: column;
-    position: relative;
-    overflow: visible; /* 修改为 visible 以显示溢出内容 */
-    min-width: 0;
-}
-
-.expert-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 6px;
-    background: var(--expert-color, #4a90e2);
-    border-radius: 6px 6px 0 0;
+    gap: 16px;
+    cursor: pointer;
+    height: 100%;
 }
 
 .expert-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+    border-color: #D1D5DB;
 }
 
 /* 二维码悬浮层 */
 .qrcode-hover {
     position: absolute;
-    top: -160px; /* 调整位置到卡片上方 */
+    top: -160px;
     left: 50%;
     transform: translateX(-50%) scale(0.8);
     background: rgba(255, 255, 255, 0.98);
@@ -118,7 +149,7 @@
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
-    z-index: 100;
+    z-index: 1000;
     width: 160px;
 }
 
@@ -155,73 +186,106 @@
     white-space: nowrap;
 }
 
+/* 专家卡片头部 */
+.expert-header {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
 /* 专家卡片头像 */
 .expert-avatar {
     width: 100px;
     height: 100px;
-    margin: 0 auto 20px;
-    border-radius: 50%;
+    border-radius: 16px;
     overflow: hidden;
-    background: #fff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border: 4px solid #fff;
+    background: linear-gradient(135deg, var(--expert-color, #4F46E5), var(--expert-color-light, #0EA5E9));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: #fff;
+    margin: 0 auto 12px;
+    flex-shrink: 0;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .expert-avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.expert-card:hover .expert-avatar img {
-    transform: scale(1.05);
 }
 
 /* 专家信息 */
 .expert-info {
+    flex: 1;
+    min-width: 0;
     text-align: center;
 }
 
 .expert-name {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
-    color: #333;
-    margin-bottom: 8px;
+    color: #1a1a1a;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.3px;
 }
 
 .expert-description {
     font-size: 14px;
-    color: #666;
-    margin: 16px 0;
-    line-height: 1.6;
-    text-align: left;
+    color: #4B5563;
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-align: center;
 }
 
+/* 主要成就区域 */
 .expert-achievements {
-    text-align: left;
-    margin: 16px 0;
-    padding: 12px;
-    background: #f8f9fa;
-    border-radius: 8px;
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 0;
 }
 
 .expert-achievements h4 {
-    font-size: 14px;
-    color: #333;
-    margin: 0 0 8px 0;
+    font-size: 15px;
+    color: #1a1a1a;
+    margin: 0 0 12px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
 }
 
 .expert-achievements ul {
     margin: 0;
-    padding-left: 20px;
-    font-size: 13px;
-    color: #666;
-    line-height: 1.6;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .expert-achievements li {
-    margin-bottom: 4px;
+    font-size: 14px;
+    color: #4B5563;
+    padding-left: 16px;
+    line-height: 1.5;
+    position: relative;
+}
+
+.expert-achievements li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--expert-color, #4F46E5);
 }
 
 /* 专家标签 */
@@ -229,34 +293,29 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    justify-content: center;
     margin-top: auto;
+    justify-content: center;
 }
 
 .expert-tag {
     font-size: 13px;
-    padding: 4px 12px;
-    border-radius: 20px;
-    background: var(--tag-bg, rgba(74, 144, 226, 0.1));
-    color: var(--tag-color, #4a90e2);
-    transition: all 0.3s ease;
+    height: 28px;
+    padding: 0 12px;
+    border-radius: 8px;
+    background: var(--tag-bg, rgba(79, 70, 229, 0.06));
+    color: var(--tag-color, #4F46E5);
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(79, 70, 229, 0.1);
 }
 
-.expert-card:hover .expert-tag {
-    background: var(--tag-bg-hover, rgba(74, 144, 226, 0.2));
-}
-
-/* 即将上线标签 */
-.coming-soon {
-    position: absolute;
-    top: 20px;
-    right: -35px;
-    background: #f44336;
-    color: #fff;
-    padding: 6px 40px;
-    font-size: 12px;
-    transform: rotate(45deg);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+.expert-tag:hover {
+    background: var(--tag-bg-hover, rgba(79, 70, 229, 0.1));
+    transform: translateY(-1px);
+    border-color: rgba(79, 70, 229, 0.2);
 }
 
 /* 对话界面 */
@@ -280,9 +339,9 @@
 .chat-content {
     flex: 1;
     overflow-y: auto;
-    padding: 0;
-    background: #f5f7fa;
-    margin-bottom: 60px; /* 为底部输入框留出空间 */
+    padding: 20px;
+    margin-bottom: 0;
+    background: #fff;
 }
 
 /* 专家图片容器 */
@@ -412,167 +471,125 @@
     border: 1px solid #eee;
 }
 
-/* 输入框区域布局调整 */
+/* 输入区域样式优化 */
 .chat-input-area {
-    position: fixed;
-    bottom: 50px;
-    left: 0;
-    right: 0;
+    position: relative;
     padding: 12px 16px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
+    background: #fff;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
     z-index: 100;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .chat-input-wrapper {
     max-width: 800px;
-    width: 100%;
     margin: 0 auto;
+    background: #f8fafc;
+    border-radius: 24px;
+    padding: 6px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    position: relative;
-    padding: 0 16px;
-    box-sizing: border-box;
+    gap: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.chat-input-wrapper:focus-within {
+    background: #fff;
+    border-color: #4a90e2;
+    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.1);
 }
 
 .input-mode-switch {
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background: none;
     border: none;
+    background: none;
+    color: #666;
+    font-size: 18px;
     cursor: pointer;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
-    color: #666;
-    transition: all 0.3s ease;
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2;
+    padding: 0;
+    margin-left: 4px;
+}
+
+.input-mode-switch:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #4a90e2;
 }
 
 .chat-input {
     flex: 1;
-    min-height: 44px;
-    max-height: 120px;
-    padding: 12px 16px 12px 56px; /* 增加左侧padding，为图标留出空间 */
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
+    border: none;
+    background: transparent;
+    font-size: 15px;
     line-height: 1.5;
+    padding: 8px 12px;
+    min-height: 36px;
+    max-height: 120px;
     resize: none;
-    position: relative;
-    z-index: 1;
-    display: none;
-    margin: 0;
-    box-sizing: border-box;
-    background: #fff;
 }
 
 .chat-input:focus {
     outline: none;
-    border-color: #1976D2;
-}
-
-.chat-input-area.text-mode .chat-input {
-    display: block;
-}
-
-.chat-input-area.text-mode .voice-input-button {
-    display: none;
-}
-
-.chat-input-area.text-mode .send-btn {
-    display: block;
-}
-
-.chat-input-area.voice-mode .chat-input {
-    display: none;
-}
-
-.chat-input-area.voice-mode .voice-input-button {
-    display: flex;
-}
-
-.chat-input-area.voice-mode .send-btn {
-    display: none;
-}
-
-/* 更新为新的选择器 */
-.chat-input-wrapper.text-mode .chat-input {
-    display: block;
-}
-
-.chat-input-wrapper.text-mode .voice-input-button {
-    display: none;
-}
-
-.chat-input-wrapper.text-mode .send-btn {
-    display: block;
-}
-
-.chat-input-wrapper.voice-mode .chat-input {
-    display: none;
-}
-
-.chat-input-wrapper.voice-mode .voice-input-button {
-    display: flex;
-}
-
-.chat-input-wrapper.voice-mode .send-btn {
-    display: none;
 }
 
 .voice-input-button {
-    width: 120px;
-    height: 44px;
-    border-radius: 22px;
-    background: #1976D2;
+    background: linear-gradient(135deg, #4a90e2, #357abd);
     color: white;
     border: none;
+    height: 36px;
+    padding: 0 24px;
+    border-radius: 18px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+.voice-input-button:hover {
+    background: linear-gradient(135deg, #357abd, #2d6da3);
+    transform: translateY(-1px);
+}
+
+.voice-input-button.recording {
+    background: #f44336;
+    animation: pulse 1.5s infinite;
+}
+
+.send-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: #4a90e2;
+    color: white;
+    font-size: 15px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    padding: 0;
+    margin-right: 4px;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    margin: 0 auto;
-    flex-shrink: 0;
-    z-index: 2;
 }
 
-.send-btn {
-    width: 60px;
-    height: 44px;
-    border: none;
-    border-radius: 8px;
-    background: #1976D2;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    display: none;
-    flex-shrink: 0;
-    z-index: 2;
+.send-btn:hover {
+    background: #357abd;
+    transform: translateY(-1px);
 }
 
 .send-btn:disabled {
     background: #ccc;
     cursor: not-allowed;
-}
-
-.input-mode-switch:hover {
-    background: rgba(0, 0, 0, 0.05);
+    transform: none;
 }
 
 /* 语音状态提示位置调整 */
@@ -635,27 +652,58 @@
 
 /* Web端响应式布局 */
 @media screen and (min-width: 1024px) {
-    /* 专家列表页面布局 */
-    .expert-list-container {
-        display: flex;
-        flex-direction: column;
-        height: calc(100vh - 20px);
-        max-width: 1800px;
-        margin: 0 auto;
-        padding: 20px;
+    .expert-list-header {
+        padding: 48px;
     }
 
-    .expert-list-header {
-        width: 100%;
-        margin-bottom: 30px;
+    .expert-list-header h1 {
+        font-size: 32px;
+    }
+
+    .expert-list-header p {
+        font-size: 16px;
+        margin-top: 8px;
     }
 
     .expert-grid {
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        padding: 32px;
         gap: 24px;
-        padding: 0 40px;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+
+    .expert-card {
+        padding: 20px;
+        gap: 16px;
+    }
+
+    .expert-avatar {
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        font-size: 24px;
+    }
+
+    .expert-name {
+        font-size: 16px;
+    }
+
+    .expert-description {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .expert-tags {
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .expert-tag {
+        font-size: 12px;
+        padding: 3px 10px;
+    }
+
+    .qrcode-hover {
+        display: flex;
     }
 
     /* 对话页面布局 */
@@ -858,6 +906,77 @@
         margin: 0 auto;
         border-radius: 12px;
     }
+
+    .expert-grid {
+        padding: 16px;
+        gap: 12px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .expert-card {
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .expert-header {
+        gap: 12px;
+    }
+
+    .expert-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        font-size: 20px;
+    }
+
+    .expert-name {
+        font-size: 15px;
+        margin-bottom: 4px;
+    }
+
+    .expert-description {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .expert-achievements {
+        padding: 12px;
+        border-radius: 8px;
+    }
+
+    .expert-achievements h4 {
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+    .expert-achievements ul {
+        gap: 6px;
+    }
+
+    .expert-achievements li {
+        font-size: 12px;
+        padding-left: 12px;
+    }
+
+    .expert-achievements li::before {
+        top: 6px;
+        width: 3px;
+        height: 3px;
+    }
+
+    .expert-tag {
+        height: 28px;
+        font-size: 12px;
+        padding: 0 10px;
+    }
+
+    .qrcode-hover {
+        display: none;
+    }
+
+    .expert-achievements {
+        display: none;
+    }
 }
 
 /* 加载状态样式 */
@@ -986,19 +1105,34 @@
 /* 小屏幕手机适配 */
 @media screen and (max-width: 360px) {
     .expert-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
         padding: 12px;
+        gap: 8px;
     }
 
     .expert-card {
-        padding: 12px;
+        padding: 10px;
+        gap: 8px;
     }
 
     .expert-avatar {
-        width: 60px;
-        height: 60px;
-        margin: 0 auto 12px;
+        width: 36px;
+        height: 36px;
+        border-radius: 6px;
+        font-size: 16px;
+    }
+
+    .expert-name {
+        font-size: 13px;
+    }
+
+    .expert-description {
+        font-size: 11px;
+        -webkit-line-clamp: 2;
+    }
+
+    .expert-tag {
+        font-size: 9px;
+        padding: 1px 4px;
     }
 }
 
@@ -1119,4 +1253,12 @@
 .mode-switch-btn:hover {
     background: #f5f5f5;
     transform: translateY(-1px);
+}
+
+/* 底部导航栏调整 */
+.tab-bar {
+    flex-shrink: 0;
+    height: 50px;
+    background: #fff;
+    border-top: 1px solid #eee;
 } 
