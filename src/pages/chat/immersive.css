@@ -38,7 +38,7 @@
 /* 数字人控制按钮组 */
 .digital-human-controls {
     display: flex;
-    gap: 20px;
+    gap: 12px;
     margin-top: 24px;
     align-items: center;
     justify-content: center;
@@ -52,44 +52,96 @@
     margin-left: auto;
     margin-right: auto;
     box-sizing: border-box;
+    transition: all 0.3s ease;
 }
 
 .control-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    background: rgba(255, 255, 255, 0.9);
+    flex: 1;
+    height: 44px;
+    border-radius: 22px;
+    background: #f5f7fa;
     color: #666;
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
     position: relative;
+    user-select: none;
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.control-btn svg {
-    transition: all 0.3s ease;
+.control-btn.start-record {
+    background: #1976D2;
+    color: white;
+    border: none;
 }
 
-.control-btn.mute.active svg {
-    stroke: white;
-}
-
-.control-btn.mute.active path {
-    stroke: white;
-}
-
-.control-btn.mute.active {
+.control-btn.start-record.recording {
     background: #f44336;
-    border-color: #f44336;
+    animation: pulse 1.5s infinite;
 }
 
-.control-btn.mute:hover .status-indicator {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
+.control-btn.end-record {
+    background: rgba(244, 67, 54, 0.1);
+    color: #f44336;
+    border-color: rgba(244, 67, 54, 0.2);
+}
+
+.control-btn.end-record:hover {
+    background: rgba(244, 67, 54, 0.2);
+}
+
+.control-btn.end-dialog {
+    background: #f44336;
+    color: white;
+    border: none;
+}
+
+.control-btn.end-dialog:hover {
+    background: #d32f2f;
+}
+
+.control-btn.voice-dialog {
+    background: #f5f7fa;
+    color: #1976D2;
+    border: 1px solid rgba(25, 118, 210, 0.3);
+}
+
+.control-btn.voice-dialog:hover {
+    background: rgba(25, 118, 210, 0.05);
+}
+
+.control-btn.voice-dialog.active {
+    background: #f44336;
+    color: white;
+    border: none;
+}
+
+.control-btn.voice-dialog.active:hover {
+    background: #d32f2f;
+}
+
+.control-btn.text-dialog {
+    background: #f5f7fa;
+    color: #1976D2;
+    border: 1px solid rgba(25, 118, 210, 0.3);
+}
+
+.control-btn.text-dialog:hover {
+    background: rgba(25, 118, 210, 0.05);
+}
+
+.control-btn.text-dialog.active {
+    background: #1976D2;
+    color: white;
+    border: none;
+}
+
+.control-btn:not(.active):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* 聆听状态容器 */
@@ -186,7 +238,45 @@
     font-size: 24px;
     font-weight: 600;
     color: #333;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* 添加专家输出文本样式 */
+.expert-output {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 16px 24px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.expert-output.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.expert-output .typing {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: #1976D2;
+    border-radius: 50%;
+    margin-left: 4px;
+    animation: typing 1s infinite;
+}
+
+@keyframes typing {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
 }
 
 /* 语音波形动画 */
@@ -363,4 +453,71 @@
     .input-container {
         max-width: 100%;
     }
+}
+
+/* 语音状态指示器 */
+.voice-status-indicator {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 8px 20px;
+    background: rgba(25, 118, 210, 0.1);
+    border-radius: 24px;
+    margin: 16px auto;
+    transition: all 0.3s ease;
+}
+
+.voice-status-indicator.show {
+    display: flex;
+}
+
+.wave-animation {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 16px;
+}
+
+.wave-animation .bar {
+    width: 3px;
+    height: 16px;
+    background: #1976D2;
+    border-radius: 3px;
+    animation: wave 1s ease-in-out infinite;
+}
+
+.wave-animation .bar:nth-child(2) { animation-delay: 0.2s; }
+.wave-animation .bar:nth-child(3) { animation-delay: 0.4s; }
+.wave-animation .bar:nth-child(4) { animation-delay: 0.6s; }
+
+@keyframes wave {
+    0%, 100% { transform: scaleY(0.3); }
+    50% { transform: scaleY(1); }
+}
+
+.status-text {
+    font-size: 14px;
+    color: #1976D2;
+    font-weight: 500;
+}
+
+/* 文字输入区域优化 */
+.text-input-area {
+    width: 100%;
+    max-width: 600px;
+    margin: 16px auto;
+    padding: 0 24px;
+    display: none;
+    gap: 12px;
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.text-input-area.show {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
 } 

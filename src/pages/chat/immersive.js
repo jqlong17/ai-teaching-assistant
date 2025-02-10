@@ -25,12 +25,14 @@ class ImmersiveChat {
     setupRecognitionHandlers() {
         this.recognition.onstart = () => {
             this.isRecording = true;
-            this.updateRecordingUI(true);
+            document.querySelector('.voice-status-indicator').classList.add('show');
         };
 
         this.recognition.onend = () => {
             this.isRecording = false;
-            this.updateRecordingUI(false);
+            if (!document.getElementById('endDialogBtn')) {
+                document.querySelector('.voice-status-indicator').classList.remove('show');
+            }
         };
 
         this.recognition.onresult = (event) => {
@@ -46,6 +48,7 @@ class ImmersiveChat {
         this.recognition.onerror = (event) => {
             console.error('语音识别错误:', event.error);
             this.showVoiceStatus('未能识别语音，请重试');
+            document.querySelector('.voice-status-indicator').classList.remove('show');
         };
     }
 
@@ -65,116 +68,99 @@ class ImmersiveChat {
             <div class="digital-human">
                 <img src="${this.expert.avatar}" alt="${this.expert.name}" class="digital-human-image">
                 <div class="digital-human-name">${this.expert.name}</div>
-                <div class="digital-human-controls">
-                    <button class="control-btn mute" title="静音">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2c-1.7 0-3 1.2-3 2.7v6.6c0 1.5 1.3 2.7 3 2.7s3-1.2 3-2.7V4.7C15 3.2 13.7 2 12 2z"/>
-                            <path d="M19 10v2c0 4.4-3.6 8-8 8s-8-3.6-8-8v-2"/>
-                        </svg>
-                        <span class="status-indicator">静音</span>
-                    </button>
-                    <div class="listening-status">
-                        <span>正在聆听</span>
-                        <div class="voice-wave">
-                            <div class="wave-bar"></div>
-                            <div class="wave-bar"></div>
-                            <div class="wave-bar"></div>
-                            <div class="wave-bar"></div>
-                            <div class="wave-bar"></div>
-                        </div>
-                    </div>
-                    <button class="control-btn end-call" title="结束通话">
-                        📞
-                        <span class="status-indicator">结束通话</span>
-                    </button>
+                <div class="expert-output">
+                    <span class="text"></span>
+                    <span class="typing"></span>
                 </div>
-            </div>
-            
-            <div class="immersive-input-area">
-                <div class="input-container ${this.isVoiceMode ? 'voice-mode' : 'text-mode'}">
-                    <button class="input-mode-toggle" title="切换输入模式">
-                        ${this.isVoiceMode ? '⌨️' : '🎤'}
-                    </button>
-                    <input type="text" class="text-input" placeholder="输入你的问题...">
-                    <button class="voice-input-btn">按住说话</button>
+                <div class="voice-status-indicator">
+                    <div class="wave-animation">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                    </div>
+                    <span class="status-text">正在聆听...</span>
+                </div>
+                <div class="text-input-area">
+                    <input type="text" class="text-input" placeholder="请输入您的问题...">
                     <button class="send-btn">发送</button>
                 </div>
-                <div class="voice-status-tip">按住说话</div>
+                <div class="digital-human-controls">
+                    <button class="control-btn voice-dialog" id="voiceDialogBtn">语音对话</button>
+                    <button class="control-btn text-dialog" id="textDialogBtn">文字输入</button>
+                </div>
             </div>
         `;
 
         this.bindEvents();
-        this.updateControlButtons();
     }
 
     // 绑定事件处理
     bindEvents() {
         const modeSwitch = document.querySelector('.mode-switch-btn');
-        const inputModeToggle = document.querySelector('.input-mode-toggle');
-        const voiceBtn = document.querySelector('.voice-input-btn');
+        const voiceDialogBtn = document.getElementById('voiceDialogBtn');
+        const textDialogBtn = document.getElementById('textDialogBtn');
+        const textInputArea = document.querySelector('.text-input-area');
+        const voiceStatusIndicator = document.querySelector('.voice-status-indicator');
         const textInput = document.querySelector('.text-input');
         const sendBtn = document.querySelector('.send-btn');
         
-        // 切换布局模式
-        modeSwitch.addEventListener('click', () => {
-            window.chat.switchChatMode();
-        });
-        
-        // 切换输入模式
-        inputModeToggle.addEventListener('click', () => {
-            this.toggleInputMode();
-        });
-        
-        // 语音输入事件
-        let touchStartTime;
-        
-        const startRecording = () => {
-            if (!this.recognition) {
-                this.showVoiceStatus('您的浏览器不支持语音识别功能');
-                return;
-            }
+        // 语音对话按钮事件
+        voiceDialogBtn.addEventListener('click', () => {
+            const isVoiceActive = voiceDialogBtn.classList.contains('active');
             
-            touchStartTime = Date.now();
-            if (!this.isRecording) {
-                this.recognition.start();
+            if (!isVoiceActive) {
+                // 开始语音对话
+                voiceDialogBtn.textContent = '结束语音';
+                voiceDialogBtn.classList.add('active');
+                textDialogBtn.classList.remove('active');
+                textInputArea.classList.remove('show');
+                voiceStatusIndicator.classList.add('show');
+                
+                if (!this.isRecording) {
+                    this.recognition.start();
+                    const welcomeText = `您好！我是${this.expert.name}。让我们开始探讨数学教学的问题吧。我可以帮您设计教案、解答疑难，请告诉我您的需求。`;
+                    this.streamText(welcomeText);
+                }
+            } else {
+                // 结束语音对话
+                voiceDialogBtn.textContent = '语音对话';
+                voiceDialogBtn.classList.remove('active');
+                voiceStatusIndicator.classList.remove('show');
+                
+                if (this.isRecording) {
+                    this.recognition.stop();
+                }
             }
-        };
+        });
         
-        const stopRecording = () => {
-            const touchDuration = Date.now() - touchStartTime;
+        // 文字输入按钮事件
+        textDialogBtn.addEventListener('click', () => {
+            const isTextMode = !textDialogBtn.classList.contains('active');
             
-            if (touchDuration < 500) {
-                this.recognition.stop();
-                this.showVoiceStatus('说话时间太短了');
-                return;
-            }
-            
-            if (this.isRecording) {
-                this.recognition.stop();
-            }
-        };
-        
-        // 支持鼠标和触摸事件
-        voiceBtn.addEventListener('mousedown', startRecording);
-        voiceBtn.addEventListener('mouseup', stopRecording);
-        voiceBtn.addEventListener('mouseleave', stopRecording);
-        voiceBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            startRecording();
-        });
-        voiceBtn.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            stopRecording();
-        });
-        
-        // 文本输入事件
-        textInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendBtn.click();
+            if (isTextMode) {
+                // 激活文字输入模式
+                textDialogBtn.classList.add('active');
+                voiceDialogBtn.classList.remove('active');
+                voiceDialogBtn.textContent = '语音对话';  // 重置语音按钮文本
+                
+                // 如果正在语音识别，先停止
+                if (this.isRecording) {
+                    this.recognition.stop();
+                }
+                
+                // 隐藏语音状态指示器，显示文字输入区域
+                voiceStatusIndicator.classList.remove('show');
+                textInputArea.classList.add('show');
+                textInput.focus();
+            } else {
+                // 取消文字输入模式
+                textDialogBtn.classList.remove('active');
+                textInputArea.classList.remove('show');
             }
         });
         
+        // 发送按钮事件
         sendBtn.addEventListener('click', () => {
             const text = textInput.value.trim();
             if (text) {
@@ -182,53 +168,11 @@ class ImmersiveChat {
                 textInput.value = '';
             }
         });
-
-        // 控制按钮事件
-        const muteBtn = document.querySelector('.control-btn.mute');
-        const listeningStatus = document.querySelector('.listening-status');
-        const endCallBtn = document.querySelector('.control-btn.end-call');
-
-        muteBtn.addEventListener('click', () => {
-            this.isMuted = !this.isMuted;
-            this.updateControlButtons();
-        });
-
-        endCallBtn.addEventListener('click', () => {
-            window.chat.renderExpertList();
-        });
-    }
-
-    // 切换输入模式
-    toggleInputMode() {
-        this.isVoiceMode = !this.isVoiceMode;
-        const container = document.querySelector('.input-container');
-        const toggle = document.querySelector('.input-mode-toggle');
         
-        if (this.isVoiceMode) {
-            container.classList.remove('text-mode');
-            container.classList.add('voice-mode');
-            toggle.textContent = '⌨️';
-        } else {
-            container.classList.remove('voice-mode');
-            container.classList.add('text-mode');
-            toggle.textContent = '🎤';
-        }
-    }
-
-    // 更新录音UI状态
-    updateRecordingUI(isRecording) {
-        const voiceBtn = document.querySelector('.voice-input-btn');
-        const voiceStatus = document.querySelector('.voice-status-tip');
-        
-        if (isRecording) {
-            voiceBtn.classList.add('recording');
-            voiceBtn.textContent = '松开结束';
-            this.showVoiceStatus('正在聆听...');
-        } else {
-            voiceBtn.classList.remove('recording');
-            voiceBtn.textContent = '按住说话';
-            voiceStatus.classList.remove('show');
-        }
+        // 切换布局模式
+        modeSwitch.addEventListener('click', () => {
+            window.chat.switchChatMode();
+        });
     }
 
     // 显示语音状态提示
@@ -247,8 +191,6 @@ class ImmersiveChat {
     // 处理用户输入
     async handleUserInput(content) {
         if (!content) return;
-        
-        // 这里调用原来的消息处理逻辑
         await window.chat.handleUserMessage(content);
     }
 
@@ -276,7 +218,68 @@ class ImmersiveChat {
             listeningStatus.querySelector('span').textContent = '已暂停聆听';
         }
     }
+
+    // 添加流式显示文本的方法
+    async streamText(text) {
+        const outputElement = document.querySelector('.expert-output');
+        const textElement = outputElement.querySelector('.text');
+        
+        outputElement.classList.add('show');
+        textElement.textContent = '';
+        
+        for (let i = 0; i < text.length; i++) {
+            textElement.textContent += text[i];
+            await new Promise(resolve => setTimeout(resolve, 50)); // 控制打字速度
+        }
+        
+        // 显示完成后隐藏打字动画
+        outputElement.querySelector('.typing').style.display = 'none';
+    }
 }
 
 // 导出模块
 window.ImmersiveChat = ImmersiveChat; 
+
+function renderDigitalHumanControls() {
+    const controls = document.createElement('div');
+    controls.className = 'digital-human-controls';
+    
+    const startRecordBtn = document.createElement('button');
+    startRecordBtn.className = 'control-btn start-record';
+    startRecordBtn.textContent = '开始对话';
+    startRecordBtn.id = 'startRecordBtn';
+    
+    const endRecordBtn = document.createElement('button');
+    endRecordBtn.className = 'control-btn end-record';
+    endRecordBtn.textContent = '结束对话';
+    endRecordBtn.id = 'endRecordBtn';
+    endRecordBtn.style.display = 'none';
+    
+    controls.appendChild(startRecordBtn);
+    controls.appendChild(endRecordBtn);
+    
+    return controls;
+}
+
+function bindControlEvents() {
+    const startRecordBtn = document.getElementById('startRecordBtn');
+    const endRecordBtn = document.getElementById('endRecordBtn');
+    
+    startRecordBtn.addEventListener('click', () => {
+        startRecordBtn.textContent = '正在聆听...';
+        startRecordBtn.classList.add('recording');
+        startRecordBtn.style.display = 'none';
+        endRecordBtn.style.display = 'flex';
+        if (!this.isRecording) {
+            this.recognition.start();
+        }
+    });
+    
+    endRecordBtn.addEventListener('click', () => {
+        startRecordBtn.textContent = '开始对话';
+        startRecordBtn.classList.remove('recording');
+        startRecordBtn.style.display = 'flex';
+        endRecordBtn.style.display = 'none';
+        stopRecording();
+    });
+} 

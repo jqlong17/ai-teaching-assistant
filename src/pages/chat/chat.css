@@ -82,8 +82,8 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    overflow: hidden;
-    min-width: 0; /* 防止内容溢出 */
+    overflow: visible; /* 修改为 visible 以显示溢出内容 */
+    min-width: 0;
 }
 
 .expert-card::before {
@@ -100,6 +100,59 @@
 .expert-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* 二维码悬浮层 */
+.qrcode-hover {
+    position: absolute;
+    top: -160px; /* 调整位置到卡片上方 */
+    left: 50%;
+    transform: translateX(-50%) scale(0.8);
+    background: rgba(255, 255, 255, 0.98);
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 100;
+    width: 160px;
+}
+
+.expert-card:hover .qrcode-hover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) scale(1);
+}
+
+.qrcode-hover::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 16px;
+    height: 16px;
+    background: white;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.qrcode-hover img {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 8px;
+}
+
+.qrcode-hover p {
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+    margin: 0;
+    line-height: 1.4;
+    white-space: nowrap;
 }
 
 /* 专家卡片头像 */
@@ -125,6 +178,7 @@
     transform: scale(1.05);
 }
 
+/* 专家信息 */
 .expert-info {
     text-align: center;
 }
