@@ -10,9 +10,38 @@
 /* 顶部操作区 */
 .immersive-header {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #4a90e2, #63b3ed);
+}
+
+.immersive-header .back-button {
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px;
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.immersive-header .header-content {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.immersive-header .expert-name {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0;
 }
 
 .mode-switch-btn {
@@ -28,6 +57,7 @@
     gap: 6px;
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
+    margin-left: auto;
 }
 
 .mode-switch-btn:hover {

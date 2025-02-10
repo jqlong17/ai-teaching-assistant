@@ -5,7 +5,7 @@ const features = [
         title: '数学单元教学设计',
         desc: '智能生成完整的数学单元教学设计方案',
         icon: '📚',
-        path: '/teaching-design',
+        path: '/unit-teaching-design',
         category: 'design'
     },
     {
@@ -13,7 +13,7 @@ const features = [
         title: '数学项目式学习教学设计',
         desc: '基于项目式学习理念的数学教学设计助手',
         icon: '🎯',
-        path: '/project-learning',
+        path: '/project-learning-design',
         category: 'design'
     },
     {
@@ -21,7 +21,7 @@ const features = [
         title: '数学跨学科教学设计',
         desc: '融合多学科知识的数学教学设计方案',
         icon: '🔄',
-        path: '/interdisciplinary',
+        path: '/interdisciplinary-design',
         category: 'design'
     },
     {
@@ -380,8 +380,8 @@ function handleFeatureClick(event) {
     const feature = features.find(f => f.id === featureId);
     
     if (feature) {
-        // MVP阶段，只有教学设计和项目学习可用
-        if (['teaching-design', 'project-learning'].includes(feature.id)) {
+        // MVP阶段，只有单元教学设计、项目学习、跨学科教学设计和作文评价可用
+        if (['unit-teaching-design', 'project-learning-design', 'interdisciplinary-design', 'essay-evaluation'].includes(feature.id)) {
             location.hash = feature.path;
         } else {
             showToast('该功能正在开发中...');
@@ -441,12 +441,32 @@ function handleRoute(hash) {
         if (!hash || hash === '/' || hash === '') {
             console.log('渲染首页');
             renderHomePage();
-        } else if (hash === '/teaching-design') {
+        } else if (hash === '/unit-teaching-design') {
             console.log('渲染教学设计页面');
             if (window.teachingDesign && typeof window.teachingDesign.renderTeachingDesign === 'function') {
                 window.teachingDesign.renderTeachingDesign();
             } else {
                 console.error('教学设计渲染函数未定义');
+                renderHomePage();
+            }
+        } else if (hash === '/project-learning-design') {
+            console.log('渲染项目式学习页面');
+            console.log('window.projectLearning:', window.projectLearning);
+            if (window.projectLearning && typeof window.projectLearning.renderProjectLearning === 'function') {
+                window.projectLearning.renderProjectLearning();
+            } else {
+                console.error('项目式学习渲染函数未定义');
+                console.error('window.projectLearning:', window.projectLearning);
+                renderHomePage();
+            }
+        } else if (hash === '/interdisciplinary-design') {
+            console.log('渲染跨学科教学设计页面');
+            console.log('window.interdisciplinary:', window.interdisciplinary);
+            if (window.interdisciplinary && typeof window.interdisciplinary.renderInterdisciplinary === 'function') {
+                window.interdisciplinary.renderInterdisciplinary();
+            } else {
+                console.error('跨学科教学设计渲染函数未定义');
+                console.error('window.interdisciplinary:', window.interdisciplinary);
                 renderHomePage();
             }
         } else if (hash.startsWith('/chat')) {

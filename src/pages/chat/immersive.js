@@ -59,6 +59,10 @@ class ImmersiveChat {
         
         container.innerHTML = `
             <div class="immersive-header">
+                <div class="header-content">
+                    <div class="back-button">←</div>
+                    <div class="expert-name">${this.expert.name}</div>
+                </div>
                 <button class="mode-switch-btn">
                     <span class="icon">💡</span>
                     切换布局
@@ -104,6 +108,12 @@ class ImmersiveChat {
         const voiceStatusIndicator = document.querySelector('.voice-status-indicator');
         const textInput = document.querySelector('.text-input');
         const sendBtn = document.querySelector('.send-btn');
+        const backButton = document.querySelector('.back-button');
+        
+        // 返回按钮事件
+        backButton.addEventListener('click', () => {
+            window.chat.renderExpertList();
+        });
         
         // 语音对话按钮事件
         voiceDialogBtn.addEventListener('click', () => {

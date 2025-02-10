@@ -216,7 +216,7 @@ function renderTeachingDesign() {
     container.innerHTML = `
         <header class="design-header">
             <div class="back-button">←</div>
-            <h1>大概念单元教学设计</h1>
+            <h1>数学单元教学设计</h1>
         </header>
         <div class="design-container">
             <div class="form-container">
@@ -408,7 +408,7 @@ function bindTeachingDesignEvents() {
 // 初始化
 function init() {
     const hash = location.hash.slice(1);
-    if (hash.startsWith('/teaching-design')) {
+    if (hash.startsWith('/unit-teaching-design')) {
         renderTeachingDesign();
     }
 }

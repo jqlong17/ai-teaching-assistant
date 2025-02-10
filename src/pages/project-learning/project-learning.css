@@ -1,0 +1,288 @@
+/* 项目式学习页面容器 */
+.project-container {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: #f5f7fa;
+}
+
+/* 页面头部 */
+.project-header {
+    padding: 24px;
+    background: linear-gradient(135deg, #4F46E5, #0EA5E9);
+    color: #fff;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.back-button {
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px;
+    color: #fff;
+}
+
+.project-header h1 {
+    font-size: 24px;
+    margin: 0;
+    font-weight: 600;
+}
+
+/* 主要内容区域 */
+.project-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+}
+
+/* 表单容器 */
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: 24px;
+}
+
+/* Web端左右布局 */
+@media screen and (min-width: 1024px) {
+    .project-content {
+        display: flex;
+        gap: 24px;
+        padding: 24px;
+        overflow: hidden;
+    }
+
+    .form-container {
+        flex: 1;
+        margin: 0;
+        max-width: none;
+        overflow-y: auto;
+        height: calc(100vh - 100px);
+    }
+
+    .preview-container {
+        flex: 1;
+        margin: 0 !important;
+        display: block !important;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        overflow-y: auto;
+        height: calc(100vh - 100px);
+    }
+
+    .preview-content {
+        padding: 24px;
+    }
+
+    /* 调整表单在左侧的样式 */
+    .form-section {
+        margin-bottom: 24px;
+    }
+
+    .form-section:last-child {
+        margin-bottom: 0;
+    }
+
+    /* 调整预览区域在右侧的样式 */
+    .preview-header {
+        position: sticky;
+        top: 0;
+        background: #fff;
+        z-index: 10;
+        border-bottom: 1px solid #eee;
+    }
+
+    /* 调整按钮样式 */
+    .form-actions {
+        position: sticky;
+        bottom: 0;
+        background: #fff;
+        padding: 16px 0;
+        margin-top: 16px;
+        border-top: 1px solid #eee;
+    }
+}
+
+/* 表单分段 */
+.form-section {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #eee;
+}
+
+.form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.form-section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    padding-left: 12px;
+    border-left: 4px solid #4F46E5;
+}
+
+/* 表单字段 */
+.form-field {
+    margin-bottom: 20px;
+}
+
+.form-field:last-child {
+    margin-bottom: 0;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #374151;
+    font-weight: 500;
+}
+
+.form-field label .required {
+    color: #ef4444;
+    margin-right: 4px;
+}
+
+/* 输入框样式 */
+.form-field input[type="text"],
+.form-field input[type="number"],
+.form-field textarea,
+.form-field select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #1f2937;
+    background: #fff;
+    transition: all 0.3s ease;
+}
+
+.form-field input[type="text"]:focus,
+.form-field input[type="number"]:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+    outline: none;
+    border-color: #4F46E5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.form-field textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* 单选按钮组 */
+.radio-group {
+    display: flex;
+    gap: 16px;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.radio-label input[type="radio"] {
+    width: 16px;
+    height: 16px;
+}
+
+/* 按钮样式 */
+.form-actions {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+}
+
+.generate-btn {
+    background: linear-gradient(135deg, #4F46E5, #0EA5E9);
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.generate-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+.generate-btn:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* 预览区域 */
+.preview-container {
+    max-width: 800px;
+    margin: 24px auto 0;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    display: none;
+}
+
+.preview-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.preview-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.preview-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.preview-actions button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.edit-btn {
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    color: #374151;
+}
+
+.download-btn {
+    background: #4F46E5;
+    border: 1px solid #4338ca;
+    color: white;
+}
+
+.preview-content {
+    padding: 24px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #374151;
+} 
