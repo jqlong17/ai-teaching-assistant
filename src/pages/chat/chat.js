@@ -2,9 +2,19 @@
 const experts = [
     {
         id: 'math',
-        name: '数学专家',
+        name: '章建跃',
         avatar: './src/assets/images/experts/math.png',
-        description: '专注初高中数学教学设计',
+        description: '著名数学教育专家，教育部基础教育课程教材专家工作委员会委员，国家级教学成果奖获得者。',
+        detailedDescription: `
+            章建跃教授是我国著名的数学教育专家，从事数学教育研究与实践40余年。他长期致力于中学数学教育理论研究与教学改革实践，在数学教育领域具有重要影响力。
+        `,
+        achievements: [
+            '教育部基础教育课程教材专家工作委员会委员',
+            '国家级教学成果奖获得者',
+            '全国优秀教师',
+            '参与多项国家级教育课题研究',
+            '编写多部广受好评的数学教材和教辅资料'
+        ],
         tags: ['教案设计', '试题解析', '概念讲解'],
         greeting: '你好！我可以帮你设计数学课程、解答教学难点。',
         backgroundColor: '#E3F2FD',
@@ -12,9 +22,19 @@ const experts = [
     },
     {
         id: 'moral',
-        name: '德育专家',
+        name: '李德育',
         avatar: '👩‍🏫',
-        description: '德育课程与班级管理专家',
+        description: '资深德育专家，从事德育教育研究与实践30余年，国家级德育示范课题负责人。',
+        detailedDescription: `
+            李德育教授专注于青少年品德教育和心理健康教育研究，在班级管理、心理辅导等方面具有丰富经验。她提出的"情境德育"教学模式在全国多所学校推广应用。
+        `,
+        achievements: [
+            '国家级德育示范课题负责人',
+            '教育部德育工作专家指导委员会委员',
+            '多次获得省级以上德育教学成果奖',
+            '出版德育教育专著多部',
+            '开发德育课程体系，在全国推广应用'
+        ],
         tags: ['班级管理', '心理辅导', '品德教育'],
         greeting: '你好！让我们一起探讨如何培养学生的品德与心理健康。',
         backgroundColor: '#F8BBD0',
@@ -22,9 +42,19 @@ const experts = [
     },
     {
         id: 'physics',
-        name: '物理专家',
+        name: '张物理',
         avatar: '👨‍🔬',
-        description: '物理教学与实验指导专家',
+        description: '国家级物理教学名师，物理教育研究会副会长，擅长物理实验教学设计。',
+        detailedDescription: `
+            张物理教授是国内知名的物理教育专家，在物理实验教学和科学探究教育方面有独特见解。他开发的多个创新物理实验获得国家专利，并在中学物理教学中广泛应用。
+        `,
+        achievements: [
+            '国家级物理教学名师',
+            '物理教育研究会副会长',
+            '多项物理教学发明专利持有者',
+            '国家级物理实验教学示范中心主任',
+            '编写国家级重点物理教材'
+        ],
         tags: ['实验设计', '概念解析', '题目讲解'],
         greeting: '你好！让我们一起探索物理的奥秘。',
         backgroundColor: '#F3E5F5',
@@ -36,6 +66,11 @@ const experts = [
         name: '化学专家',
         avatar: '👩‍🔬',
         description: '化学实验与教学指导专家',
+        achievements: [
+            '国家级化学教学名师',
+            '化学教育研究会理事',
+            '化学实验教学创新奖获得者'
+        ],
         tags: ['实验指导', '反应原理', '考点分析'],
         greeting: '你好！我可以帮你设计化学实验和教学方案。',
         backgroundColor: '#E8F5E9',
@@ -47,6 +82,11 @@ const experts = [
         name: '生物专家',
         avatar: '🧬',
         description: '生物教学与实验指导专家',
+        achievements: [
+            '生物教育研究会会员',
+            '生物实验教学创新奖获得者',
+            '生物教育教学成果奖获得者'
+        ],
         tags: ['实验设计', '教学设计', '知识讲解'],
         greeting: '你好！让我们一起探索生命的奥秘。',
         backgroundColor: '#FFF3E0',
@@ -65,10 +105,11 @@ let chatState = {
 // 渲染专家选择页面
 function renderExpertList() {
     const container = document.getElementById('page-container');
+    container.className = 'expert-list-container';  // 添加专家列表容器类名
     
     // 创建头部
     const header = document.createElement('header');
-    header.className = 'chat-header';
+    header.className = 'expert-list-header';
     header.innerHTML = `
         <h1>专家数字人</h1>
         <p>选择专家开始对话</p>
@@ -79,30 +120,49 @@ function renderExpertList() {
     grid.className = 'expert-grid';
     
     // 渲染专家卡片
-    const expertsHTML = experts.map(expert => `
-        <div class="expert-card" data-id="${expert.id}" 
-             style="background-color: ${expert.backgroundColor}">
-            <div class="expert-avatar" style="color: ${expert.themeColor}">
-                ${expert.avatar.startsWith('./') ? 
-                    `<img src="${expert.avatar}" alt="${expert.name}">` : 
-                    expert.avatar}
+    const expertsHTML = experts.map(expert => {
+        // 设置专家特定的颜色
+        const style = `
+            --expert-color: ${expert.themeColor};
+            --tag-bg: ${expert.themeColor}15;
+            --tag-color: ${expert.themeColor};
+            --tag-bg-hover: ${expert.themeColor}25;
+        `;
+        
+        // 处理成就列表，确保存在且不为空
+        const achievements = expert.achievements || [];
+        const achievementsHTML = achievements.length > 0 ? `
+            <div class="expert-achievements">
+                <h4>主要成就：</h4>
+                <ul>
+                    ${achievements.slice(0, 3).map(achievement => 
+                        `<li>${achievement}</li>`
+                    ).join('')}
+                </ul>
             </div>
-            <div class="expert-info">
-                <div class="expert-name" style="color: ${expert.themeColor}">
-                    ${expert.name}
-                    ${expert.comingSoon ? '<span class="coming-soon">即将上线</span>' : ''}
+        ` : '';
+        
+        return `
+            <div class="expert-card" data-id="${expert.id}" style="${style}">
+                ${expert.comingSoon ? '<div class="coming-soon">即将上线</div>' : ''}
+                <div class="expert-avatar">
+                    ${expert.avatar.startsWith('./') ? 
+                        `<img src="${expert.avatar}" alt="${expert.name}">` : 
+                        expert.avatar}
                 </div>
-                <div class="expert-description">${expert.description}</div>
-                <div class="expert-tags">
-                    ${expert.tags.map(tag => `
-                        <span class="expert-tag" style="background-color: ${expert.themeColor}20; color: ${expert.themeColor}">
-                            ${tag}
-                        </span>
-                    `).join('')}
+                <div class="expert-info">
+                    <div class="expert-name">${expert.name}</div>
+                    <div class="expert-description">${expert.description}</div>
+                    ${achievementsHTML}
+                    <div class="expert-tags">
+                        ${expert.tags.map(tag => `
+                            <span class="expert-tag">${tag}</span>
+                        `).join('')}
+                    </div>
                 </div>
             </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
     
     grid.innerHTML = expertsHTML;
     
@@ -142,26 +202,49 @@ function enterChatRoom(expert) {
     chatState.messages = [];
     
     const container = document.getElementById('page-container');
+    container.className = 'chat-container';
     
     // 创建对话界面
     container.innerHTML = `
-        <header class="chat-header">
-            <div class="back-button">←</div>
-            <div class="expert-chat-info">
-                <div class="expert-chat-name">${expert.name}</div>
-            </div>
-        </header>
-        <div class="chat-content">
+        <div class="expert-side">
             <!-- 专家图片 -->
             <div class="expert-image-container">
-                <img src="src/assets/images/experts/math.png" alt="数学专家" class="expert-image">
+                <img src="${expert.avatar}" alt="${expert.name}" class="expert-image">
             </div>
-            <!-- 消息列表 -->
-            <div class="message-list"></div>
+            <div class="expert-description-panel">
+                <div class="expert-title">${expert.name}</div>
+                <div class="expert-desc">${expert.description}</div>
+                <div class="expert-achievements">
+                    <h4>主要成就：</h4>
+                    <ul>
+                        ${expert.achievements.slice(0, 3).map(achievement => 
+                            `<li>${achievement}</li>`
+                        ).join('')}
+                    </ul>
+                </div>
+                <div class="expert-tags">
+                    ${expert.tags.map(tag => `
+                        <span class="expert-tag" style="background-color: ${expert.themeColor}20; color: ${expert.themeColor}">
+                            ${tag}
+                        </span>
+                    `).join('')}
+                </div>
+            </div>
         </div>
-        <div class="chat-input-area">
-            <textarea class="chat-input" placeholder="输入你的问题..." rows="1"></textarea>
-            <button class="send-btn">发送</button>
+        <div class="chat-main">
+            <header class="chat-header">
+                <div class="back-button">←</div>
+                <div class="expert-chat-info">
+                    <div class="expert-chat-name">${expert.name}</div>
+                </div>
+            </header>
+            <div class="chat-content">
+                <div class="message-list"></div>
+            </div>
+            <div class="chat-input-area">
+                <textarea class="chat-input" placeholder="输入你的问题..." rows="1"></textarea>
+                <button class="send-btn">发送</button>
+            </div>
         </div>
     `;
     
@@ -229,9 +312,18 @@ function addMessage(message) {
     const messageEl = document.createElement('div');
     messageEl.className = `message ${message.type}`;
     
+    // 获取当前专家信息
+    const expert = chatState.currentExpert;
+    
+    // 根据消息类型设置不同的头像
+    const avatar = message.type === 'user' 
+        ? '<div class="message-avatar">我</div>'
+        : `<div class="message-avatar"><img src="${expert.avatar}" alt="${expert.name}"></div>`;
+    
     messageEl.innerHTML = `
+        ${avatar}
         <div class="message-content">
-            <div class="message-text">${message.content}</div>
+            <div class="message-text">${message.type === 'assistant' ? marked.parse(message.content) : message.content}</div>
         </div>
     `;
     
@@ -250,18 +342,20 @@ async function handleAssistantResponse(userMessage) {
             console.log('创建新对话:', chatState.conversationId);
         }
         
-        // 创建一个空的回复消息
-        const messageEl = document.createElement('div');
-        messageEl.className = 'message assistant';
-        messageEl.innerHTML = `
-            <div class="message-content">
-                <div class="message-text">正在思考...</div>
-            </div>
-        `;
-        
+        // 创建加载状态消息
         const messageList = document.querySelector('.message-list');
-        messageList.appendChild(messageEl);
-        const messageText = messageEl.querySelector('.message-text');
+        const loadingMessage = document.createElement('div');
+        loadingMessage.className = 'message loading';
+        loadingMessage.innerHTML = `
+            <div class="loading-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="loading-text">正在思考回答中，请稍候...</div>
+        `;
+        messageList.appendChild(loadingMessage);
+        messageList.scrollTop = messageList.scrollHeight;
         
         // 发送消息并获取流式响应
         console.log('准备发送消息到 API...');
@@ -271,6 +365,23 @@ async function handleAssistantResponse(userMessage) {
             chatState.currentExpert
         );
         console.log('获取到 API 响应流');
+        
+        // 移除加载状态消息
+        loadingMessage.remove();
+        
+        // 创建回复消息容器
+        const messageEl = document.createElement('div');
+        messageEl.className = 'message assistant';
+        messageEl.innerHTML = `
+            <div class="message-avatar">
+                <img src="${chatState.currentExpert.avatar}" alt="${chatState.currentExpert.name}">
+            </div>
+            <div class="message-content">
+                <div class="message-text">正在接收回复...</div>
+            </div>
+        `;
+        messageList.appendChild(messageEl);
+        const messageText = messageEl.querySelector('.message-text');
         
         // 处理流式响应
         let fullResponse = '';

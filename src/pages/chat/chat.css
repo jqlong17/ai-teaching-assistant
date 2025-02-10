@@ -17,11 +17,13 @@
 
 /* 对话头部 */
 .chat-header {
-    padding: 16px;
+    padding: 16px 24px;
     position: sticky;
     top: 0;
     z-index: 10;
     background: linear-gradient(135deg, #4a90e2, #63b3ed);
+    display: flex;
+    align-items: center;
 }
 
 .chat-header h1 {
@@ -38,104 +40,188 @@
     margin: 4px 0 0;
 }
 
+/* 专家列表页面样式 */
+.expert-list-header {
+    padding: 40px;
+    text-align: center;
+    background: linear-gradient(135deg, #4a90e2, #63b3ed);
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.expert-list-header h1 {
+    font-size: 32px;
+    margin: 0;
+    font-weight: 600;
+}
+
+.expert-list-header p {
+    font-size: 16px;
+    margin: 12px 0 0;
+    opacity: 0.9;
+}
+
 /* 专家网格 */
 .expert-grid {
-    padding: 16px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    background: #f5f7fa;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
+/* 专家卡片 */
 .expert-card {
-    padding: 16px;
-    border-radius: 12px;
-    cursor: pointer;
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
     transition: all 0.3s ease;
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    min-width: 0; /* 防止内容溢出 */
 }
 
-.expert-card:active {
-    transform: scale(0.98);
+.expert-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--expert-color, #4a90e2);
+    border-radius: 6px 6px 0 0;
+}
+
+.expert-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* 专家卡片头像 */
 .expert-avatar {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 12px;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
     border-radius: 50%;
     overflow: hidden;
     background: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 4px solid #fff;
 }
 
 .expert-avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.expert-card:hover .expert-avatar img {
+    transform: scale(1.05);
 }
 
 .expert-info {
-    flex: 1;
+    text-align: center;
 }
 
 .expert-name {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 600;
-    margin-bottom: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.coming-soon {
-    font-size: 12px;
-    padding: 2px 6px;
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    font-weight: normal;
+    color: #333;
+    margin-bottom: 8px;
 }
 
 .expert-description {
-    font-size: 13px;
+    font-size: 14px;
     color: #666;
-    margin-bottom: 8px;
-    line-height: 1.4;
+    margin: 16px 0;
+    line-height: 1.6;
+    text-align: left;
 }
 
+.expert-achievements {
+    text-align: left;
+    margin: 16px 0;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.expert-achievements h4 {
+    font-size: 14px;
+    color: #333;
+    margin: 0 0 8px 0;
+}
+
+.expert-achievements ul {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 13px;
+    color: #666;
+    line-height: 1.6;
+}
+
+.expert-achievements li {
+    margin-bottom: 4px;
+}
+
+/* 专家标签 */
 .expert-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
+    justify-content: center;
+    margin-top: auto;
 }
 
 .expert-tag {
+    font-size: 13px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--tag-bg, rgba(74, 144, 226, 0.1));
+    color: var(--tag-color, #4a90e2);
+    transition: all 0.3s ease;
+}
+
+.expert-card:hover .expert-tag {
+    background: var(--tag-bg-hover, rgba(74, 144, 226, 0.2));
+}
+
+/* 即将上线标签 */
+.coming-soon {
+    position: absolute;
+    top: 20px;
+    right: -35px;
+    background: #f44336;
+    color: #fff;
+    padding: 6px 40px;
     font-size: 12px;
-    padding: 2px 8px;
-    border-radius: 4px;
+    transform: rotate(45deg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* 对话界面 */
 .chat-header .back-button {
-    font-size: 20px;
+    font-size: 28px;
     color: #fff;
     cursor: pointer;
-    width: 30px;
-    height: 30px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 12px;
-    float: left;
+    margin-right: 16px;
 }
 
 .expert-chat-info {
     display: flex;
     align-items: center;
+    flex: 1;
+    justify-content: center;
 }
 
 /* 对话界面头部头像 */
@@ -160,9 +246,10 @@
 }
 
 .expert-chat-name {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 500;
-    color: #333;
+    color: #fff;
+    text-align: center;
 }
 
 /* 聊天内容区域 */
@@ -219,8 +306,11 @@
 
 /* 消息样式调整 */
 .message {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     animation: fadeIn 0.3s ease-in-out;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
 }
 
 @keyframes fadeIn {
@@ -234,25 +324,60 @@
     }
 }
 
+.message-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.message-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .message-content {
     max-width: 85%;
-    background: #fff;
-    padding: 12px 16px;
+    padding: 16px 20px;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    position: relative;
+    font-size: 16px;
+    line-height: 1.6;
 }
 
 /* 用户消息样式 */
+.message.user {
+    flex-direction: row-reverse;
+}
+
 .message.user .message-content {
     margin-left: auto;
-    background: #1976D2;
+    background: #2196F3;
     color: #fff;
+    border-top-right-radius: 4px;
+}
+
+.message.user .message-avatar {
+    background: #E3F2FD;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1976D2;
+    font-weight: bold;
 }
 
 /* 助手消息样式 */
 .message.assistant .message-content {
     margin-right: auto;
+    background: #f5f7fa;
+    border-top-left-radius: 4px;
+}
+
+.message.assistant .message-avatar {
     background: #fff;
+    border: 1px solid #eee;
 }
 
 /* 输入框区域 */
@@ -274,12 +399,12 @@
 
 .chat-input {
     flex: 1;
-    min-height: 40px;
+    min-height: 44px;
     max-height: 120px;
-    padding: 8px 12px;
+    padding: 12px 16px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.5;
     resize: none;
 }
@@ -290,13 +415,14 @@
 }
 
 .send-btn {
-    height: 40px;
-    padding: 0 16px;
+    height: 44px;
+    padding: 0 24px;
     border: none;
     border-radius: 8px;
     background: #1976D2;
     color: #fff;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 500;
     cursor: pointer;
 }
 
@@ -322,5 +448,290 @@
     
     .message-content {
         max-width: 70%;
+    }
+}
+
+/* Web端响应式布局 */
+@media screen and (min-width: 1024px) {
+    /* 专家列表页面布局 */
+    .expert-list-container {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 20px);
+        max-width: 1800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .expert-list-header {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .expert-grid {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        padding: 0 40px;
+    }
+
+    /* 对话页面布局 */
+    #page-container.chat-container {
+        flex-direction: row;
+        height: calc(100vh - 20px);
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 20px;
+        gap: 20px;
+        background: #f5f7fa;
+    }
+
+    /* 左侧专家区域 */
+    .expert-side {
+        width: 40%;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .expert-image-container {
+        padding: 0;
+        margin: 0 0 30px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: none;
+    }
+
+    .expert-image {
+        max-width: 200px;
+        height: auto;
+        border-radius: 16px;
+    }
+
+    /* 右侧对话区域 */
+    .chat-main {
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        background: #fff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .chat-header {
+        padding: 20px;
+        background: linear-gradient(135deg, #4a90e2, #63b3ed);
+        border-radius: 16px 16px 0 0;
+    }
+
+    .chat-content {
+        margin: 0;
+        padding: 30px;
+        flex: 1;
+        overflow-y: auto;
+        background: #fff;
+    }
+
+    .message-list {
+        max-width: 90%;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    /* 输入框区域 */
+    .chat-input-area {
+        position: relative;
+        bottom: 0;
+        width: 100%;
+        padding: 20px;
+        background: #fff;
+        border-top: 1px solid #eee;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        border-radius: 0 0 16px 16px;
+    }
+
+    /* 专家描述面板 */
+    .expert-description-panel {
+        padding: 30px 0 0 0;
+        border-top: 1px solid #eee;
+        background: #fff;
+    }
+
+    .expert-achievements {
+        margin: 24px 0;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 12px;
+    }
+
+    .expert-title {
+        font-size: 28px;
+        margin-bottom: 20px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .expert-desc {
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 24px;
+        color: #555;
+    }
+
+    .expert-achievements h4 {
+        font-size: 18px;
+        color: #333;
+        margin: 0 0 12px 0;
+        font-weight: 600;
+    }
+
+    .expert-achievements ul {
+        margin: 0;
+        padding-left: 24px;
+        font-size: 15px;
+        color: #555;
+        line-height: 1.6;
+    }
+
+    .expert-achievements li {
+        margin-bottom: 8px;
+    }
+
+    .expert-tag {
+        font-size: 15px;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-weight: 500;
+    }
+}
+
+/* 专家描述面板 */
+.expert-description-panel {
+    padding: 20px;
+    border-top: 1px solid #eee;
+    background: #fff;
+}
+
+.expert-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.expert-desc {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+@media screen and (max-width: 1023px) {
+    .expert-side {
+        display: none;
+    }
+    
+    .expert-description-panel {
+        display: none;
+    }
+
+    /* 移动端专家图片容器样式 */
+    .chat-main .expert-image-container {
+        display: block;
+        padding: 20px;
+        background: #fff;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .chat-main .expert-image {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        border-radius: 12px;
+    }
+}
+
+/* 加载状态样式 */
+.message.loading {
+    margin-left: 48px;
+}
+
+.loading-dots {
+    background: #f5f7fa;
+    border-radius: 12px;
+    border-top-left-radius: 4px;
+    padding: 12px 16px;
+}
+
+.loading-dots span {
+    width: 8px;
+    height: 8px;
+    background: #1976D2;
+    border-radius: 50%;
+    display: inline-block;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.loading-dots span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.loading-dots span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% { 
+        transform: scale(0);
+    } 
+    40% { 
+        transform: scale(1.0);
+    }
+}
+
+/* 加载文字提示 */
+.loading-text {
+    font-size: 14px;
+    color: #666;
+    margin-top: 8px;
+    margin-left: 16px;
+}
+
+/* 响应式调整 */
+@media screen and (min-width: 1200px) {
+    .expert-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media screen and (max-width: 1199px) and (min-width: 768px) {
+    .expert-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .expert-grid {
+        grid-template-columns: 1fr;
+        padding: 16px;
+    }
+    
+    .expert-list-header {
+        padding: 20px;
+    }
+    
+    .expert-list-header h1 {
+        font-size: 24px;
     }
 } 
