@@ -504,8 +504,9 @@ function showToast(message) {
 
 // 初始化
 function init() {
-    const hash = location.hash.slice(1);
-    if (hash.startsWith('/chat')) {
+    console.log('对话页面初始化');
+    const hash = location.hash;
+    if (hash === '#/chat') {
         renderExpertList();
     }
 }
@@ -516,7 +517,7 @@ function switchChatMode() {
     enterChatRoom(chatState.currentExpert);
 }
 
-// 更新导出
+// 暴露到全局
 window.chat = {
     renderExpertList,
     init,

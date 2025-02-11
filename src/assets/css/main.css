@@ -7,35 +7,107 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #1e293b;
     line-height: 1.5;
-    color: #333;
-    background-color: #f5f5f5;
+    background: #f8fafc;
 }
 
 #app {
     min-height: 100vh;
     display: flex;
+}
+
+/* Web端侧边栏样式 */
+.sidebar {
+    display: none; /* 默认隐藏，在大屏幕显示 */
+    width: 240px;
+    background: white;
+    border-right: 1px solid #e2e8f0;
+    flex-shrink: 0;
     flex-direction: column;
 }
 
-.main-content {
-    flex: 1;
-    padding-bottom: 50px; /* 为底部导航留出空间 */
+.sidebar-header {
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #e2e8f0;
 }
 
-/* 底部导航栏 */
+.sidebar-logo {
+    font-style: normal;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    transform: none;
+}
+
+.sidebar-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.sidebar-menu {
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    color: #64748b;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.sidebar-item:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.sidebar-item.active {
+    background: #4F46E5;
+    color: white;
+}
+
+.sidebar-item i {
+    font-size: 20px;
+}
+
+/* 主内容区域 */
+.main-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 移动端底部导航栏 */
 .tab-bar {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 64px; /* 增加高度 */
-    background-color: #fff;
+    height: 56px;
+    background: white;
     display: flex;
-    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #e2e8f0;
     z-index: 100;
-    padding-bottom: env(safe-area-inset-bottom); /* 添加安全区域padding */
 }
 
 .tab-item {
@@ -44,18 +116,111 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: #666;
+    gap: 4px;
+    color: #64748b;
     text-decoration: none;
-    font-size: 14px; /* 增加字体大小 */
-}
-
-.tab-item.active {
-    color: #1989fa;
+    font-size: 12px;
+    padding: 8px 0;
 }
 
 .tab-item i {
-    font-size: 24px; /* 增加图标大小 */
-    margin-bottom: 4px; /* 增加间距 */
+    font-size: 20px;
+}
+
+.tab-item.active {
+    color: #4F46E5;
+}
+
+/* 响应式布局 */
+@media screen and (min-width: 1024px) {
+    .sidebar {
+        display: flex; /* Web端显示侧边栏 */
+    }
+    
+    .tab-bar {
+        display: none; /* Web端隐藏底部导航 */
+    }
+    
+    .main-content {
+        margin-bottom: 0; /* 移除为底部导航预留的空间 */
+    }
+}
+
+@media screen and (max-width: 1023px) {
+    #app {
+        padding-bottom: 56px; /* 为底部导航预留空间 */
+    }
+}
+
+/* 图标字体 */
+.icon-home::before,
+.icon-chat::before,
+.icon-my::before {
+    font-style: normal;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    display: inline-block;
+    transform: none;
+}
+
+.icon-home::before {
+    content: '🏠';
+    font-size: 20px;
+}
+
+.icon-chat::before {
+    content: '💬';
+    font-size: 20px;
+}
+
+.icon-my::before {
+    content: '👤';
+    font-size: 20px;
+}
+
+/* 调整图标在移动端的大小 */
+.tab-bar .icon-home::before,
+.tab-bar .icon-chat::before,
+.tab-bar .icon-my::before {
+    font-size: 24px;
+}
+
+/* 调整图标在侧边栏中的大小 */
+.sidebar-item .icon-home::before,
+.sidebar-item .icon-chat::before,
+.sidebar-item .icon-my::before {
+    font-size: 22px;
+}
+
+/* 通用动画 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* 加载状态 */
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #4F46E5;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* 通用样式 */

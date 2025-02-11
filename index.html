@@ -22,12 +22,34 @@
 </head>
 <body>
     <div id="app">
+        <!-- Web端侧边栏 -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <span class="sidebar-logo">🤖</span>
+                <span class="sidebar-title">云小睿</span>
+            </div>
+            <div class="sidebar-menu">
+                <a href="#/" class="sidebar-item active">
+                    <i class="icon-home"></i>
+                    <span>首页</span>
+                </a>
+                <a href="#/chat" class="sidebar-item">
+                    <i class="icon-chat"></i>
+                    <span>对话</span>
+                </a>
+                <a href="#/my" class="sidebar-item">
+                    <i class="icon-my"></i>
+                    <span>我的</span>
+                </a>
+            </div>
+        </nav>
+
         <!-- 主内容区域 -->
         <main class="main-content">
             <div id="page-container"></div>
         </main>
 
-        <!-- 底部导航栏 -->
+        <!-- 移动端底部导航栏 -->
         <nav class="tab-bar">
             <a href="#/" class="tab-item active">
                 <i class="icon-home"></i>
