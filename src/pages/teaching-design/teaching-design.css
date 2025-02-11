@@ -24,6 +24,7 @@
 
 .form-field {
     margin-bottom: 20px;
+    position: relative;
 }
 
 .form-field:last-child {
@@ -104,28 +105,272 @@
 .unit-select-group {
     display: flex;
     gap: 12px;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.unit-select-groups-container {
+    width: 100%;
+}
+
+.unit-select-group-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.unit-select-group-wrapper:last-child {
+    margin-bottom: 0;
+}
+
+.unit-select-group-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.unit-select-add-btn,
+.unit-select-remove-btn {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    background: #fff;
+    color: #64748b;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.unit-select-add-btn:hover {
+    background: #f0f7ff;
+    color: #1976D2;
+    border-color: #1976D2;
+}
+
+.unit-select-remove-btn:hover {
+    background: #fef2f2;
+    color: #ef4444;
+    border-color: #ef4444;
 }
 
 .unit-select-group select {
     flex: 1;
-}
-
-/* 字段描述样式 */
-.field-description {
-    font-size: 12px;
-    color: #666;
-    margin-top: 4px;
-    line-height: 1.5;
-}
-
-/* 概念图谱样式 */
-.concept-map {
-    min-height: 200px;
-    border: 1px dashed #ddd;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
-    padding: 20px;
-    margin-top: 8px;
-    background: #fafafa;
+    font-size: 14px;
+    color: #1e293b;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.unit-select-group select:hover {
+    border-color: #94a3b8;
+}
+
+.unit-select-group select:focus {
+    outline: none;
+    border-color: #1976D2;
+    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+}
+
+.unit-select-group select option {
+    padding: 8px;
+}
+
+.unit-select-group .unit-select {
+    min-width: 240px;
+}
+
+.unit-select-group .section-select {
+    min-width: 200px;
+}
+
+/* 下拉箭头样式 */
+.unit-select-group select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 768px) {
+    .form-section {
+        padding: 16px;
+    }
+    
+    .unit-select-group {
+        flex-direction: column;
+    }
+    
+    .unit-select-group select {
+        width: 100%;
+        min-width: unset;
+    }
+    
+    .radio-group {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+    
+    .markdown-preview {
+        font-size: 14px;
+    }
+    
+    .markdown-preview h1 {
+        font-size: 24px;
+    }
+    
+    .markdown-preview h2 {
+        font-size: 20px;
+    }
+    
+    .markdown-preview h3 {
+        font-size: 18px;
+    }
+    
+    .markdown-preview h4 {
+        font-size: 16px;
+    }
+}
+
+/* 多级选择组件样式 */
+.multi-select-container {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.category-tabs {
+    display: flex;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.category-tab {
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #64748b;
+    border-right: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.category-tab:hover {
+    background: #f1f5f9;
+}
+
+.category-tab.active {
+    background: #fff;
+    color: #1976D2;
+    font-weight: 500;
+    border-bottom: 2px solid #1976D2;
+    margin-bottom: -1px;
+}
+
+.options-container {
+    padding: 16px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.options-list {
+    display: none;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.options-list.active {
+    display: grid;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.option-item:hover {
+    background: #f8fafc;
+}
+
+.option-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
+
+.option-item span {
+    font-size: 14px;
+    color: #475569;
+}
+
+.selected-options {
+    background: #f8fafc;
+    padding: 16px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.selected-options-header {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 12px;
+}
+
+.selected-options-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.selected-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.category-tag {
+    color: #1976D2;
+    font-size: 12px;
+    padding: 2px 6px;
+    background: #e3f2fd;
+    border-radius: 3px;
+}
+
+.option-text {
+    color: #475569;
+}
+
+.remove-option {
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0 4px;
+}
+
+.remove-option:hover {
+    color: #ef4444;
 }
 
 /* 按钮样式 */
@@ -256,39 +501,152 @@
     border-left: 4px solid #e2e8f0;
 }
 
-/* 响应式调整 */
-@media screen and (max-width: 768px) {
-    .form-section {
-        padding: 16px;
-    }
-    
-    .unit-select-group {
-        flex-direction: column;
-        gap: 8px;
-    }
-    
-    .radio-group {
-        flex-wrap: wrap;
-        gap: 16px;
-    }
-    
-    .markdown-preview {
-        font-size: 14px;
-    }
-    
-    .markdown-preview h1 {
-        font-size: 24px;
-    }
-    
-    .markdown-preview h2 {
-        font-size: 20px;
-    }
-    
-    .markdown-preview h3 {
-        font-size: 18px;
-    }
-    
-    .markdown-preview h4 {
-        font-size: 16px;
-    }
+/* AI辅助按钮样式 */
+.ai-assist-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 52px;
+    height: 24px;
+    border-radius: 4px;
+    background: #f0f7ff;
+    border: 1px solid #94a3b8;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: normal;
+    cursor: pointer;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ai-assist-btn span {
+    display: inline-block;
+    visibility: visible;
+}
+
+.ai-assist-btn:hover {
+    background: #e3f2fd;
+    color: #1976D2;
+    border-color: #1976D2;
+}
+
+.ai-assist-btn.loading {
+    background: #e3f2fd;
+    color: #1976D2;
+    border-color: #1976D2;
+    cursor: wait;
+}
+
+.ai-assist-btn.loading span {
+    visibility: hidden;
+}
+
+/* AI生成的内容样式 */
+.ai-generated-content {
+    background: #f0f7ff;
+    border-left: 3px solid #1976D2;
+    padding: 12px;
+    margin-top: 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #1e293b;
+}
+
+.lesson-design-textarea {
+    width: 100%;
+    min-height: 300px;
+    padding: 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #1e293b;
+    background: #fff;
+    transition: all 0.3s ease;
+    resize: vertical;
+    margin-top: 8px;
+}
+
+.lesson-design-textarea:focus {
+    outline: none;
+    border-color: #1976D2;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
+}
+
+#lesson-design-container .form-field {
+    margin-bottom: 24px;
+    padding: 24px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+#lesson-design-container .form-field:last-child {
+    margin-bottom: 0;
+}
+
+#lesson-design-container label {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.lesson-design-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 24px;
+    padding: 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+.lesson-design-actions .ai-assist-btn {
+    position: static;
+    width: auto;
+    height: 32px;
+    padding: 0 16px;
+    font-size: 14px;
+    border-radius: 6px;
+}
+
+#lesson-design-container .ai-assist-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: auto;
+    height: 32px;
+    padding: 0 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    background: #f0f7ff;
+    border: 1px solid #94a3b8;
+    color: #64748b;
+}
+
+#lesson-design-container .ai-assist-btn:hover {
+    background: #e3f2fd;
+    color: #1976D2;
+    border-color: #1976D2;
+}
+
+#lesson-design-container {
+    position: relative;
+    padding: 24px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.textarea-wrapper {
+    position: relative;
+    margin-top: 16px;
 } 
