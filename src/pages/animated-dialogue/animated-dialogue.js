@@ -248,22 +248,27 @@ class AnimatedDialogue {
     }
 }
 
-// 初始化
-function init() {
-    console.log('动画对话页面初始化');
-    const hash = location.hash.slice(1);
-    if (hash === '/animated-dialogue') {
+// 修改导出方式
+window.animatedDialogue = {
+    render: () => {
         new AnimatedDialogue().render();
     }
-}
-
-// 暴露到全局
-window.animatedDialogue = {
-    init
 };
 
 // 页面加载时初始化
-window.addEventListener('load', init);
+window.addEventListener('load', () => {
+    console.log('动画对话页面加载');
+    const hash = location.hash.slice(1);
+    if (hash === '/animated-dialogue') {
+        window.animatedDialogue.render();
+    }
+});
 
 // 路由变化时初始化
-window.addEventListener('hashchange', init); 
+window.addEventListener('hashchange', () => {
+    console.log('动画对话页面路由变化');
+    const hash = location.hash.slice(1);
+    if (hash === '/animated-dialogue') {
+        window.animatedDialogue.render();
+    }
+}); 

@@ -549,8 +549,8 @@ function handleRoute(hash) {
             break;
         case '#/ppt-generator':
             console.log('准备渲染PPT生成页面');
-            if (window.PptGenerator) {
-                new window.PptGenerator().render();
+            if (window.pptGenerator && typeof window.pptGenerator.render === 'function') {
+                window.pptGenerator.render();
             } else {
                 console.error('PPT生成页面渲染函数未定义');
                 renderHomePage();
@@ -558,10 +558,19 @@ function handleRoute(hash) {
             break;
         case '#/animated-dialogue':
             console.log('准备渲染动画对话页面');
-            if (window.AnimatedDialogue) {
-                new window.AnimatedDialogue().render();
+            if (window.animatedDialogue && typeof window.animatedDialogue.render === 'function') {
+                window.animatedDialogue.render();
             } else {
                 console.error('动画对话页面渲染函数未定义');
+                renderHomePage();
+            }
+            break;
+        case '#/my':
+            console.log('准备渲染我的页面');
+            if (window.my && typeof window.my.render === 'function') {
+                window.my.render();
+            } else {
+                console.error('我的页面渲染函数未定义');
                 renderHomePage();
             }
             break;

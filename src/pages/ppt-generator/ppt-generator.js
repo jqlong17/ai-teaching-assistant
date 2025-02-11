@@ -346,22 +346,27 @@ class PptGenerator {
     }
 }
 
-// 初始化
-function init() {
-    console.log('PPT生成页面初始化');
-    const hash = location.hash.slice(1);
-    if (hash === '/ppt-generator') {
+// 修改导出方式
+window.pptGenerator = {
+    render: () => {
         new PptGenerator().render();
     }
-}
-
-// 暴露到全局
-window.pptGenerator = {
-    init
 };
 
 // 页面加载时初始化
-window.addEventListener('load', init);
+window.addEventListener('load', () => {
+    console.log('PPT生成页面加载');
+    const hash = location.hash.slice(1);
+    if (hash === '/ppt-generator') {
+        window.pptGenerator.render();
+    }
+});
 
 // 路由变化时初始化
-window.addEventListener('hashchange', init); 
+window.addEventListener('hashchange', () => {
+    console.log('PPT生成页面路由变化');
+    const hash = location.hash.slice(1);
+    if (hash === '/ppt-generator') {
+        window.pptGenerator.render();
+    }
+}); 

@@ -65,46 +65,48 @@ function renderMyPage() {
                 <h1>我的</h1>
             </div>
             
-            <div class="my-container">
-                <!-- 用户信息卡片 -->
-                <div class="user-card">
-                    <div class="user-avatar">
-                        ${userInfo.avatar}
-                    </div>
-                    <div class="user-info">
-                        <div class="user-name">${userInfo.name}</div>
-                        <div class="user-meta">${userInfo.grade} ${userInfo.subject}教师</div>
-                    </div>
-                </div>
-                
-                <!-- 功能列表 -->
-                <h2 class="section-title">基本信息</h2>
-                <div class="feature-list">
-                    ${myFeatures.map(feature => `
-                        <div class="feature-item" data-id="${feature.id}">
-                            <div class="feature-icon">${feature.icon}</div>
-                            <div class="feature-title">${feature.title}</div>
-                            <div class="feature-value">${feature.value}</div>
-                            <div class="feature-arrow">›</div>
+            <div class="my-wrapper">
+                <div class="my-container">
+                    <!-- 用户信息卡片 -->
+                    <div class="user-card">
+                        <div class="user-avatar">
+                            ${userInfo.avatar}
                         </div>
-                    `).join('')}
-                </div>
-                
-                <!-- 历史对话 -->
-                <h2 class="section-title">历史对话</h2>
-                <div class="history-list">
-                    ${historyData.map(item => `
-                        <div class="history-item" data-id="${item.id}">
-                            <div class="history-content">
-                                <div class="history-title">${item.title}</div>
-                                <div class="history-meta">
-                                    <span class="history-expert">${item.expert}</span>
-                                    <span class="history-time">${item.time}</span>
-                                    <span class="history-length">${item.messageCount}条对话</span>
+                        <div class="user-info">
+                            <div class="user-name">${userInfo.name}</div>
+                            <div class="user-meta">${userInfo.grade} ${userInfo.subject}教师</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 功能列表 -->
+                    <h2 class="section-title">基本信息</h2>
+                    <div class="feature-list">
+                        ${myFeatures.map(feature => `
+                            <div class="feature-item" data-id="${feature.id}">
+                                <div class="feature-icon">${feature.icon}</div>
+                                <div class="feature-title">${feature.title}</div>
+                                <div class="feature-value">${feature.value}</div>
+                                <div class="feature-arrow">›</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <!-- 历史对话 -->
+                    <h2 class="section-title">历史对话</h2>
+                    <div class="history-list">
+                        ${historyData.map(item => `
+                            <div class="history-item" data-id="${item.id}">
+                                <div class="history-content">
+                                    <div class="history-title">${item.title}</div>
+                                    <div class="history-meta">
+                                        <span class="history-expert">${item.expert}</span>
+                                        <span class="history-time">${item.time}</span>
+                                        <span class="history-length">${item.messageCount}条对话</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    `).join('')}
+                        `).join('')}
+                    </div>
                 </div>
             </div>
         `;
@@ -175,7 +177,27 @@ function showToast(message) {
     }, 2000);
 }
 
-// 暴露到全局
+// 修改导出方式
 window.my = {
-    renderMyPage
-}; 
+    render: () => {
+        renderMyPage();
+    }
+};
+
+// 页面加载时初始化
+window.addEventListener('load', () => {
+    console.log('我的页面加载');
+    const hash = location.hash.slice(1);
+    if (hash === '/my') {
+        window.my.render();
+    }
+});
+
+// 路由变化时初始化
+window.addEventListener('hashchange', () => {
+    console.log('我的页面路由变化');
+    const hash = location.hash.slice(1);
+    if (hash === '/my') {
+        window.my.render();
+    }
+}); 
