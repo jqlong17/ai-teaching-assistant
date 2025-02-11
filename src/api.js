@@ -1,6 +1,8 @@
+import config from './config.js';
+
 // Dify API 配置
-const DIFY_API_URL = 'https://api.dify.ai/v1';
-const DIFY_API_KEY = 'app-l3SdhDG6QxQCYYlvMGMVbBpc';
+const DIFY_API_URL = config.isDemoMode ? `${config.proxyEndpoint}/dify` : 'https://api.dify.ai/v1';
+const DIFY_API_KEY = config.dify?.apiKey || '';
 
 // 创建对话
 async function createConversation() {
@@ -32,18 +34,23 @@ async function sendMessage(conversationId, message, expert) {
         
         console.log('发送消息请求体:', requestBody);
         
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'text/event-stream'
+        };
+
+        // 只在开发环境添加 API key
+        if (!config.isDemoMode) {
+            headers['Authorization'] = `Bearer ${DIFY_API_KEY}`;
+        }
+        
         const response = await fetch(`${DIFY_API_URL}/chat-messages`, {
             method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${DIFY_API_KEY}`,
-                'Content-Type': 'application/json',
-                'Accept': 'text/event-stream'
-            },
+            headers,
             body: JSON.stringify(requestBody)
         });
         
         console.log('发送消息响应状态:', response.status);
-        console.log('发送消息响应头:', Object.fromEntries(response.headers.entries()));
         
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));

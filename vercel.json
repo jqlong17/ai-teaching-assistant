@@ -1,0 +1,18 @@
+{
+    "version": 2,
+    "routes": [
+        {
+            "src": "/api/dify/(.*)",
+            "dest": "/api/dify/$1"
+        }
+    ],
+    "functions": {
+        "api/dify/*.js": {
+            "memory": 1024,
+            "maxDuration": 10
+        }
+    },
+    "env": {
+        "DIFY_API_KEY": "@dify_api_key"
+    }
+} 

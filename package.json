@@ -1,0 +1,14 @@
+{
+  "name": "ai-teaching-assistant",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "AI教学助手",
+  "main": "index.js",
+  "scripts": {
+    "test": "node src/test/ai-test.js",
+    "test:ai": "node src/test/ai-test.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.1"
+  }
+} 
