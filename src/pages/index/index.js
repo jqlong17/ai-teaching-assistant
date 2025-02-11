@@ -397,9 +397,18 @@ function handleFeatureClick(event) {
     
     if (feature) {
         // MVP阶段，只有以下功能可用
-        if (['unit-teaching-design', 'project-learning-design', 'interdisciplinary-design', 
-             'essay-evaluation', 'ppt-to-plan', 'ppt-generator', 'animated-dialogue'].includes(feature.id)) {
-            location.hash = feature.path;
+        const availableFeatures = {
+            'unit-teaching-design': '/unit-teaching-design',
+            'project-learning-design': '/project-learning-design',
+            'interdisciplinary-design': '/interdisciplinary-design',
+            'essay-evaluation': '/essay-evaluation',
+            'ppt-to-plan': '/ppt-to-design',
+            'ppt-generator': '/ppt-generator',
+            'animated-dialogue': '/animated-dialogue'
+        };
+
+        if (availableFeatures[feature.id]) {
+            location.hash = availableFeatures[feature.id];
         } else {
             showToast('该功能正在开发中...');
         }
