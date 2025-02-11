@@ -475,7 +475,7 @@ function updateNavigation(hash) {
 
 // 路由处理
 function handleRoute(hash) {
-    console.log('处理路由:', hash); // 添加日志
+    console.log('处理路由:', hash);
 
     // 清空页面容器
     const container = document.getElementById('page-container');
@@ -494,7 +494,7 @@ function handleRoute(hash) {
             renderHomePage();
             break;
         case '#/chat':
-            console.log('准备渲染对话页面'); // 添加日志
+            console.log('准备渲染对话页面');
             if (window.chat && typeof window.chat.renderExpertList === 'function') {
                 window.chat.renderExpertList();
             } else {
@@ -502,79 +502,70 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '#/my':
-            console.log('准备渲染我的页面'); // 添加日志
-            if (window.my && typeof window.my.renderMyPage === 'function') {
-                window.my.renderMyPage();
-            } else {
-                console.error('我的页面渲染函数未定义');
-                renderHomePage();
-            }
-            break;
-        case '/unit-teaching-design':
-            console.log('渲染教学设计页面');
+        case '#/unit-teaching-design':
+            console.log('准备渲染单元教学设计页面');
             if (window.teachingDesign && typeof window.teachingDesign.renderTeachingDesign === 'function') {
                 window.teachingDesign.renderTeachingDesign();
             } else {
-                console.error('教学设计渲染函数未定义');
+                console.error('单元教学设计页面渲染函数未定义');
                 renderHomePage();
             }
             break;
-        case '/project-learning-design':
-            console.log('渲染项目式学习页面');
+        case '#/project-learning-design':
+            console.log('准备渲染项目式学习设计页面');
             if (window.projectLearning && typeof window.projectLearning.renderProjectLearning === 'function') {
                 window.projectLearning.renderProjectLearning();
             } else {
-                console.error('项目式学习渲染函数未定义');
+                console.error('项目式学习设计页面渲染函数未定义');
                 renderHomePage();
             }
             break;
-        case '/interdisciplinary-design':
-            console.log('渲染跨学科教学设计页面');
+        case '#/interdisciplinary-design':
+            console.log('准备渲染跨学科教学设计页面');
             if (window.interdisciplinary && typeof window.interdisciplinary.renderInterdisciplinary === 'function') {
                 window.interdisciplinary.renderInterdisciplinary();
             } else {
-                console.error('跨学科教学设计渲染函数未定义');
+                console.error('跨学科教学设计页面渲染函数未定义');
                 renderHomePage();
             }
             break;
-        case '/essay-evaluation':
-            console.log('渲染作文评价页面');
+        case '#/essay-evaluation':
+            console.log('准备渲染作文评价页面');
             if (window.essayEvaluation && typeof window.essayEvaluation.init === 'function') {
                 window.essayEvaluation.init();
             } else {
-                console.error('作文评价渲染函数未定义');
+                console.error('作文评价页面渲染函数未定义');
                 renderHomePage();
             }
             break;
-        case '/ppt-conversion':
-            console.log('渲染PPT转教案页面');
-            if (window.PptToDesign && typeof window.PptToDesign.prototype.render === 'function') {
+        case '#/ppt-to-design':
+            console.log('准备渲染PPT转教案页面');
+            if (window.PptToDesign) {
                 new window.PptToDesign().render();
             } else {
-                console.error('PPT转教案渲染函数未定义');
+                console.error('PPT转教案页面渲染函数未定义');
                 renderHomePage();
             }
             break;
-        case '/ppt-generator':
-            console.log('渲染PPT生成页面');
-            if (window.pptGenerator && typeof window.pptGenerator.init === 'function') {
-                window.pptGenerator.init();
+        case '#/ppt-generator':
+            console.log('准备渲染PPT生成页面');
+            if (window.PptGenerator) {
+                new window.PptGenerator().render();
             } else {
-                console.error('PPT生成渲染函数未定义');
+                console.error('PPT生成页面渲染函数未定义');
                 renderHomePage();
             }
             break;
-        case '/animated-dialogue':
-            console.log('渲染动画对话页面');
-            if (window.animatedDialogue && typeof window.animatedDialogue.init === 'function') {
-                window.animatedDialogue.init();
+        case '#/animated-dialogue':
+            console.log('准备渲染动画对话页面');
+            if (window.AnimatedDialogue) {
+                new window.AnimatedDialogue().render();
             } else {
-                console.error('动画对话渲染函数未定义');
+                console.error('动画对话页面渲染函数未定义');
                 renderHomePage();
             }
             break;
-        case '/math-visualization':
+        case '#/math-visualization':
             console.log('渲染数学概念可视化页面');
             if (window.mathConceptExplain && typeof window.mathConceptExplain.render === 'function') {
                 window.mathConceptExplain.render();
@@ -583,7 +574,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/homework':
+        case '#/homework':
             console.log('渲染智能作业生成页面');
             if (window.homeworkGenerator && typeof window.homeworkGenerator.render === 'function') {
                 window.homeworkGenerator.render();
@@ -592,7 +583,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/exam-analysis':
+        case '#/exam-analysis':
             console.log('渲染试卷分析助手页面');
             if (window.examAnalysis && typeof window.examAnalysis.render === 'function') {
                 window.examAnalysis.render();
@@ -601,7 +592,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/student-portrait':
+        case '#/student-portrait':
             console.log('渲染学情画像系统页面');
             if (window.studentPortrait && typeof window.studentPortrait.render === 'function') {
                 window.studentPortrait.render();
@@ -610,7 +601,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/lesson-record':
+        case '#/lesson-record':
             console.log('渲染课堂实录助手页面');
             if (window.lessonRecord && typeof window.lessonRecord.render === 'function') {
                 window.lessonRecord.render();
@@ -619,7 +610,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/problem-solver':
+        case '#/problem-solver':
             console.log('渲染数学解题步骤生成页面');
             if (window.mathProblemSolver && typeof window.mathProblemSolver.render === 'function') {
                 window.mathProblemSolver.render();
@@ -628,7 +619,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/reading-assistant':
+        case '#/reading-assistant':
             console.log('渲染语文阅读理解助手页面');
             if (window.chineseReading && typeof window.chineseReading.render === 'function') {
                 window.chineseReading.render();
@@ -637,7 +628,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/english-speaking':
+        case '#/english-speaking':
             console.log('渲染英语口语教练页面');
             if (window.englishSpeaking && typeof window.englishSpeaking.render === 'function') {
                 window.englishSpeaking.render();
@@ -646,7 +637,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/physics-lab':
+        case '#/physics-lab':
             console.log('渲染物理实验模拟页面');
             if (window.physicsSimulation && typeof window.physicsSimulation.render === 'function') {
                 window.physicsSimulation.render();
@@ -655,7 +646,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/chemistry-3d':
+        case '#/chemistry-3d':
             console.log('渲染化学分子3D展示页面');
             if (window.chemistry3d && typeof window.chemistry3d.render === 'function') {
                 window.chemistry3d.render();
@@ -664,7 +655,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/virtual-microscope':
+        case '#/virtual-microscope':
             console.log('渲染生物虚拟显微镜页面');
             if (window.biologyVirtual && typeof window.biologyVirtual.render === 'function') {
                 window.biologyVirtual.render();
@@ -673,7 +664,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/geo-maps':
+        case '#/geo-maps':
             console.log('渲染地理知识地图页面');
             if (window.geographyMaps && typeof window.geographyMaps.render === 'function') {
                 window.geographyMaps.render();
@@ -682,7 +673,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/history-timeline':
+        case '#/history-timeline':
             console.log('渲染历史时间线生成页面');
             if (window.historyTimeline && typeof window.historyTimeline.render === 'function') {
                 window.historyTimeline.render();
@@ -691,7 +682,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/art-appreciation':
+        case '#/art-appreciation':
             console.log('渲染美术作品赏析页面');
             if (window.artAppreciation && typeof window.artAppreciation.render === 'function') {
                 window.artAppreciation.render();
@@ -700,7 +691,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/music-teaching':
+        case '#/music-teaching':
             console.log('渲染音乐教学助手页面');
             if (window.musicTeaching && typeof window.musicTeaching.render === 'function') {
                 window.musicTeaching.render();
@@ -709,7 +700,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/pe-analysis':
+        case '#/pe-analysis':
             console.log('渲染体育动作分析页面');
             if (window.pePosture && typeof window.pePosture.render === 'function') {
                 window.pePosture.render();
@@ -718,7 +709,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/classroom-interaction':
+        case '#/classroom-interaction':
             console.log('渲染课堂互动助手页面');
             if (window.classroomHelper && typeof window.classroomHelper.render === 'function') {
                 window.classroomHelper.render();
@@ -727,7 +718,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/parent-comm':
+        case '#/parent-comm':
             console.log('渲染家校沟通助手页面');
             if (window.parentCommunication && typeof window.parentCommunication.render === 'function') {
                 window.parentCommunication.render();
@@ -736,7 +727,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/learning-plan':
+        case '#/learning-plan':
             console.log('渲染个性化学习方案页面');
             if (window.learningPlan && typeof window.learningPlan.render === 'function') {
                 window.learningPlan.render();
@@ -745,7 +736,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/resource':
+        case '#/resource':
             console.log('渲染教学资源推荐页面');
             if (window.resourceRecommend && typeof window.resourceRecommend.render === 'function') {
                 window.resourceRecommend.render();
@@ -754,7 +745,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/quiz':
+        case '#/quiz':
             console.log('渲染随堂测试生成页面');
             if (window.quizGenerator && typeof window.quizGenerator.render === 'function') {
                 window.quizGenerator.render();
@@ -763,7 +754,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/mistake-analysis':
+        case '#/mistake-analysis':
             console.log('渲染错题分析系统页面');
             if (window.mistakeAnalysis && typeof window.mistakeAnalysis.render === 'function') {
                 window.mistakeAnalysis.render();
@@ -772,7 +763,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/study-report':
+        case '#/study-report':
             console.log('渲染学习报告生成页面');
             if (window.studyReport && typeof window.studyReport.render === 'function') {
                 window.studyReport.render();
@@ -781,7 +772,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/teaching-reflection':
+        case '#/teaching-reflection':
             console.log('渲染教学反思助手页面');
             if (window.teachingReflection && typeof window.teachingReflection.render === 'function') {
                 window.teachingReflection.render();
@@ -790,7 +781,7 @@ function handleRoute(hash) {
                 renderHomePage();
             }
             break;
-        case '/lesson-optimization':
+        case '#/lesson-optimization':
             console.log('渲染课程优化建议页面');
             if (window.lessonOptimization && typeof window.lessonOptimization.render === 'function') {
                 window.lessonOptimization.render();
