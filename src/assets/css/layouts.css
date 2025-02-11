@@ -1,0 +1,352 @@
+/* AI应用通用布局样式 */
+
+/* 基础容器 */
+.ai-layout-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #f5f7fa;
+}
+
+/* 通用头部 */
+.ai-layout-header {
+    padding: 24px;
+    background: linear-gradient(135deg, #4F46E5, #0EA5E9);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.ai-layout-header .back-button {
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px;
+    color: #fff;
+}
+
+.ai-layout-header h1 {
+    font-size: 24px;
+    margin: 0;
+    font-weight: 600;
+}
+
+/* 主内容区域 - 移动端默认样式 */
+.ai-layout-content {
+    flex: 1;
+    padding: 16px;
+}
+
+/* 输入区域基础样式 */
+.ai-layout-input {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* 预览区域基础样式 */
+.ai-layout-preview {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: none; /* 移动端默认隐藏 */
+}
+
+/* Web端布局样式 */
+@media screen and (min-width: 1024px) {
+    /* 内容区域转为左右布局 */
+    .ai-layout-content {
+        display: flex;
+        gap: 24px;
+        padding: 24px;
+        height: calc(100vh - 72px);
+        overflow: hidden;
+    }
+
+    /* 输入区域样式 */
+    .ai-layout-input {
+        width: 50%;
+        margin-bottom: 0;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    /* 预览区域样式 */
+    .ai-layout-preview {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    /* 预览区域头部 */
+    .ai-layout-preview-header {
+        padding: 16px 24px;
+        border-bottom: 1px solid #e2e8f0;
+        background: white;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    .ai-layout-preview-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    /* 预览区域内容 */
+    .ai-layout-preview-content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 24px;
+    }
+
+    /* 预览区域底部 */
+    .ai-layout-preview-footer {
+        padding: 16px 24px;
+        border-top: 1px solid #e2e8f0;
+        background: white;
+        position: sticky;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    /* 滚动条美化 */
+    .ai-layout-input::-webkit-scrollbar,
+    .ai-layout-preview-content::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .ai-layout-input::-webkit-scrollbar-track,
+    .ai-layout-preview-content::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 4px;
+    }
+
+    .ai-layout-input::-webkit-scrollbar-thumb,
+    .ai-layout-preview-content::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+
+    .ai-layout-input::-webkit-scrollbar-thumb:hover,
+    .ai-layout-preview-content::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 768px) {
+    .ai-layout-header {
+        padding: 16px;
+    }
+    
+    .ai-layout-header h1 {
+        font-size: 20px;
+    }
+}
+
+/* Markdown 预览通用样式 */
+.markdown-preview {
+    color: #1e293b;
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+/* 标题样式 */
+.markdown-preview h1,
+.markdown-preview h2,
+.markdown-preview h3,
+.markdown-preview h4,
+.markdown-preview h5,
+.markdown-preview h6 {
+    margin-top: 24px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.markdown-preview h1 {
+    font-size: 2em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.markdown-preview h2 {
+    font-size: 1.5em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.markdown-preview h3 {
+    font-size: 1.25em;
+}
+
+.markdown-preview h4 {
+    font-size: 1em;
+}
+
+.markdown-preview h5 {
+    font-size: 0.875em;
+}
+
+.markdown-preview h6 {
+    font-size: 0.85em;
+    color: #64748b;
+}
+
+/* 段落和列表样式 */
+.markdown-preview p,
+.markdown-preview ul,
+.markdown-preview ol {
+    margin-bottom: 16px;
+}
+
+.markdown-preview ul,
+.markdown-preview ol {
+    padding-left: 2em;
+}
+
+.markdown-preview li {
+    margin: 0.25em 0;
+}
+
+.markdown-preview li > p {
+    margin-top: 16px;
+}
+
+.markdown-preview li + li {
+    margin-top: 0.25em;
+}
+
+/* 引用块样式 */
+.markdown-preview blockquote {
+    margin: 16px 0;
+    padding: 0 1em;
+    color: #64748b;
+    border-left: 0.25em solid #e2e8f0;
+}
+
+.markdown-preview blockquote > :first-child {
+    margin-top: 0;
+}
+
+.markdown-preview blockquote > :last-child {
+    margin-bottom: 0;
+}
+
+/* 代码样式 */
+.markdown-preview code {
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    background-color: #f1f5f9;
+    border-radius: 6px;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+}
+
+.markdown-preview pre {
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f8fafc;
+    border-radius: 6px;
+    margin: 16px 0;
+}
+
+.markdown-preview pre code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    background: transparent;
+}
+
+/* 表格样式 */
+.markdown-preview table {
+    width: 100%;
+    margin: 16px 0;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.markdown-preview table th,
+.markdown-preview table td {
+    padding: 6px 13px;
+    border: 1px solid #e2e8f0;
+}
+
+.markdown-preview table th {
+    font-weight: 600;
+    background-color: #f8fafc;
+}
+
+.markdown-preview table tr:nth-child(2n) {
+    background-color: #f8fafc;
+}
+
+/* 水平线样式 */
+.markdown-preview hr {
+    height: 1px;
+    padding: 0;
+    margin: 24px 0;
+    background-color: #e2e8f0;
+    border: 0;
+}
+
+/* 链接样式 */
+.markdown-preview a {
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+.markdown-preview a:hover {
+    text-decoration: underline;
+}
+
+/* 图片样式 */
+.markdown-preview img {
+    max-width: 100%;
+    height: auto;
+    margin: 16px 0;
+    border-radius: 6px;
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 768px) {
+    .markdown-preview {
+        font-size: 14px;
+    }
+
+    .markdown-preview h1 {
+        font-size: 1.75em;
+    }
+
+    .markdown-preview h2 {
+        font-size: 1.375em;
+    }
+
+    .markdown-preview h3 {
+        font-size: 1.25em;
+    }
+
+    .markdown-preview h4 {
+        font-size: 1em;
+    }
+
+    .markdown-preview h5 {
+        font-size: 0.875em;
+    }
+
+    .markdown-preview h6 {
+        font-size: 0.8125em;
+    }
+} 

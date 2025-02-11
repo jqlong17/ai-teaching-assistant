@@ -211,15 +211,16 @@ const formConfig = {
 // 渲染教学设计页面
 function renderTeachingDesign() {
     const container = document.getElementById('page-container');
+    container.className = 'ai-layout-container';
     
     // 创建页面结构
     container.innerHTML = `
-        <header class="design-header">
+        <div class="ai-layout-header">
             <div class="back-button">←</div>
             <h1>数学单元教学设计</h1>
-        </header>
-        <div class="design-container">
-            <div class="form-container">
+        </div>
+        <div class="ai-layout-content">
+            <div class="ai-layout-input">
                 <form class="design-form" id="designForm">
                     ${Object.entries(formConfig).map(([sectionKey, section]) => `
                         <div class="form-section" data-section="${sectionKey}">
@@ -240,15 +241,20 @@ function renderTeachingDesign() {
                     </div>
                 </form>
             </div>
-            <div class="preview-container">
-                <div class="preview-header">
-                    <div class="preview-title">教学设计预览</div>
-                    <div class="preview-actions">
-                        <button class="edit-btn">编辑</button>
-                        <button class="download-btn">下载</button>
-                    </div>
+            <div class="ai-layout-preview">
+                <div class="ai-layout-preview-header">
+                    <div class="ai-layout-preview-title">教学设计预览</div>
                 </div>
-                <div class="preview-content markdown-body"></div>
+                <div class="ai-layout-preview-content">
+                    <div class="empty-preview" style="text-align: center; padding: 40px; color: #94a3b8;">
+                        生成的教学设计方案将在这里显示
+                    </div>
+                    <div class="markdown-preview" style="display: none;"></div>
+                </div>
+                <div class="ai-layout-preview-footer result-actions" style="display: none;">
+                    <button class="edit-btn">编辑</button>
+                    <button class="download-btn">下载</button>
+                </div>
             </div>
         </div>
     `;
@@ -334,9 +340,11 @@ function bindTeachingDesignEvents() {
     const backButton = document.querySelector('.back-button');
     const generateBtn = document.querySelector('.generate-btn');
     const form = document.getElementById('designForm');
-    const previewSection = document.querySelector('.lesson-plan-preview');
     const editBtn = document.querySelector('.edit-btn');
     const downloadBtn = document.querySelector('.download-btn');
+    const markdownPreview = document.querySelector('.markdown-preview');
+    const emptyPreview = document.querySelector('.empty-preview');
+    const resultActions = document.querySelector('.result-actions');
     
     // 返回按钮
     backButton.addEventListener('click', () => {
@@ -358,22 +366,22 @@ function bindTeachingDesignEvents() {
             await new Promise(resolve => setTimeout(resolve, 1500));
             
             // 获取示例教学设计方案内容
-            const response = await fetch('./docs/教学设计示例/七年级数学相交线教学设计方案.md');
+            const response = await fetch('./docs/教案示例/七年级数学相交线教案.md');
             if (!response.ok) {
                 throw new Error('获取教学设计方案失败');
             }
             const markdown = await response.text();
             
             // 显示教学设计方案预览
-            form.style.display = 'none';
-            previewSection.style.display = 'block';
+            markdownPreview.innerHTML = marked.parse(markdown);
+            markdownPreview.style.display = 'block';
+            emptyPreview.style.display = 'none';
+            resultActions.style.display = 'flex';
             
-            // 渲染Markdown内容
-            const previewContent = document.querySelector('.preview-content');
-            previewContent.innerHTML = marked.parse(markdown);
-            
-            // 滚动到顶部
-            window.scrollTo(0, 0);
+            // 在移动端时滚动到结果区域
+            if (window.innerWidth < 1024) {
+                markdownPreview.scrollIntoView({ behavior: 'smooth' });
+            }
             
         } catch (error) {
             console.error('生成教学设计方案失败:', error);
@@ -386,13 +394,16 @@ function bindTeachingDesignEvents() {
     
     // 修改按钮
     editBtn.addEventListener('click', () => {
-        previewSection.style.display = 'none';
-        form.style.display = 'block';
+        if (window.innerWidth < 1024) {
+            markdownPreview.style.display = 'none';
+            emptyPreview.style.display = 'block';
+            resultActions.style.display = 'none';
+        }
     });
     
     // 下载按钮
     downloadBtn.addEventListener('click', () => {
-        const markdown = document.querySelector('.preview-content').textContent;
+        const markdown = markdownPreview.textContent;
         const blob = new Blob([markdown], { type: 'text/markdown' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');

@@ -1,0 +1,237 @@
+/* 作文评价页面特定样式 */
+
+/* 上传区域 */
+.upload-area {
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-area:hover,
+.upload-area.dragover {
+    border-color: #4F46E5;
+    background: #f8fafc;
+}
+
+.upload-icon {
+    font-size: 48px;
+    color: #64748b;
+}
+
+.upload-text {
+    text-align: center;
+}
+
+.upload-text .primary-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.upload-text .secondary-text {
+    font-size: 14px;
+    color: #64748b;
+}
+
+/* 文件信息 */
+.file-info {
+    background: white;
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.file-name {
+    font-size: 14px;
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.remove-file {
+    padding: 6px 12px;
+    border: none;
+    background: #fee2e2;
+    color: #dc2626;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.remove-file:hover {
+    background: #fecaca;
+}
+
+/* 评价角度选择 */
+.prompt-section {
+    margin-top: 24px;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 16px;
+}
+
+.prompt-presets {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.preset-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.preset-label:hover {
+    background: #f8fafc;
+}
+
+.preset-label input[type="radio"] {
+    margin-top: 4px;
+}
+
+.preset-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+
+.preset-desc {
+    font-size: 13px;
+    color: #64748b;
+}
+
+/* 评价按钮 */
+.action-section {
+    margin-top: 24px;
+}
+
+.evaluate-btn {
+    width: 100%;
+    height: 44px;
+    background: #4F46E5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.evaluate-btn:hover:not(:disabled) {
+    background: #4338ca;
+}
+
+.evaluate-btn:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
+
+/* 加载动画 */
+.loading-dots {
+    display: flex;
+    gap: 4px;
+}
+
+.loading-dots span {
+    width: 6px;
+    height: 6px;
+    background: currentColor;
+    border-radius: 50%;
+    display: inline-block;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.loading-dots span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.loading-dots span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% { 
+        transform: scale(0);
+    } 
+    40% { 
+        transform: scale(1.0);
+    }
+}
+
+/* 提示消息 */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    z-index: 1000;
+    animation: fadeInUp 0.3s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 768px) {
+    .upload-area {
+        padding: 24px;
+    }
+    
+    .upload-icon {
+        font-size: 36px;
+    }
+    
+    .preset-label {
+        padding: 10px;
+    }
+    
+    .preset-text {
+        font-size: 14px;
+    }
+    
+    .preset-desc {
+        font-size: 12px;
+    }
+} 

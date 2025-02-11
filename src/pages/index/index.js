@@ -41,6 +41,22 @@ const features = [
         category: 'tools'
     },
     {
+        id: 'ppt-generator',
+        title: '一键PPT制作',
+        desc: '输入文本或上传文件，智能生成精美PPT',
+        icon: '🎯',
+        path: '/ppt-generator',
+        category: 'tools'
+    },
+    {
+        id: 'animated-dialogue',
+        title: '动画对话',
+        desc: '输入对话文本，生成角色动画视频，适用于课堂知识导入',
+        icon: '🎬',
+        path: '/animated-dialogue',
+        category: 'tools'
+    },
+    {
         id: 'math-concept-explain',
         title: '数学概念可视化',
         desc: '复杂数学概念的3D动态演示',
@@ -380,8 +396,9 @@ function handleFeatureClick(event) {
     const feature = features.find(f => f.id === featureId);
     
     if (feature) {
-        // MVP阶段，只有单元教学设计、项目学习、跨学科教学设计和作文评价可用
-        if (['unit-teaching-design', 'project-learning-design', 'interdisciplinary-design', 'essay-evaluation'].includes(feature.id)) {
+        // MVP阶段，只有以下功能可用
+        if (['unit-teaching-design', 'project-learning-design', 'interdisciplinary-design', 
+             'essay-evaluation', 'ppt-to-plan', 'ppt-generator', 'animated-dialogue'].includes(feature.id)) {
             location.hash = feature.path;
         } else {
             showToast('该功能正在开发中...');
@@ -451,22 +468,50 @@ function handleRoute(hash) {
             }
         } else if (hash === '/project-learning-design') {
             console.log('渲染项目式学习页面');
-            console.log('window.projectLearning:', window.projectLearning);
             if (window.projectLearning && typeof window.projectLearning.renderProjectLearning === 'function') {
                 window.projectLearning.renderProjectLearning();
             } else {
                 console.error('项目式学习渲染函数未定义');
-                console.error('window.projectLearning:', window.projectLearning);
                 renderHomePage();
             }
         } else if (hash === '/interdisciplinary-design') {
             console.log('渲染跨学科教学设计页面');
-            console.log('window.interdisciplinary:', window.interdisciplinary);
             if (window.interdisciplinary && typeof window.interdisciplinary.renderInterdisciplinary === 'function') {
                 window.interdisciplinary.renderInterdisciplinary();
             } else {
                 console.error('跨学科教学设计渲染函数未定义');
-                console.error('window.interdisciplinary:', window.interdisciplinary);
+                renderHomePage();
+            }
+        } else if (hash === '/essay-evaluation') {
+            console.log('渲染作文评价页面');
+            if (window.essayEvaluation && typeof window.essayEvaluation.init === 'function') {
+                window.essayEvaluation.init();
+            } else {
+                console.error('作文评价渲染函数未定义');
+                renderHomePage();
+            }
+        } else if (hash === '/ppt-conversion') {
+            console.log('渲染PPT转教案页面');
+            if (window.PptToDesign && typeof window.PptToDesign.prototype.render === 'function') {
+                new window.PptToDesign().render();
+            } else {
+                console.error('PPT转教案渲染函数未定义');
+                renderHomePage();
+            }
+        } else if (hash === '/ppt-generator') {
+            console.log('渲染PPT生成页面');
+            if (window.pptGenerator && typeof window.pptGenerator.init === 'function') {
+                window.pptGenerator.init();
+            } else {
+                console.error('PPT生成渲染函数未定义');
+                renderHomePage();
+            }
+        } else if (hash === '/animated-dialogue') {
+            console.log('渲染动画对话页面');
+            if (window.animatedDialogue && typeof window.animatedDialogue.init === 'function') {
+                window.animatedDialogue.init();
+            } else {
+                console.error('动画对话渲染函数未定义');
                 renderHomePage();
             }
         } else if (hash.startsWith('/chat')) {

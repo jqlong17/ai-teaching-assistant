@@ -1,38 +1,8 @@
-/* 教学设计页面样式 */
-.design-header {
-    padding: 24px;
-    background: linear-gradient(135deg, #4F46E5, #0EA5E9);
-    color: #fff;
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    z-index: 10;
-}
+/* 教学设计页面特定样式 */
 
-.design-header .back-button {
-    font-size: 20px;
-    cursor: pointer;
-    padding: 8px;
-    color: #fff;
-}
-
-.design-header h1 {
-    font-size: 24px;
-    margin: 0;
-    font-weight: 600;
-    color: #fff;
-}
-
-.design-content {
-    padding: 20px 16px;
-    background: #f5f7fa;
-    min-height: calc(100vh - 50px);
-}
-
+/* 表单样式 */
 .design-form {
-    max-width: 600px;
-    margin: 0 auto;
+    width: 100%;
 }
 
 .form-section {
@@ -41,6 +11,15 @@
     padding: 20px;
     margin-bottom: 16px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.form-section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
 }
 
 .form-field {
@@ -96,363 +75,6 @@
     min-height: 80px;
 }
 
-.form-actions {
-    margin-top: 24px;
-    text-align: center;
-}
-
-.generate-btn {
-    width: 100%;
-    height: 44px;
-    border: none;
-    border-radius: 8px;
-    background: #1976D2;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.generate-btn:hover {
-    background: #1565C0;
-}
-
-.generate-btn:active {
-    transform: scale(0.98);
-}
-
-/* 响应式布局 */
-@media screen and (max-width: 768px) {
-    .design-content {
-        padding: 16px 12px;
-    }
-    
-    .form-section {
-        padding: 16px;
-    }
-}
-
-/* 教案预览区域 */
-.lesson-plan-preview {
-    max-width: 800px;
-    margin: 0 auto;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.preview-header {
-    padding: 20px;
-    border-bottom: 1px solid #eee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.preview-header h2 {
-    font-size: 18px;
-    color: #333;
-    margin: 0;
-}
-
-.preview-actions {
-    display: flex;
-    gap: 12px;
-}
-
-.preview-actions button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.edit-btn {
-    background: #f5f5f5;
-    color: #666;
-}
-
-.edit-btn:hover {
-    background: #e8e8e8;
-}
-
-.download-btn {
-    background: #1976D2;
-    color: #fff;
-}
-
-.download-btn:hover {
-    background: #1565C0;
-}
-
-/* Markdown 样式 */
-.markdown-body {
-    padding: 20px;
-    color: #24292e;
-    font-size: 16px;
-    line-height: 1.6;
-}
-
-.markdown-body h1 {
-    font-size: 28px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #eee;
-    margin: 24px 0 16px;
-}
-
-.markdown-body h2 {
-    font-size: 24px;
-    padding-bottom: 8px;
-    margin: 24px 0 16px;
-}
-
-.markdown-body h3 {
-    font-size: 20px;
-    margin: 20px 0 12px;
-}
-
-.markdown-body p {
-    margin: 12px 0;
-}
-
-.markdown-body ul, 
-.markdown-body ol {
-    padding-left: 24px;
-    margin: 12px 0;
-}
-
-.markdown-body li {
-    margin: 6px 0;
-}
-
-.markdown-body code {
-    background: #f6f8fa;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: monospace;
-}
-
-.markdown-body pre {
-    background: #f6f8fa;
-    padding: 16px;
-    border-radius: 8px;
-    overflow-x: auto;
-}
-
-.markdown-body blockquote {
-    margin: 12px 0;
-    padding: 0 16px;
-    color: #666;
-    border-left: 4px solid #ddd;
-}
-
-.markdown-body table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 12px 0;
-}
-
-.markdown-body th,
-.markdown-body td {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-}
-
-.markdown-body th {
-    background: #f5f5f5;
-    font-weight: 600;
-}
-
-/* 响应式调整 */
-@media screen and (max-width: 768px) {
-    .lesson-plan-preview {
-        margin: 0;
-        border-radius: 0;
-    }
-    
-    .preview-header {
-        padding: 16px;
-    }
-    
-    .markdown-body {
-        padding: 16px;
-        font-size: 14px;
-    }
-    
-    .markdown-body h1 {
-        font-size: 24px;
-    }
-    
-    .markdown-body h2 {
-        font-size: 20px;
-    }
-    
-    .markdown-body h3 {
-        font-size: 18px;
-    }
-}
-
-/* Web 端布局样式 */
-@media screen and (min-width: 1024px) {
-    .design-container {
-        display: flex;
-        height: calc(100vh - 72px);
-        padding: 20px;
-        gap: 20px;
-        background: #f5f7fa;
-    }
-
-    .form-container {
-        width: 45%;
-        min-width: 500px;
-        overflow-y: auto;
-        padding-right: 20px;
-    }
-
-    .preview-container {
-        flex: 1;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-        overflow-y: auto;
-        position: sticky;
-        top: 20px;
-    }
-
-    .design-header {
-        height: 72px;
-    }
-
-    .form-section {
-        background: white;
-        border-radius: 12px;
-        padding: 24px;
-        margin-bottom: 20px;
-    }
-
-    .form-section-title {
-        font-size: 16px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 20px;
-        padding-bottom: 12px;
-        border-bottom: 1px solid #eee;
-    }
-
-    .form-field {
-        margin-bottom: 24px;
-    }
-
-    .form-field label {
-        font-size: 14px;
-        color: #333;
-        margin-bottom: 8px;
-        display: block;
-    }
-
-    .form-field input,
-    .form-field select,
-    .form-field textarea {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        font-size: 14px;
-        transition: all 0.3s ease;
-    }
-
-    .form-field input:focus,
-    .form-field select:focus,
-    .form-field textarea:focus {
-        border-color: #1976D2;
-        box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
-        outline: none;
-    }
-
-    .form-field textarea {
-        min-height: 100px;
-        resize: vertical;
-    }
-
-    .preview-header {
-        padding: 20px;
-        border-bottom: 1px solid #eee;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: white;
-        position: sticky;
-        top: 0;
-        z-index: 10;
-    }
-
-    .preview-title {
-        font-size: 16px;
-        font-weight: 600;
-        color: #333;
-    }
-
-    .preview-actions {
-        display: flex;
-        gap: 12px;
-    }
-
-    .preview-actions button {
-        padding: 8px 16px;
-        border-radius: 6px;
-        font-size: 14px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .preview-content {
-        padding: 24px;
-    }
-
-    .generate-btn {
-        width: 100%;
-        height: 44px;
-        background: #1976D2;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .generate-btn:hover {
-        background: #1565C0;
-    }
-
-    /* 概念图谱可视化区域 */
-    .concept-map {
-        border: 1px solid #eee;
-        border-radius: 8px;
-        padding: 20px;
-        margin-top: 12px;
-        min-height: 200px;
-    }
-}
-
-/* 移动端保持原有样式 */
-@media screen and (max-width: 1023px) {
-    .design-container {
-        padding: 16px;
-    }
-
-    .preview-container {
-        display: none;
-    }
-
-    .preview-container.active {
-        display: block;
-    }
-}
-
 /* 单选框组样式 */
 .radio-group {
     display: flex;
@@ -506,179 +128,167 @@
     background: #fafafa;
 }
 
-/* Web端布局优化 */
-@media screen and (min-width: 1024px) {
-    .form-section {
-        background: white;
-        border-radius: 12px;
-        padding: 24px;
-        margin-bottom: 20px;
-    }
-
-    .form-section-title {
-        font-size: 16px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 20px;
-        padding-bottom: 12px;
-        border-bottom: 1px solid #eee;
-    }
-
-    .radio-group {
-        margin-top: 12px;
-    }
-
-    .radio-label span {
-        font-size: 14px;
-    }
-
-    .unit-select-group {
-        gap: 16px;
-    }
-
-    .field-description {
-        font-size: 13px;
-        margin-top: 6px;
-    }
-
-    .concept-map {
-        min-height: 250px;
-        margin-top: 12px;
-    }
-}
-
-/* 移动端样式优化 */
-@media screen and (max-width: 768px) {
-    .unit-select-group {
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .radio-group {
-        flex-wrap: wrap;
-        gap: 16px;
-    }
-}
-
-/* 表单验证样式 */
-.form-field input:invalid,
-.form-field select:invalid,
-.form-field textarea:invalid {
-    border-color: #ff4d4f;
-}
-
-.form-field input:invalid:focus,
-.form-field select:invalid:focus,
-.form-field textarea:invalid:focus {
-    border-color: #ff4d4f;
-    box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
-}
-
-/* 必填标记样式 */
-.required {
-    color: #ff4d4f;
-    margin-right: 4px;
-}
-
-/* 表单字段组样式 */
-.form-field-group {
-    margin-bottom: 24px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid #eee;
-}
-
-.form-field-group:last-child {
-    margin-bottom: 0;
-    padding-bottom: 0;
-    border-bottom: none;
-}
-
-/* 预览区样式优化 */
-.preview-container {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-}
-
-.preview-header {
-    padding: 20px;
-    border-bottom: 1px solid #eee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.preview-title {
-    font-size: 16px;
-    font-weight: 600;
-    color: #333;
-}
-
-.preview-content {
-    padding: 24px;
-}
-
-/* 按钮样式优化 */
+/* 按钮样式 */
 .generate-btn {
+    width: 100%;
+    height: 44px;
     background: #1976D2;
     color: white;
     border: none;
     border-radius: 8px;
-    padding: 12px 24px;
     font-size: 16px;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    width: 100%;
-    margin-top: 24px;
 }
 
 .generate-btn:hover {
     background: #1565C0;
 }
 
-.generate-btn:active {
-    transform: scale(0.98);
-}
-
 .generate-btn:disabled {
-    background: #ccc;
+    background: #94a3b8;
     cursor: not-allowed;
 }
 
-/* 保存和清空按钮 */
-.form-actions {
-    display: flex;
-    gap: 16px;
-    margin-top: 24px;
-}
-
-.save-btn,
-.clear-btn {
-    flex: 1;
-    height: 44px;
-    border-radius: 8px;
-    font-size: 16px;
+.edit-btn,
+.download-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.save-btn {
-    background: #1976D2;
-    color: white;
-    border: none;
+.edit-btn {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #475569;
 }
 
-.save-btn:hover {
+.edit-btn:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.download-btn {
+    background: #1976D2;
+    border: none;
+    color: white;
+}
+
+.download-btn:hover {
     background: #1565C0;
 }
 
-.clear-btn {
-    background: white;
-    color: #666;
-    border: 1px solid #ddd;
+/* Markdown 预览样式 */
+.markdown-preview {
+    color: #1e293b;
+    line-height: 1.7;
+    font-size: 16px;
 }
 
-.clear-btn:hover {
-    background: #f5f5f5;
-    border-color: #ccc;
+.markdown-preview h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0 0 24px 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.markdown-preview h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 32px 0 16px 0;
+}
+
+.markdown-preview h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 24px 0 16px 0;
+    color: #334155;
+}
+
+.markdown-preview h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 20px 0 12px 0;
+    color: #475569;
+}
+
+.markdown-preview p {
+    margin: 16px 0;
+    color: #475569;
+}
+
+.markdown-preview ul,
+.markdown-preview ol {
+    margin: 16px 0;
+    padding-left: 24px;
+}
+
+.markdown-preview li {
+    margin: 8px 0;
+    color: #475569;
+}
+
+.markdown-preview code {
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 14px;
+    color: #475569;
+}
+
+.markdown-preview pre {
+    background: #f8fafc;
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 16px 0;
+}
+
+.markdown-preview blockquote {
+    margin: 16px 0;
+    padding: 0 16px;
+    color: #64748b;
+    border-left: 4px solid #e2e8f0;
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 768px) {
+    .form-section {
+        padding: 16px;
+    }
+    
+    .unit-select-group {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .radio-group {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+    
+    .markdown-preview {
+        font-size: 14px;
+    }
+    
+    .markdown-preview h1 {
+        font-size: 24px;
+    }
+    
+    .markdown-preview h2 {
+        font-size: 20px;
+    }
+    
+    .markdown-preview h3 {
+        font-size: 18px;
+    }
+    
+    .markdown-preview h4 {
+        font-size: 16px;
+    }
 } 

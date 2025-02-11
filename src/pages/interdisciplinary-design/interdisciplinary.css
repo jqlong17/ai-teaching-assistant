@@ -111,24 +111,24 @@
 
 /* 表单分段 */
 .form-section {
-    margin-bottom: 32px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid #eee;
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .form-section:last-child {
-    border-bottom: none;
     margin-bottom: 0;
-    padding-bottom: 0;
 }
 
 .form-section-title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
-    color: #333;
+    color: #1e293b;
     margin-bottom: 20px;
-    padding-left: 12px;
-    border-left: 4px solid #4F46E5;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
 }
 
 /* 表单字段 */
@@ -156,62 +156,45 @@
 /* 输入框样式 */
 .form-field input[type="text"],
 .form-field input[type="number"],
-.form-field textarea,
-.form-field select {
+.form-field select,
+.form-field textarea {
     width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #d1d5db;
+    padding: 12px;
+    border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 14px;
-    color: #1f2937;
+    color: #333;
     background: #fff;
     transition: all 0.3s ease;
 }
 
-.form-field input[type="text"]:focus,
-.form-field input[type="number"]:focus,
-.form-field textarea:focus,
-.form-field select:focus {
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
     outline: none;
     border-color: #4F46E5;
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+}
+
+.form-field input:disabled,
+.form-field select:disabled,
+.form-field textarea:disabled {
+    background: #f5f5f5;
+    cursor: not-allowed;
 }
 
 .form-field textarea {
-    min-height: 100px;
     resize: vertical;
-}
-
-/* 单选按钮组 */
-.radio-group {
-    display: flex;
-    gap: 16px;
-}
-
-.radio-label {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-}
-
-.radio-label input[type="radio"] {
-    width: 16px;
-    height: 16px;
+    min-height: 100px;
 }
 
 /* 按钮样式 */
-.form-actions {
-    margin-top: 32px;
-    display: flex;
-    justify-content: center;
-}
-
 .generate-btn {
-    background: linear-gradient(135deg, #4F46E5, #0EA5E9);
+    width: 100%;
+    height: 44px;
+    background: #4F46E5;
     color: white;
     border: none;
-    padding: 12px 32px;
     border-radius: 8px;
     font-size: 16px;
     font-weight: 500;
@@ -220,15 +203,42 @@
 }
 
 .generate-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+    background: #4338ca;
 }
 
 .generate-btn:disabled {
-    background: #9ca3af;
+    background: #94a3b8;
     cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
+}
+
+.edit-btn,
+.download-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.edit-btn {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+}
+
+.edit-btn:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.download-btn {
+    background: #4F46E5;
+    border: none;
+    color: white;
+}
+
+.download-btn:hover {
+    background: #4338ca;
 }
 
 /* 预览区域 */
@@ -268,21 +278,111 @@
     transition: all 0.2s ease;
 }
 
-.edit-btn {
-    background: #f3f4f6;
-    border: 1px solid #d1d5db;
-    color: #374151;
-}
-
-.download-btn {
-    background: #4F46E5;
-    border: 1px solid #4338ca;
-    color: white;
-}
-
 .preview-content {
     padding: 24px;
     font-size: 14px;
     line-height: 1.6;
     color: #374151;
+}
+
+/* Markdown 预览样式 */
+.markdown-preview {
+    color: #1e293b;
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+.markdown-preview h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0 0 24px 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.markdown-preview h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 32px 0 16px 0;
+}
+
+.markdown-preview h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 24px 0 16px 0;
+    color: #334155;
+}
+
+.markdown-preview h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 20px 0 12px 0;
+    color: #475569;
+}
+
+.markdown-preview p {
+    margin: 16px 0;
+    color: #475569;
+}
+
+.markdown-preview ul,
+.markdown-preview ol {
+    margin: 16px 0;
+    padding-left: 24px;
+}
+
+.markdown-preview li {
+    margin: 8px 0;
+    color: #475569;
+}
+
+.markdown-preview code {
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 14px;
+    color: #475569;
+}
+
+.markdown-preview pre {
+    background: #f8fafc;
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 16px 0;
+}
+
+.markdown-preview blockquote {
+    margin: 16px 0;
+    padding: 0 16px;
+    color: #64748b;
+    border-left: 4px solid #e2e8f0;
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 768px) {
+    .form-section {
+        padding: 16px;
+    }
+    
+    .markdown-preview {
+        font-size: 14px;
+    }
+    
+    .markdown-preview h1 {
+        font-size: 24px;
+    }
+    
+    .markdown-preview h2 {
+        font-size: 20px;
+    }
+    
+    .markdown-preview h3 {
+        font-size: 18px;
+    }
+    
+    .markdown-preview h4 {
+        font-size: 16px;
+    }
 } 
