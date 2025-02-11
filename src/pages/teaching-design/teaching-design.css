@@ -1,32 +1,27 @@
 /* 教学设计页面样式 */
 .design-header {
-    padding: 16px;
-    background: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    background: linear-gradient(135deg, #4F46E5, #0EA5E9);
+    color: #fff;
+    position: relative;
     display: flex;
     align-items: center;
-    position: sticky;
-    top: 0;
+    gap: 16px;
     z-index: 10;
 }
 
 .design-header .back-button {
     font-size: 20px;
-    color: #333;
     cursor: pointer;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 12px;
+    padding: 8px;
+    color: #fff;
 }
 
 .design-header h1 {
-    font-size: 18px;
-    color: #333;
+    font-size: 24px;
     margin: 0;
     font-weight: 600;
+    color: #fff;
 }
 
 .design-content {
@@ -304,7 +299,7 @@
 @media screen and (min-width: 1024px) {
     .design-container {
         display: flex;
-        height: calc(100vh - 64px);
+        height: calc(100vh - 72px);
         padding: 20px;
         gap: 20px;
         background: #f5f7fa;
@@ -328,14 +323,7 @@
     }
 
     .design-header {
-        height: 64px;
-        padding: 0 40px;
-        background: white;
-        border-bottom: 1px solid #eee;
-    }
-
-    .design-header h1 {
-        font-size: 20px;
+        height: 72px;
     }
 
     .form-section {

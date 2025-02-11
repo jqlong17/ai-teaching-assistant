@@ -61,11 +61,11 @@ class ImmersiveChat {
             <div class="immersive-header">
                 <div class="header-content">
                     <div class="back-button">←</div>
-                    <div class="expert-name">${this.expert.name}</div>
+                    <div class="expert-name">返回</div>
                 </div>
-                <button class="mode-switch-btn">
-                    <span class="icon">💡</span>
-                    切换布局
+                <button class="mode-switch-btn immersive">
+                    <span class="icon">⇆</span>
+                    <span class="text">传统对话</span>
                 </button>
             </div>
             
@@ -113,6 +113,21 @@ class ImmersiveChat {
         // 返回按钮事件
         backButton.addEventListener('click', () => {
             window.chat.renderExpertList();
+        });
+        
+        // 切换布局模式
+        modeSwitch.addEventListener('click', () => {
+            const isSplitMode = modeSwitch.classList.contains('split');
+            if (isSplitMode) {
+                modeSwitch.classList.remove('split');
+                modeSwitch.classList.add('immersive');
+                modeSwitch.querySelector('.text').textContent = '传统对话';
+            } else {
+                modeSwitch.classList.remove('immersive');
+                modeSwitch.classList.add('split');
+                modeSwitch.querySelector('.text').textContent = '沉浸模式';
+            }
+            window.chat.switchChatMode();
         });
         
         // 语音对话按钮事件
@@ -177,11 +192,6 @@ class ImmersiveChat {
                 this.handleUserInput(text);
                 textInput.value = '';
             }
-        });
-        
-        // 切换布局模式
-        modeSwitch.addEventListener('click', () => {
-            window.chat.switchChatMode();
         });
     }
 

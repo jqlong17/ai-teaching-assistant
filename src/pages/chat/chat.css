@@ -471,125 +471,81 @@
     border: 1px solid #eee;
 }
 
-/* 输入区域样式优化 */
+/* 输入区域样式 */
 .chat-input-area {
     position: relative;
-    padding: 12px 16px;
-    background: #fff;
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-    z-index: 100;
+    bottom: 0;
+    padding: 20px;
+    background: white;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .chat-input-wrapper {
     max-width: 800px;
     margin: 0 auto;
-    background: #f8fafc;
-    border-radius: 24px;
-    padding: 6px;
     display: flex;
-    align-items: center;
-    gap: 8px;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-}
-
-.chat-input-wrapper:focus-within {
-    background: #fff;
-    border-color: #4a90e2;
-    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.1);
-}
-
-.input-mode-switch {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    background: none;
-    color: #666;
-    font-size: 18px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    margin-left: 4px;
-}
-
-.input-mode-switch:hover {
-    background: rgba(0, 0, 0, 0.05);
-    color: #4a90e2;
+    gap: 12px;
+    align-items: flex-end;
 }
 
 .chat-input {
     flex: 1;
-    border: none;
-    background: transparent;
-    font-size: 15px;
-    line-height: 1.5;
-    padding: 8px 12px;
-    min-height: 36px;
+    min-height: 44px;
     max-height: 120px;
+    padding: 12px 16px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.5;
     resize: none;
+    background: white;
+    transition: all 0.3s ease;
 }
 
 .chat-input:focus {
     outline: none;
-}
-
-.voice-input-button {
-    background: linear-gradient(135deg, #4a90e2, #357abd);
-    color: white;
-    border: none;
-    height: 36px;
-    padding: 0 24px;
-    border-radius: 18px;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-}
-
-.voice-input-button:hover {
-    background: linear-gradient(135deg, #357abd, #2d6da3);
-    transform: translateY(-1px);
-}
-
-.voice-input-button.recording {
-    background: #f44336;
-    animation: pulse 1.5s infinite;
+    border-color: #1976D2;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.1);
 }
 
 .send-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    background: #4a90e2;
+    width: 80px;
+    height: 44px;
+    background: #1976D2;
     color: white;
-    font-size: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    margin-right: 4px;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .send-btn:hover {
-    background: #357abd;
-    transform: translateY(-1px);
+    background: #1565C0;
 }
 
-.send-btn:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-    transform: none;
+.send-btn:active {
+    transform: scale(0.98);
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 768px) {
+    .chat-input-area {
+        padding: 16px;
+    }
+    
+    .chat-input-wrapper {
+        gap: 8px;
+    }
+    
+    .chat-input {
+        font-size: 14px;
+    }
+    
+    .send-btn {
+        width: 64px;
+        font-size: 14px;
+    }
 }
 
 /* 语音状态提示位置调整 */

@@ -260,24 +260,19 @@ function enterChatRoom(expert) {
             <header class="chat-header">
                 <div class="back-button">←</div>
                 <div class="expert-chat-info">
-                    <div class="expert-chat-name">${expert.name}</div>
+                    <div class="expert-chat-name">返回</div>
                 </div>
                 <button class="mode-switch-btn" onclick="window.chat.switchChatMode()">
-                    切换模式
+                    沉浸模式
                 </button>
             </header>
             <div class="chat-content">
                 <div class="message-list"></div>
             </div>
             <div class="chat-input-area">
-                <div class="chat-input-wrapper voice-mode">
-                    <button class="input-mode-switch" title="切换输入模式">🎤</button>
+                <div class="chat-input-wrapper">
                     <textarea class="chat-input" placeholder="输入你的问题..." rows="1"></textarea>
-                    <button class="voice-input-button">
-                        按住说话
-                    </button>
                     <button class="send-btn">发送</button>
-                    <div class="voice-status">按住说话</div>
                 </div>
             </div>
         </div>
@@ -296,28 +291,8 @@ function enterChatRoom(expert) {
 // 绑定对话界面事件
 function bindChatEvents() {
     const backButton = document.querySelector('.back-button');
-    const inputModeSwitch = document.querySelector('.input-mode-switch');
     const input = document.querySelector('.chat-input');
-    const voiceButton = document.querySelector('.voice-input-button');
     const sendButton = document.querySelector('.send-btn');
-    const voiceStatus = document.querySelector('.voice-status');
-    const inputWrapper = document.querySelector('.chat-input-wrapper');
-    
-    // 切换输入模式
-    inputModeSwitch.addEventListener('click', () => {
-        const isVoiceMode = inputWrapper.classList.contains('voice-mode');
-        if (isVoiceMode) {
-            inputWrapper.classList.remove('voice-mode');
-            inputWrapper.classList.add('text-mode');
-            inputModeSwitch.textContent = '⌨️';
-            voiceStatus.classList.remove('show');
-        } else {
-            inputWrapper.classList.remove('text-mode');
-            inputWrapper.classList.add('voice-mode');
-            inputModeSwitch.textContent = '🎤';
-            input.value = '';
-        }
-    });
     
     // 发送按钮点击事件
     sendButton.addEventListener('click', () => {
@@ -343,99 +318,9 @@ function bindChatEvents() {
         input.style.height = input.scrollHeight + 'px';
     });
     
-    // 初始化语音识别
-    if ('webkitSpeechRecognition' in window) {
-        chatState.recognition = new webkitSpeechRecognition();
-        chatState.recognition.continuous = false;
-        chatState.recognition.interimResults = true;
-        chatState.recognition.lang = 'zh-CN';
-        
-        chatState.recognition.onstart = () => {
-            chatState.isRecording = true;
-            voiceButton.classList.add('recording');
-            voiceButton.textContent = '松开结束';
-            voiceStatus.textContent = '正在聆听...';
-            voiceStatus.classList.add('show');
-        };
-        
-        chatState.recognition.onend = () => {
-            chatState.isRecording = false;
-            voiceButton.classList.remove('recording');
-            voiceButton.textContent = '按住说话';
-            voiceStatus.classList.remove('show');
-        };
-        
-        chatState.recognition.onresult = (event) => {
-            const transcript = Array.from(event.results)
-                .map(result => result[0].transcript)
-                .join('');
-            
-            if (event.results[0].isFinal) {
-                handleUserMessage(transcript);
-            }
-        };
-        
-        chatState.recognition.onerror = (event) => {
-            console.error('语音识别错误:', event.error);
-            voiceStatus.textContent = '未能识别语音，请重试';
-            voiceStatus.classList.add('show');
-            setTimeout(() => {
-                voiceStatus.classList.remove('show');
-            }, 2000);
-        };
-    }
-    
     // 返回按钮
     backButton.addEventListener('click', () => {
         renderExpertList();
-    });
-    
-    // 语音输入按钮事件
-    let touchStartTime;
-    
-    const startRecording = () => {
-        if (!chatState.recognition) {
-            showToast('您的浏览器不支持语音识别功能');
-            return;
-        }
-        
-        touchStartTime = Date.now();
-        if (!chatState.isRecording) {
-            chatState.recognition.start();
-        }
-    };
-    
-    const stopRecording = () => {
-        const touchDuration = Date.now() - touchStartTime;
-        
-        if (touchDuration < 500) {
-            chatState.recognition.stop();
-            voiceStatus.textContent = '说话时间太短了';
-            voiceStatus.classList.add('show');
-            setTimeout(() => {
-                voiceStatus.classList.remove('show');
-            }, 1500);
-            return;
-        }
-        
-        if (chatState.isRecording) {
-            chatState.recognition.stop();
-        }
-    };
-    
-    // 支持鼠标和触摸事件
-    voiceButton.addEventListener('mousedown', startRecording);
-    voiceButton.addEventListener('mouseup', stopRecording);
-    voiceButton.addEventListener('mouseleave', stopRecording);
-    
-    voiceButton.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        startRecording();
-    });
-    
-    voiceButton.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        stopRecording();
     });
 }
 

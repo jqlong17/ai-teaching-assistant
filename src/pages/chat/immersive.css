@@ -5,20 +5,23 @@
     height: 100vh;
     background: linear-gradient(180deg, #f5f7fa 0%, #ffffff 100%);
     position: relative;
+    padding-top: 72px; /* 为头部预留固定高度 */
 }
 
 /* 顶部操作区 */
 .immersive-header {
-    position: absolute;
+    position: fixed; /* 改为fixed定位 */
     top: 0;
     left: 0;
     right: 0;
     z-index: 100;
-    padding: 20px;
+    height: 72px; /* 固定高度 */
+    padding: 0 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(135deg, #4a90e2, #63b3ed);
+    background: linear-gradient(135deg, #4F46E5, #0EA5E9);
+    gap: 16px;
 }
 
 .immersive-header .back-button {
@@ -26,7 +29,6 @@
     font-size: 20px;
     cursor: pointer;
     padding: 8px;
-    margin-right: 8px;
     display: flex;
     align-items: center;
 }
@@ -39,8 +41,8 @@
 
 .immersive-header .expert-name {
     color: #fff;
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 24px;
+    font-weight: 600;
     margin: 0;
 }
 
@@ -58,18 +60,32 @@
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
     margin-left: auto;
+    height: 36px;
+}
+
+.mode-switch-btn .icon {
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+.mode-switch-btn.immersive .icon {
+    transform: rotate(0deg);
+}
+
+.mode-switch-btn.split .icon {
+    transform: rotate(180deg);
 }
 
 .mode-switch-btn:hover {
     background: rgba(255, 255, 255, 1);
     transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* 数字人控制按钮组 */
 .digital-human-controls {
     display: flex;
     gap: 12px;
-    margin-top: 24px;
     align-items: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.9);
@@ -79,9 +95,7 @@
     backdrop-filter: blur(10px);
     width: 100%;
     max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 80px;
+    margin: 20px auto; /* 调整间距 */
     box-sizing: border-box;
     position: relative;
     z-index: 10;
@@ -256,14 +270,15 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding: 20px 20px 100px;
+    padding: 20px 20px 120px; /* 增加底部padding，为底部操作区域留出空间 */
+    overflow-y: auto; /* 添加滚动 */
 }
 
 .digital-human-image {
     width: 100%;
-    max-width: 400px;
+    max-width: 360px; /* 稍微调小图片尺寸 */
     height: auto;
-    margin-bottom: 20px;
+    margin: 20px 0; /* 调整上下间距 */
 }
 
 .digital-human-name {
@@ -338,13 +353,14 @@
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 20px;
+    padding: 16px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     border-top: 1px solid rgba(0, 0, 0, 0.1);
+    z-index: 100;
 }
 
 .input-container {
