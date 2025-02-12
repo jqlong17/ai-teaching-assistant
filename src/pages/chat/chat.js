@@ -158,7 +158,7 @@ function renderExpertList() {
             <div class="expert-card" data-id="${expert.id}" style="${style}">
                 <div class="qrcode-hover">
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(expert.qrcode)}" alt="扫码体验">
-                    <p>扫码体验${expert.name}</p>
+                    <p>扫码在移动端体验</p>
                 </div>
                 <div class="expert-avatar">
                     ${expert.avatar.startsWith('./') ? 
