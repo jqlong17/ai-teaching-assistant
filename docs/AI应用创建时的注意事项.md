@@ -10,7 +10,27 @@
 - 注意：确保 feature-id 与 features 数组中定义的 id 一致
 - 注意：确保 feature-route 与路由处理函数中的 case 一致
 
-### b. handleRoute 函数中添加新的路由处理 case：
+### b. features 数组中的路由配置：
+```javascript
+// features 数组中的路径配置必须与 availableFeatures 保持一致
+const features = [
+    {
+        id: 'feature-name',      // 与 availableFeatures 中的 key 一致
+        title: '功能名称',
+        desc: '功能描述',
+        icon: '图标',
+        path: '#/feature-route', // 必须带 # 前缀，与 availableFeatures 中的值一致
+        category: '分类'
+    }
+];
+
+// availableFeatures 对象配置
+const availableFeatures = {
+    'feature-name': '#/feature-route'  // 保持与 features 数组中的 path 一致
+};
+```
+
+### c. handleRoute 函数中添加新的路由处理 case：
 ```javascript
 case '#/feature-route':  // 注意：路径必须带 # 前缀
     console.log('准备渲染XX页面');
@@ -22,6 +42,42 @@ case '#/feature-route':  // 注意：路径必须带 # 前缀
     }
     break;
 ```
+
+### d. 路由配置的关键注意事项：
+1. 路径前缀统一：
+   - features 数组中的 path
+   - availableFeatures 对象中的值
+   - handleRoute 函数中的 case
+   都必须使用 '#/' 作为前缀
+
+2. 常见错误：
+   - features 数组中忘记添加 '#' 前缀
+   - 路径名称在不同位置不一致
+   - 路由处理 case 与路径不匹配
+
+3. 调试检查清单：
+   - [ ] 检查 features 数组中的 path 是否带有 '#' 前缀
+   - [ ] 检查 availableFeatures 中的路径是否与 features 一致
+   - [ ] 检查 handleRoute 中的 case 是否与路径匹配
+   - [ ] 检查路由跳转时的 URL hash 是否正确
+
+4. 实现步骤：
+   ```javascript
+   // 1. 在 features 数组中添加新功能配置
+   {
+       id: 'new-feature',
+       path: '#/new-feature',  // 必须带 # 前缀
+       ...
+   }
+
+   // 2. 在 availableFeatures 中添加路由映射
+   'new-feature': '#/new-feature'  // 与 features 中的 path 保持一致
+
+   // 3. 添加路由处理 case
+   case '#/new-feature':  // 与前两处配置保持一致
+       // 处理逻辑
+       break;
+   ```
 
 ## 2. 新功能的 JavaScript 文件（src/pages/feature-name/feature-name.js）
 
