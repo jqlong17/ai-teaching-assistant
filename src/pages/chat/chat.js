@@ -4,7 +4,7 @@ const experts = [
         id: 'math',
         name: '章建跃',
         avatar: './src/assets/images/experts/数字人示意图.png',
-        qrcode: './src/assets/images/experts/1_1036350563_171_85_3_981752988_439c1f688e4f333d0b5d63c683b232b1.png',
+        qrcode: 'https://ai-teaching-assistant-three.vercel.app/#/',
         description: '著名数学教育专家，教育部基础教育课程教材专家工作委员会委员，国家级教学成果奖获得者。',
         detailedDescription: `
             章建跃教授是我国著名的数学教育专家，从事数学教育研究与实践40余年。他长期致力于中学数学教育理论研究与教学改革实践，在数学教育领域具有重要影响力。
@@ -25,7 +25,7 @@ const experts = [
         id: 'moral',
         name: '李德育',
         avatar: '👩‍🏫',
-        qrcode: './src/assets/images/experts/1_1036350563_171_85_3_981752988_439c1f688e4f333d0b5d63c683b232b1.png',
+        qrcode: 'https://ai-teaching-assistant-three.vercel.app/#/',
         description: '资深德育专家，从事德育教育研究与实践30余年，国家级德育示范课题负责人。',
         detailedDescription: `
             李德育教授专注于青少年品德教育和心理健康教育研究，在班级管理、心理辅导等方面具有丰富经验。她提出的"情境德育"教学模式在全国多所学校推广应用。
@@ -46,7 +46,7 @@ const experts = [
         id: 'physics',
         name: '张物理',
         avatar: '👨‍🔬',
-        qrcode: './src/assets/images/experts/1_1036350563_171_85_3_981752988_439c1f688e4f333d0b5d63c683b232b1.png',
+        qrcode: 'https://ai-teaching-assistant-three.vercel.app/#/',
         description: '国家级物理教学名师，物理教育研究会副会长，擅长物理实验教学设计。',
         detailedDescription: `
             张物理教授是国内知名的物理教育专家，在物理实验教学和科学探究教育方面有独特见解。他开发的多个创新物理实验获得国家专利，并在中学物理教学中广泛应用。
@@ -68,7 +68,7 @@ const experts = [
         id: 'chemistry',
         name: '化学专家',
         avatar: '👩‍🔬',
-        qrcode: './src/assets/images/experts/1_1036350563_171_85_3_981752988_439c1f688e4f333d0b5d63c683b232b1.png',
+        qrcode: 'https://ai-teaching-assistant-three.vercel.app/#/',
         description: '化学实验与教学指导专家',
         achievements: [
             '国家级化学教学名师',
@@ -85,7 +85,7 @@ const experts = [
         id: 'biology',
         name: '生物专家',
         avatar: '🧬',
-        qrcode: './src/assets/images/experts/1_1036350563_171_85_3_981752988_439c1f688e4f333d0b5d63c683b232b1.png',
+        qrcode: 'https://ai-teaching-assistant-three.vercel.app/#/',
         description: '生物教学与实验指导专家',
         achievements: [
             '生物教育研究会会员',
