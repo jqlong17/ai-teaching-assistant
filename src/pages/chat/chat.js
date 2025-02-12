@@ -122,7 +122,7 @@ function renderExpertList() {
     const header = document.createElement('header');
     header.className = 'expert-list-header';
     header.innerHTML = `
-        <h1>AI 教学助手</h1>
+        <h1>专家数字人</h1>
         <p>选择专业的数字人助手，开启智能教学之旅</p>
     `;
     
