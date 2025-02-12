@@ -202,13 +202,20 @@
     transition: all 0.3s ease;
 }
 
-.generate-btn:hover {
+.generate-btn:hover:not(:disabled) {
     background: #4338ca;
 }
 
 .generate-btn:disabled {
     background: #94a3b8;
     cursor: not-allowed;
+}
+
+/* 结果操作按钮 */
+.result-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
 }
 
 .edit-btn,
@@ -360,12 +367,75 @@
     border-left: 4px solid #e2e8f0;
 }
 
-/* 响应式调整 */
-@media screen and (max-width: 768px) {
+/* 移动端样式 */
+@media screen and (max-width: 1023px) {
+    .mobile-tabs {
+        display: flex;
+        background: #fff;
+        border-bottom: 1px solid #e2e8f0;
+        margin: -16px -16px 16px -16px;
+    }
+
+    .mobile-tab-item {
+        flex: 1;
+        text-align: center;
+        padding: 12px;
+        color: #64748b;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+    }
+
+    .mobile-tab-item.active {
+        color: #4F46E5;
+    }
+
+    .mobile-tab-item.active::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #4F46E5;
+    }
+
+    .ai-layout-input,
+    .ai-layout-preview {
+        display: none;
+        height: calc(100vh - 125px);
+        overflow-y: auto;
+    }
+
+    .ai-layout-input.active,
+    .ai-layout-preview.active {
+        display: block;
+    }
+
     .form-section {
         padding: 16px;
     }
-    
+
+    .form-field textarea {
+        min-height: 80px;
+    }
+
+    .generate-btn {
+        height: 40px;
+        font-size: 15px;
+    }
+
+    .result-actions {
+        padding: 12px;
+    }
+
+    .edit-btn,
+    .download-btn {
+        flex: 1;
+        text-align: center;
+    }
+
     .markdown-preview {
         font-size: 14px;
     }
@@ -384,5 +454,34 @@
     
     .markdown-preview h4 {
         font-size: 16px;
+    }
+}
+
+/* Web端样式 */
+@media screen and (min-width: 1024px) {
+    .mobile-tabs {
+        display: none;
+    }
+
+    .ai-layout-input,
+    .ai-layout-preview {
+        display: block;
+    }
+
+    .ai-layout-input {
+        padding-right: 12px;
+    }
+
+    .ai-layout-preview {
+        padding-left: 12px;
+    }
+
+    .form-actions {
+        position: sticky;
+        bottom: 0;
+        background: #fff;
+        padding: 16px 0;
+        margin-top: 16px;
+        border-top: 1px solid #eee;
     }
 } 

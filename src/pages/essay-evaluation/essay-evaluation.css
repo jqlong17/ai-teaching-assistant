@@ -102,10 +102,12 @@
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
+    background: white;
 }
 
 .preset-label:hover {
     background: #f8fafc;
+    border-color: #4F46E5;
 }
 
 .preset-label input[type="radio"] {
@@ -120,11 +122,11 @@
 }
 
 .preset-desc {
-    font-size: 13px;
+    font-size: 14px;
     color: #64748b;
 }
 
-/* 评价按钮 */
+/* 操作按钮 */
 .action-section {
     margin-top: 24px;
 }
@@ -162,76 +164,161 @@
 }
 
 .loading-dots span {
-    width: 6px;
-    height: 6px;
-    background: currentColor;
+    width: 4px;
+    height: 4px;
+    background: white;
     border-radius: 50%;
-    display: inline-block;
-    animation: bounce 1.4s infinite ease-in-out both;
-}
-
-.loading-dots span:nth-child(1) {
-    animation-delay: -0.32s;
+    animation: loading 1s infinite;
 }
 
 .loading-dots span:nth-child(2) {
-    animation-delay: -0.16s;
+    animation-delay: 0.2s;
 }
 
-@keyframes bounce {
-    0%, 80%, 100% { 
-        transform: scale(0);
-    } 
-    40% { 
-        transform: scale(1.0);
+.loading-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes loading {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-6px);
     }
 }
 
-/* 提示消息 */
-.toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
+/* 结果操作按钮 */
+.result-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.copy-btn,
+.download-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
     font-size: 14px;
-    z-index: 1000;
-    animation: fadeInUp 0.3s ease;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translate(-50%, 20px);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, 0);
-    }
+.copy-btn {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #475569;
 }
 
-/* 响应式调整 */
-@media screen and (max-width: 768px) {
+.copy-btn:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.download-btn {
+    background: #4F46E5;
+    border: none;
+    color: white;
+}
+
+.download-btn:hover {
+    background: #4338ca;
+}
+
+/* 移动端样式 */
+@media screen and (max-width: 1023px) {
+    .mobile-tabs {
+        display: flex;
+        background: #fff;
+        border-bottom: 1px solid #e2e8f0;
+        margin: -16px -16px 16px -16px;
+    }
+
+    .mobile-tab-item {
+        flex: 1;
+        text-align: center;
+        padding: 12px;
+        color: #64748b;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+    }
+
+    .mobile-tab-item.active {
+        color: #4F46E5;
+    }
+
+    .mobile-tab-item.active::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #4F46E5;
+    }
+
+    .ai-layout-input,
+    .ai-layout-preview {
+        display: none;
+        height: calc(100vh - 125px);
+        overflow-y: auto;
+    }
+
+    .ai-layout-input.active,
+    .ai-layout-preview.active {
+        display: block;
+    }
+
     .upload-area {
         padding: 24px;
     }
-    
-    .upload-icon {
-        font-size: 36px;
-    }
-    
+
     .preset-label {
         padding: 10px;
     }
-    
+
     .preset-text {
         font-size: 14px;
     }
-    
+
     .preset-desc {
         font-size: 12px;
+    }
+
+    .evaluate-btn {
+        height: 40px;
+        font-size: 15px;
+    }
+
+    .result-actions {
+        padding: 12px;
+    }
+
+    .copy-btn,
+    .download-btn {
+        flex: 1;
+        text-align: center;
+    }
+}
+
+/* Web端样式 */
+@media screen and (min-width: 1024px) {
+    .mobile-tabs {
+        display: none;
+    }
+
+    .ai-layout-input,
+    .ai-layout-preview {
+        display: block;
+    }
+
+    .ai-layout-input {
+        padding-right: 12px;
+    }
+
+    .ai-layout-preview {
+        padding-left: 12px;
     }
 } 

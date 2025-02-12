@@ -167,7 +167,13 @@
                 <h1>数学项目式学习设计</h1>
             </div>
             <div class="ai-layout-content">
-                <div class="ai-layout-input">
+                <!-- 移动端tab切换 -->
+                <div class="mobile-tabs">
+                    <div class="mobile-tab-item active" data-tab="input">配置</div>
+                    <div class="mobile-tab-item" data-tab="preview">预览</div>
+                </div>
+
+                <div class="ai-layout-input active">
                     <form class="project-form" id="projectForm">
                         ${Object.entries(formConfig).map(([sectionKey, section]) => `
                             <div class="form-section" data-section="${sectionKey}">
@@ -212,6 +218,30 @@
 
     // 绑定事件
     function bindProjectEvents() {
+        // 绑定移动端tab切换事件
+        const mobileTabs = document.querySelectorAll('.mobile-tab-item');
+        const inputSection = document.querySelector('.ai-layout-input');
+        const previewSection = document.querySelector('.ai-layout-preview');
+
+        mobileTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.dataset.tab;
+                
+                // 更新tab状态
+                mobileTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // 更新内容显示
+                if (targetTab === 'input') {
+                    inputSection.classList.add('active');
+                    previewSection.classList.remove('active');
+                } else {
+                    inputSection.classList.remove('active');
+                    previewSection.classList.add('active');
+                }
+            });
+        });
+
         const backButton = document.querySelector('.back-button');
         const generateBtn = document.querySelector('.generate-btn');
         const form = document.getElementById('projectForm');
@@ -289,9 +319,10 @@ ${data.technicalSupport}
                 emptyPreview.style.display = 'none';
                 resultActions.style.display = 'flex';
                 
-                // 在移动端时滚动到结果区域
+                // 在移动端时切换到预览tab
                 if (window.innerWidth < 1024) {
-                    markdownPreview.scrollIntoView({ behavior: 'smooth' });
+                    const previewTab = document.querySelector('.mobile-tab-item[data-tab="preview"]');
+                    previewTab.click();
                 }
                 
             } catch (error) {
@@ -306,9 +337,8 @@ ${data.technicalSupport}
         // 修改按钮
         editBtn.addEventListener('click', () => {
             if (window.innerWidth < 1024) {
-                markdownPreview.style.display = 'none';
-                emptyPreview.style.display = 'block';
-                resultActions.style.display = 'none';
+                const inputTab = document.querySelector('.mobile-tab-item[data-tab="input"]');
+                inputTab.click();
             }
         });
         

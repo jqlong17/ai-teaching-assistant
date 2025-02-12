@@ -57,6 +57,50 @@
     display: none; /* 移动端默认隐藏 */
 }
 
+/* 移动端tab样式 */
+@media screen and (max-width: 1023px) {
+    .ai-layout-content {
+        flex-direction: column;
+        height: calc(100vh - 125px);
+        overflow: hidden;
+    }
+
+    .mobile-tabs {
+        display: flex;
+        background: #fff;
+        border-bottom: 1px solid #e2e8f0;
+        margin: -16px -16px 16px -16px;
+    }
+
+    .mobile-tab-item {
+        flex: 1;
+        text-align: center;
+        padding: 12px;
+        color: #64748b;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .mobile-tab-item.active {
+        color: #4F46E5;
+        border-bottom: 2px solid #4F46E5;
+    }
+
+    .ai-layout-input,
+    .ai-layout-preview {
+        display: none;
+        width: 100%;
+        height: calc(100vh - 125px);
+        overflow-y: auto;
+    }
+
+    .ai-layout-input.active,
+    .ai-layout-preview.active {
+        display: block;
+    }
+}
+
 /* Web端布局样式 */
 @media screen and (min-width: 1024px) {
     /* 内容区域转为左右布局 */

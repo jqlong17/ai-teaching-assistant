@@ -16,7 +16,13 @@ class PptGenerator {
             </div>
             
             <div class="ai-layout-content">
-                <div class="ai-layout-input">
+                <!-- 移动端tab切换 -->
+                <div class="mobile-tabs">
+                    <div class="mobile-tab-item active" data-tab="input">配置</div>
+                    <div class="mobile-tab-item" data-tab="preview">预览</div>
+                </div>
+
+                <div class="ai-layout-input active">
                     <div class="upload-section">
                         <div class="upload-area" id="uploadArea">
                             <input type="file" id="fileInput" accept=".pdf,.ppt,.pptx,.doc,.docx" hidden>
@@ -111,6 +117,30 @@ class PptGenerator {
         const generateBtn = document.querySelector('.generate-btn');
         const backButton = document.querySelector('.back-button');
         const downloadBtn = document.querySelector('.download-btn');
+
+        // 绑定移动端tab切换事件
+        const mobileTabs = document.querySelectorAll('.mobile-tab-item');
+        const inputSection = document.querySelector('.ai-layout-input');
+        const previewSection = document.querySelector('.ai-layout-preview');
+
+        mobileTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.dataset.tab;
+                
+                // 更新tab状态
+                mobileTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // 更新内容显示
+                if (targetTab === 'input') {
+                    inputSection.classList.add('active');
+                    previewSection.classList.remove('active');
+                } else {
+                    inputSection.classList.remove('active');
+                    previewSection.classList.add('active');
+                }
+            });
+        });
 
         // 上传区域点击事件
         uploadArea.addEventListener('click', () => {

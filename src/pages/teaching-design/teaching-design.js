@@ -228,6 +228,9 @@ function renderTeachingDesign() {
     
     // 初始化单元选择
     initUnitSelect();
+
+    // 初始化移动端tabs
+    new MobileTabs();
 }
 
 // 渲染表单字段

@@ -15,7 +15,13 @@ class EssayEvaluation {
             </div>
             
             <div class="ai-layout-content">
-                <div class="ai-layout-input">
+                <!-- 移动端tab切换 -->
+                <div class="mobile-tabs">
+                    <div class="mobile-tab-item active" data-tab="input">配置</div>
+                    <div class="mobile-tab-item" data-tab="preview">预览</div>
+                </div>
+
+                <div class="ai-layout-input active">
                     <div class="upload-section">
                         <div class="upload-area" id="uploadArea">
                             <input type="file" id="imageInput" accept="image/*" hidden>
@@ -90,15 +96,74 @@ class EssayEvaluation {
     }
 
     bindEvents() {
+        // 绑定移动端tab切换事件
+        const mobileTabs = document.querySelectorAll('.mobile-tab-item');
+        const inputSection = document.querySelector('.ai-layout-input');
+        const previewSection = document.querySelector('.ai-layout-preview');
+
+        mobileTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.dataset.tab;
+                
+                // 更新tab状态
+                mobileTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // 更新内容显示
+                if (targetTab === 'input') {
+                    inputSection.classList.add('active');
+                    previewSection.classList.remove('active');
+                } else {
+                    inputSection.classList.remove('active');
+                    previewSection.classList.add('active');
+                }
+            });
+        });
+
+        // 返回按钮事件
+        const backButton = document.querySelector('.back-button');
+        backButton.addEventListener('click', () => {
+            window.location.hash = '/';
+        });
+
+        // 文件上传相关事件
+        this.bindFileUploadEvents();
+
+        // 评价按钮事件
+        const evaluateBtn = document.querySelector('.evaluate-btn');
+        evaluateBtn.addEventListener('click', () => this.startEvaluation());
+
+        // 复制按钮事件
+        const copyBtn = document.querySelector('.copy-btn');
+        copyBtn.addEventListener('click', () => {
+            const content = document.querySelector('.markdown-preview').textContent;
+            navigator.clipboard.writeText(content)
+                .then(() => this.showToast('评语已复制到剪贴板'))
+                .catch(() => this.showToast('复制失败，请手动复制'));
+        });
+
+        // 下载按钮事件
+        const downloadBtn = document.querySelector('.download-btn');
+        downloadBtn.addEventListener('click', () => {
+            const content = document.querySelector('.markdown-preview').textContent;
+            const blob = new Blob([content], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '作文评价.md';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    }
+
+    bindFileUploadEvents() {
         const uploadArea = document.getElementById('uploadArea');
         const imageInput = document.getElementById('imageInput');
         const fileInfo = document.querySelector('.file-info');
         const fileName = document.querySelector('.file-name');
         const removeFileBtn = document.querySelector('.remove-file');
-        const evaluateBtn = document.querySelector('.evaluate-btn');
-        const backButton = document.querySelector('.back-button');
-        const copyBtn = document.querySelector('.copy-btn');
-        const downloadBtn = document.querySelector('.download-btn');
 
         // 上传区域点击事件
         uploadArea.addEventListener('click', () => {
@@ -139,40 +204,6 @@ class EssayEvaluation {
             uploadArea.style.display = 'flex';
             fileInfo.style.display = 'none';
             this.updateEvaluateButton();
-        });
-
-        // 评价按钮
-        evaluateBtn.addEventListener('click', () => {
-            if (!this.isEvaluating) {
-                this.startEvaluation();
-            }
-        });
-
-        // 返回按钮
-        backButton.addEventListener('click', () => {
-            window.location.hash = '#/';
-        });
-
-        // 复制评语
-        copyBtn.addEventListener('click', () => {
-            const content = document.querySelector('.markdown-preview').textContent;
-            navigator.clipboard.writeText(content)
-                .then(() => this.showToast('评语已复制到剪贴板'))
-                .catch(() => this.showToast('复制失败，请手动复制'));
-        });
-
-        // 下载评语
-        downloadBtn.addEventListener('click', () => {
-            const content = document.querySelector('.markdown-preview').textContent;
-            const blob = new Blob([content], { type: 'text/markdown' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = '作文评语.md';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
         });
     }
 
