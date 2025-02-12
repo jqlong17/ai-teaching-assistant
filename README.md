@@ -1,63 +1,108 @@
-# 云小睿 - AI智能教学助手
+# 云小睿 - AI 智能教学助手
 
-这是一个基于 Web 的智能教学助手系统，旨在为教师提供全方位的教学支持。目前支持数学、德育等多个学科领域的智能对话和教学设计辅助。
+云小睿是一个基于人工智能的智能教学助手平台，旨在为教师提供全方位的教学支持。通过多样化的 AI 功能，帮助教师提高教学效率，实现个性化教学。
 
-🌐 [在线演示](https://jqlong17.github.io/ai-teaching-assistant)
+## 功能特点
 
-## 系统功能
+### 1. 教学设计辅助
+- **单元教学设计**：智能生成完整的数学单元教学设计方案
+- **项目式学习设计**：基于项目式学习理念的数学教学设计助手
+- **跨学科教学设计**：融合多学科知识的数学教学设计方案
+- **PPT 转教案**：上传 PPT 自动转换成完整教案
+- **一键 PPT 制作**：输入文本或上传文件，智能生成精美 PPT
+- **动画对话**：生成角色动画视频，适用于课堂知识导入
 
-### 1. 智能教学应用
-- 📚 教学设计生成：快速生成专业的教学设计方案
-- 🎯 项目式学习指导：个性化的项目学习规划与指导
-- 🔬 数学实验模拟：交互式数学概念可视化体验
-- 📊 数学可视化工具：数学函数与图形可视化
-- 🧩 思维训练题库：针对性的数学思维训练
-- 📖 学习资源推荐：精选数学学习资源与教材
+### 2. 作业评价
+- **语文作文评价**：智能分析作文，提供全面的评价和修改建议
+- **个性化评语**：根据学生特点生成个性化的评语
 
-### 2. 数字人对话系统
-- 多领域专家：数学、德育等多个学科的专业教师
-- 双模式对话：支持普通对话和沉浸式体验
-- 语音交互：实时语音识别，波形动画反馈
-- 上下文理解：保持对话连贯性和专业性
+### 3. 技术特点
+- 响应式设计，完美适配移动端和桌面端
+- 移动端优化的交互体验
+  - 双列卡片布局
+  - Tab 切换式配置界面
+  - 触摸友好的操作方式
+- Web 端保持专业的工作区布局
+  - 左右分栏的编辑预览模式
+  - 多列卡片布局
+  - 丰富的快捷操作
 
-## 技术实现
+## 技术栈
 
-### 前端架构
-- 原生技术栈：JavaScript + CSS3
-- 响应式设计：移动端/桌面端自适应
-- 模块化组织：
-  - `/pages/index`: 应用功能导航
-  - `/pages/chat`: 数字人对话系统
-  - `/pages/teaching-design`: 教学设计生成
-  - `/pages/my`: 个人中心
+- **前端框架**：原生 JavaScript
+- **样式**：CSS3 + 响应式设计
+- **UI 组件**：自定义组件
+- **Markdown 渲染**：marked.js
+- **构建工具**：无构建，原生开发
 
-### 核心特性
-- Web Speech API 实现语音识别
-- CSS Grid + Flex 响应式布局
-- CSS Animation 流畅交互动画
-- 路由系统：Hash 路由实现
+## 浏览器支持
 
-## 快速开始
+- Chrome (推荐)
+- Firefox
+- Safari
+- Edge
 
-1. 克隆仓库
-```bash
-git clone https://github.com/jqlong17/ai-teaching-assistant.git
+## 项目结构
+
+```
+src/
+├── assets/          # 静态资源
+│   ├── css/         # 全局样式
+│   └── js/          # 全局脚本
+├── lib/             # 第三方库
+├── pages/           # 页面组件
+│   ├── index/       # 首页
+│   ├── chat/        # 对话页面
+│   ├── teaching-design/    # 教学设计
+│   ├── project-learning/   # 项目式学习
+│   ├── interdisciplinary-design/  # 跨学科教学
+│   ├── essay-evaluation/   # 作文评价
+│   ├── ppt-to-design/     # PPT转教案
+│   ├── ppt-generator/     # PPT生成
+│   ├── animated-dialogue/ # 动画对话
+│   └── my/         # 个人中心
+└── config.js       # 配置文件
 ```
 
-2. 使用任意 Web 服务器运行项目
+## 开发指南
+
+1. 克隆项目
 ```bash
-# 例如使用 Python 的简单 HTTP 服务器
-python -m http.server 8080
+git clone https://github.com/your-username/ai-teaching-assistant.git
 ```
 
-3. 在浏览器中访问 `http://localhost:8080`
+2. 打开项目
+```bash
+cd ai-teaching-assistant
+```
 
-## 开发计划
-- [ ] 语音合成：支持数字人发音
-- [ ] 优化语音识别准确率
-- [ ] 扩展更多学科专家
-- [ ] 增加教学场景模拟
+3. 使用本地服务器运行项目
+```bash
+# 使用 Python 的 SimpleHTTPServer
+python -m http.server 8000
 
-## 在线体验
+# 或使用 Node.js 的 http-server
+npx http-server
+```
 
-访问 [https://jqlong17.github.io/ai-teaching-assistant](https://jqlong17.github.io/ai-teaching-assistant) 体验完整功能。 
+4. 在浏览器中访问
+```
+http://localhost:8000
+```
+
+## 贡献指南
+
+1. Fork 项目
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 提交 Pull Request
+
+## 许可证
+
+[MIT License](LICENSE)
+
+## 联系我们
+
+- 项目主页：[https://github.com/your-username/ai-teaching-assistant](https://github.com/your-username/ai-teaching-assistant)
+- 问题反馈：[https://github.com/your-username/ai-teaching-assistant/issues](https://github.com/your-username/ai-teaching-assistant/issues) 
