@@ -133,57 +133,37 @@
     border-color: #D1D5DB;
 }
 
-/* 二维码悬浮层 */
+/* 二维码悬浮框样式 */
 .qrcode-hover {
+    display: none;
     position: absolute;
-    top: -160px;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%) scale(0.8);
-    background: rgba(255, 255, 255, 0.98);
+    transform: translate(-50%, -50%);
+    background: #ffffff;
     padding: 16px;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    z-index: 1000;
-    width: 160px;
-}
-
-.expert-card:hover .qrcode-hover {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) scale(1);
-}
-
-.qrcode-hover::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%) rotate(45deg);
-    width: 16px;
-    height: 16px;
-    background: white;
-    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    text-align: center;
 }
 
 .qrcode-hover img {
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: 150px;
+    display: block;
     margin-bottom: 8px;
+    background: #ffffff;
 }
 
 .qrcode-hover p {
-    font-size: 12px;
-    color: #666;
-    text-align: center;
     margin: 0;
-    line-height: 1.4;
-    white-space: nowrap;
+    color: #1e293b;
+    font-size: 14px;
+}
+
+.expert-card:hover .qrcode-hover {
+    display: block;
 }
 
 /* 专家卡片头部 */
