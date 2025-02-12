@@ -9,6 +9,14 @@ const features = [
         category: 'design'
     },
     {
+        id: 'design-polish',
+        title: '教学设计润色',
+        desc: '智能优化和完善现有教学设计方案',
+        icon: '✨',
+        path: '#/design-polish',
+        category: 'design'
+    },
+    {
         id: 'project-learning-design',
         title: '数学项目式学习教学设计',
         desc: '基于项目式学习理念的数学教学设计助手',
@@ -398,13 +406,14 @@ function handleFeatureClick(event) {
     if (feature) {
         // MVP阶段，只有以下功能可用
         const availableFeatures = {
-            'unit-teaching-design': '/unit-teaching-design',
-            'project-learning-design': '/project-learning-design',
-            'interdisciplinary-design': '/interdisciplinary-design',
-            'essay-evaluation': '/essay-evaluation',
-            'ppt-to-plan': '/ppt-to-design',
-            'ppt-generator': '/ppt-generator',
-            'animated-dialogue': '/animated-dialogue'
+            'unit-teaching-design': '#/unit-teaching-design',
+            'design-polish': '#/design-polish',
+            'project-learning-design': '#/project-learning-design',
+            'interdisciplinary-design': '#/interdisciplinary-design',
+            'essay-evaluation': '#/essay-evaluation',
+            'ppt-to-plan': '#/ppt-to-design',
+            'ppt-generator': '#/ppt-generator',
+            'animated-dialogue': '#/animated-dialogue'
         };
 
         if (availableFeatures[feature.id]) {
@@ -796,6 +805,16 @@ function handleRoute(hash) {
                 window.lessonOptimization.render();
             } else {
                 console.error('课程优化建议渲染函数未定义');
+                renderHomePage();
+            }
+            break;
+        case '#/design-polish':
+            console.log('准备渲染教学设计润色页面');
+            container.innerHTML = '';
+            if (window.designPolish && typeof window.designPolish.render === 'function') {
+                window.designPolish.render();
+            } else {
+                console.error('教学设计润色页面渲染函数未定义');
                 renderHomePage();
             }
             break;
