@@ -35,13 +35,6 @@
 - **Markdown 渲染**：marked.js
 - **构建工具**：无构建，原生开发
 
-## 浏览器支持
-
-- Chrome (推荐)
-- Firefox
-- Safari
-- Edge
-
 ## 项目结构
 
 ```
@@ -63,46 +56,3 @@ src/
 │   └── my/         # 个人中心
 └── config.js       # 配置文件
 ```
-
-## 开发指南
-
-1. 克隆项目
-```bash
-git clone https://github.com/your-username/ai-teaching-assistant.git
-```
-
-2. 打开项目
-```bash
-cd ai-teaching-assistant
-```
-
-3. 使用本地服务器运行项目
-```bash
-# 使用 Python 的 SimpleHTTPServer
-python -m http.server 8000
-
-# 或使用 Node.js 的 http-server
-npx http-server
-```
-
-4. 在浏览器中访问
-```
-http://localhost:8000
-```
-
-## 贡献指南
-
-1. Fork 项目
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 提交 Pull Request
-
-## 许可证
-
-[MIT License](LICENSE)
-
-## 联系我们
-
-- 项目主页：[https://github.com/your-username/ai-teaching-assistant](https://github.com/your-username/ai-teaching-assistant)
-- 问题反馈：[https://github.com/your-username/ai-teaching-assistant/issues](https://github.com/your-username/ai-teaching-assistant/issues) 
