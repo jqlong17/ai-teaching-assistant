@@ -47,155 +47,160 @@ const historyData = [
     }
 ];
 
-// 渲染我的页面
-function renderMyPage() {
-    console.log('开始渲染我的页面');
-    const container = document.getElementById('page-container');
-    
-    if (!container) {
-        console.error('找不到页面容器元素');
-        return;
+class My {
+    constructor() {
+        this.container = null;
+        this.isLoggedIn = false;
+        this.userInfo = null;
     }
-    
-    try {
-        // 构建页面内容
-        const content = `
-            <!-- 页面头部 -->
+
+    async init() {
+        this.container = document.createElement('div');
+        this.container.className = 'my-container';
+        
+        // 检查登录状态
+        this.isLoggedIn = !!localStorage.getItem('token');
+        
+        await this.renderView();
+        return this.container;
+    }
+
+    async renderView() {
+        if (this.isLoggedIn) {
+            this.container.innerHTML = this.getLoggedInTemplate();
+        } else {
+            this.container.innerHTML = this.getLoginTemplate();
+        }
+        this.bindEvents();
+    }
+
+    getLoginTemplate() {
+        return `
             <div class="my-header">
                 <h1>我的</h1>
             </div>
-            
-            <div class="my-wrapper">
-                <div class="my-container">
-                    <!-- 用户信息卡片 -->
-                    <div class="user-card">
-                        <div class="user-avatar">
-                            ${userInfo.avatar}
-                        </div>
-                        <div class="user-info">
-                            <div class="user-name">${userInfo.name}</div>
-                            <div class="user-meta">${userInfo.grade} ${userInfo.subject}教师</div>
-                        </div>
+            <div class="my-content">
+                <div class="login-prompt">
+                    <div class="avatar-placeholder">
+                        <i class="icon-user">👤</i>
                     </div>
-                    
-                    <!-- 功能列表 -->
-                    <h2 class="section-title">基本信息</h2>
-                    <div class="feature-list">
-                        ${myFeatures.map(feature => `
-                            <div class="feature-item" data-id="${feature.id}">
-                                <div class="feature-icon">${feature.icon}</div>
-                                <div class="feature-title">${feature.title}</div>
-                                <div class="feature-value">${feature.value}</div>
-                                <div class="feature-arrow">›</div>
-                            </div>
-                        `).join('')}
-                    </div>
-                    
-                    <!-- 历史对话 -->
-                    <h2 class="section-title">历史对话</h2>
-                    <div class="history-list">
-                        ${historyData.map(item => `
-                            <div class="history-item" data-id="${item.id}">
-                                <div class="history-content">
-                                    <div class="history-title">${item.title}</div>
-                                    <div class="history-meta">
-                                        <span class="history-expert">${item.expert}</span>
-                                        <span class="history-time">${item.time}</span>
-                                        <span class="history-length">${item.messageCount}条对话</span>
-                                    </div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
+                    <p class="login-text">登录后体验更多功能</p>
+                    <button class="login-btn" onclick="window.location.hash='#/auth'">立即登录</button>
                 </div>
             </div>
         `;
-        
-        // 更新容器内容
-        container.innerHTML = content;
-        console.log('页面内容渲染完成');
-        
-        // 确保 DOM 已更新后再绑定事件
-        setTimeout(() => {
-            try {
-                bindMyPageEvents();
-                console.log('事件绑定完成');
-            } catch (error) {
-                console.error('绑定事件失败:', error);
-            }
-        }, 0);
-        
-    } catch (error) {
-        console.error('渲染我的页面出错:', error);
-        container.innerHTML = '<div class="error">页面加载失败，请刷新重试</div>';
+    }
+
+    getLoggedInTemplate() {
+        return `
+            <div class="my-header">
+                <h1>我的</h1>
+            </div>
+            <div class="my-content">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <img src="./src/assets/images/experts/数字人示意图.png" alt="用户头像">
+                    </div>
+                    <div class="user-details">
+                        <h2>张老师</h2>
+                        <p>七年级 数学教师</p>
+                    </div>
+                </div>
+
+                <div class="section-title">基本信息</div>
+                <div class="info-list">
+                    <div class="info-item">
+                        <span class="info-label">📚 我的学科</span>
+                        <span class="info-value">数学</span>
+                        <span class="arrow">></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">🎓 我的年级</span>
+                        <span class="info-value">七年级</span>
+                        <span class="arrow">></span>
+                    </div>
+                </div>
+
+                <div class="section-title">历史对话</div>
+                <div class="chat-history">
+                    <div class="chat-item">
+                        <div class="chat-info">
+                            <span class="chat-title">如何讲解二次函数</span>
+                            <div class="chat-meta">
+                                <span class="chat-tag">数学专家</span>
+                                <span class="chat-time">2024-03-20</span>
+                                <span class="chat-count">8条对话</span>
+                            </div>
+                        </div>
+                        <span class="arrow">></span>
+                    </div>
+                    <div class="chat-item">
+                        <div class="chat-info">
+                            <span class="chat-title">平行线的判定方法</span>
+                            <div class="chat-meta">
+                                <span class="chat-tag">数学专家</span>
+                                <span class="chat-time">2024-03-19</span>
+                                <span class="chat-count">6条对话</span>
+                            </div>
+                        </div>
+                        <span class="arrow">></span>
+                    </div>
+                    <div class="chat-item">
+                        <div class="chat-info">
+                            <span class="chat-title">圆的面积公式推导</span>
+                            <div class="chat-meta">
+                                <span class="chat-tag">数学专家</span>
+                                <span class="chat-time">2024-03-18</span>
+                                <span class="chat-count">10条对话</span>
+                            </div>
+                        </div>
+                        <span class="arrow">></span>
+                    </div>
+                </div>
+
+                <button class="logout-btn" id="logoutBtn">退出登录</button>
+            </div>
+        `;
+    }
+
+    bindEvents() {
+        const logoutBtn = this.container.querySelector('#logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                localStorage.removeItem('token');
+                window.location.reload();
+            });
+        }
     }
 }
 
-// 绑定我的页面事件
-function bindMyPageEvents() {
-    try {
-        console.log('开始绑定我的页面事件');
-        
-        // 功能项点击
-        const featureItems = document.querySelectorAll('.feature-item');
-        if (featureItems) {
-            featureItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    const id = item.dataset.id;
-                    showToast(`${id}功能正在开发中...`);
-                });
-            });
-        }
-        
-        // 历史对话点击
-        const historyItems = document.querySelectorAll('.history-item');
-        if (historyItems) {
-            historyItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    const id = item.dataset.id;
-                    // TODO: 跳转到对话详情页
-                    location.hash = `/chat?history=${id}`;
-                });
-            });
-        }
-        
-        console.log('我的页面事件绑定完成');
-    } catch (error) {
-        console.error('绑定我的页面事件出错:', error);
-    }
-}
-
-// 显示提示信息
-function showToast(message) {
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    
-    setTimeout(() => {
-        toast.remove();
-    }, 2000);
-}
-
-// 修改导出方式
+// 创建全局对象
 window.my = {
-    render: () => {
-        renderMyPage();
+    render: function() {
+        console.log('开始渲染我的页面');
+        const container = document.getElementById('page-container');
+        if (!container) {
+            console.error('找不到页面容器元素');
+            return;
+        }
+        
+        // 清空容器
+        container.innerHTML = '';
+        
+        // 初始化页面
+        const page = new My();
+        page.init().then(content => {
+            container.appendChild(content);
+            console.log('我的页面初始化完成');
+        }).catch(error => {
+            console.error('初始化失败:', error);
+            container.innerHTML = '<div class="error-message">页面加载失败，请刷新重试</div>';
+        });
     }
 };
 
-// 页面加载时初始化
-window.addEventListener('load', () => {
-    console.log('我的页面加载');
-    const hash = location.hash.slice(1);
-    if (hash === '/my') {
-        window.my.render();
-    }
-});
-
-// 路由变化时初始化
-window.addEventListener('hashchange', () => {
-    console.log('我的页面路由变化');
+// 路由处理
+window.addEventListener('DOMContentLoaded', () => {
     const hash = location.hash.slice(1);
     if (hash === '/my') {
         window.my.render();

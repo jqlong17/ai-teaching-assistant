@@ -451,6 +451,15 @@ function showToast(message) {
 window.addEventListener('load', () => {
     console.log('页面加载，初始化路由');
     const hash = location.hash || '#/';
+    
+    // 检查登录状态
+    const token = localStorage.getItem('token');
+    if (token && hash === '#/') {
+        // 如果已登录且在首页，自动跳转到我的页面
+        window.location.hash = '/my';
+        return;
+    }
+    
     handleRoute(hash);
 });
 
@@ -571,6 +580,15 @@ function handleRoute(hash) {
                 window.animatedDialogue.render();
             } else {
                 console.error('动画对话页面渲染函数未定义');
+                renderHomePage();
+            }
+            break;
+        case '#/auth':
+            console.log('准备渲染认证页面');
+            if (window.auth && typeof window.auth.render === 'function') {
+                window.auth.render();
+            } else {
+                console.error('认证页面渲染函数未定义');
                 renderHomePage();
             }
             break;

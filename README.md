@@ -37,18 +37,77 @@
 ```
 src/
 ├── assets/          # 静态资源
-│   ├── css/         # 全局样式
+│   ├── css/         # 全局样式文件
+│   │   ├── main.css        # 主样式
+│   │   └── layouts.css     # 布局样式
 │   ├── js/          # 全局脚本
+│   │   └── mobile-tabs.js  # 移动端标签切换
 │   └── images/      # 图片资源
+│       └── experts/        # 专家头像等
 ├── lib/             # 第三方库
+│   └── marked.min.js      # Markdown 渲染
 ├── utils/           # 工具类
+│   ├── validator.js       # 表单验证
+│   └── ai.js             # AI 相关工具
 ├── api/             # API 接口
+│   ├── auth.js           # 认证相关接口
+│   └── api.js            # 通用接口
+├── config.js        # 全局配置
 └── pages/           # 页面组件
-    ├── auth/        # 认证相关
-    ├── chat/        # 对话功能
-    ├── my/          # 个人中心
-    └── ...          # 其他功能页面
+    ├── index/            # 首页
+    ├── auth/            # 用户认证
+    │   ├── auth.js          # 认证逻辑
+    │   └── auth.css         # 认证样式
+    ├── chat/            # 专家对话
+    │   ├── chat.js          # 对话功能
+    │   └── immersive.js     # 沉浸式体验
+    ├── my/              # 个人中心
+    ├── teaching-design/ # 教学设计
+    ├── design-polish/   # 设计润色
+    ├── project-learning/# 项目学习
+    ├── interdisciplinary-design/  # 跨学科设计
+    ├── essay-evaluation/  # 作文评价
+    ├── ppt-to-design/    # PPT转教案
+    ├── ppt-generator/    # PPT生成
+    └── animated-dialogue/# 动画对话
 ```
+
+### 路由结构
+```
+#/                    # 首页
+#/auth               # 用户认证（登录/注册）
+#/chat               # 专家对话
+#/my                 # 个人中心
+#/unit-teaching-design    # 单元教学设计
+#/design-polish          # 教学设计润色
+#/project-learning       # 项目式学习
+#/interdisciplinary-design  # 跨学科教学
+#/essay-evaluation      # 作文评价
+#/ppt-to-design        # PPT转教案
+#/ppt-generator        # PPT生成
+#/animated-dialogue    # 动画对话
+```
+
+### 主要功能模块
+
+1. **核心功能**
+   - `src/pages/chat/`: 专家对话系统
+   - `src/pages/teaching-design/`: 教学设计生成
+   - `src/pages/design-polish/`: 教学设计润色
+
+2. **用户系统**
+   - `src/pages/auth/`: 用户认证
+   - `src/pages/my/`: 个人中心
+   - `src/api/auth.js`: 认证接口
+
+3. **工具类**
+   - `src/utils/validator.js`: 表单验证
+   - `src/utils/ai.js`: AI 功能支持
+   - `src/api/api.js`: API 调用封装
+
+4. **UI 组件**
+   - `src/assets/css/`: 全局样式
+   - `src/assets/js/mobile-tabs.js`: 移动端组件
 
 ## 开发指南
 
