@@ -49,14 +49,6 @@ const features = [
         category: 'tools'
     },
     {
-        id: 'ppt-generator',
-        title: '一键PPT制作',
-        desc: '输入文本或上传文件，智能生成精美PPT',
-        icon: '🎯',
-        path: '/ppt-generator',
-        category: 'tools'
-    },
-    {
         id: 'animated-dialogue',
         title: '动画对话',
         desc: '输入对话文本，生成角色动画视频，适用于课堂知识导入',
@@ -412,7 +404,6 @@ function handleFeatureClick(event) {
             'interdisciplinary-design': '#/interdisciplinary-design',
             'essay-evaluation': '#/essay-evaluation',
             'ppt-to-plan': '#/ppt-to-design',
-            'ppt-generator': '#/ppt-generator',
             'animated-dialogue': '#/animated-dialogue'
         };
 
@@ -454,8 +445,8 @@ window.addEventListener('load', () => {
     
     // 检查登录状态
     const token = localStorage.getItem('token');
-    if (token && hash === '#/') {
-        // 如果已登录且在首页，自动跳转到我的页面
+    if (token && hash === '#/auth') {
+        // 如果已登录且在认证页面，自动跳转到我的页面
         window.location.hash = '/my';
         return;
     }
@@ -562,15 +553,6 @@ function handleRoute(hash) {
                 new window.PptToDesign().render();
             } else {
                 console.error('PPT转教案页面渲染函数未定义');
-                renderHomePage();
-            }
-            break;
-        case '#/ppt-generator':
-            console.log('准备渲染PPT生成页面');
-            if (window.pptGenerator && typeof window.pptGenerator.render === 'function') {
-                window.pptGenerator.render();
-            } else {
-                console.error('PPT生成页面渲染函数未定义');
                 renderHomePage();
             }
             break;
