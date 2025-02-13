@@ -6,9 +6,13 @@
   "main": "index.js",
   "scripts": {
     "test": "node src/test/ai-test.js",
-    "test:ai": "node src/test/ai-test.js"
+    "test:ai": "node src/test/ai-test.js",
+    "dev": "http-server . -p 3000 -c-1 --cors"
   },
   "dependencies": {
     "dotenv": "^16.4.1"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
   }
-} 
+}

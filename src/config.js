@@ -1,65 +1,25 @@
-import dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-import { readFileSync } from 'fs';
-
-// 获取当前文件的目录
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const rootDir = dirname(dirname(__dirname));
-
-// 手动加载环境变量
-function loadEnvFile() {
-    try {
-        const envPath = join(process.cwd(), '.env');
-        console.log('尝试加载环境变量文件:', envPath);
-        const envContent = readFileSync(envPath, 'utf8');
-        const envVars = {};
-        
-        envContent.split('\n').forEach(line => {
-            line = line.trim();
-            if (line && !line.startsWith('#')) {
-                const [key, ...valueParts] = line.split('=');
-                const value = valueParts.join('=').trim();
-                if (key && value) {
-                    envVars[key.trim()] = value;
-                }
-            }
-        });
-        
-        console.log('环境变量加载成功');
-        return envVars;
-    } catch (error) {
-        console.error('加载环境变量失败:', error);
-        return {};
-    }
-}
-
-// 加载环境变量
-const envVars = loadEnvFile();
-
-// 环境变量配置
+// 配置对象
 const config = {
-    // 是否使用演示模式
-    isDemoMode: process.env.NODE_ENV === 'production',
+    // 是否使用演示模式（根据URL判断）
+    isDemoMode: window.location.hostname.includes('vercel.app'),
     
-    // API代理服务器地址（使用实际的 Vercel 部署地址）
-    proxyEndpoint: process.env.NODE_ENV === 'production' 
-        ? 'https://ai-teaching-assistant-three.vercel.app/api'  // 使用实际的 Vercel 域名
-        : '',  // 开发环境直接调用API
+    // API代理服务器地址
+    proxyEndpoint: window.location.hostname.includes('vercel.app')
+        ? 'https://ai-teaching-assistant-three.vercel.app/api'
+        : '',
     
     deepseek: {
-        apiKey: envVars.DEEPSEEK_API_KEY || '',
-        endpoint: envVars.DEEPSEEK_API_ENDPOINT || 'https://api.deepseek.com/v1',
+        apiKey: '',  // 从环境变量中获取
+        endpoint: 'https://api.deepseek.com/v1',
         defaultModel: 'deepseek-chat'
     },
     zhipu: {
-        apiKey: envVars.ZHIPU_API_KEY || '',
-        endpoint: envVars.ZHIPU_API_ENDPOINT || 'https://open.bigmodel.cn/api/paas/v3/model-api',
+        apiKey: '',  // 从环境变量中获取
+        endpoint: 'https://open.bigmodel.cn/api/paas/v3/model-api',
         defaultModel: 'chatglm_turbo'
     },
     dify: {
-        apiKey: envVars.DIFY_API_KEY || '',
+        apiKey: '',  // 从环境变量中获取
         endpoint: 'https://api.dify.ai/v1'
     }
 };
@@ -85,4 +45,5 @@ function validateConfig() {
 // 初始化时验证配置
 validateConfig();
 
-export default config; 
+// 设置为全局对象
+window.config = config; 

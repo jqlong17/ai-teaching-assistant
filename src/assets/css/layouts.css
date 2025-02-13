@@ -51,10 +51,13 @@
 
 /* 预览区域基础样式 */
 .ai-layout-preview {
+    width: 50%;
+    display: block;
+    overflow-y: auto;
+    height: 100%;
     background: white;
     border-radius: 12px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    display: none; /* 移动端默认隐藏 */
 }
 
 /* 移动端tab样式 */
@@ -109,7 +112,6 @@
         gap: 24px;
         padding: 24px;
         height: calc(100vh - 72px);
-        overflow: hidden;
     }
 
     /* 输入区域样式 */
@@ -127,40 +129,41 @@
         width: 50%;
         display: flex;
         flex-direction: column;
-        overflow: hidden;
+        height: 100%;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
 
     /* 预览区域头部 */
     .ai-layout-preview-header {
+        flex-shrink: 0;
         padding: 16px 24px;
-        border-bottom: 1px solid #e2e8f0;
         background: white;
-        position: sticky;
-        top: 0;
-        z-index: 1;
-    }
-
-    .ai-layout-preview-title {
-        font-size: 16px;
-        font-weight: 600;
-        color: #1e293b;
+        border-bottom: 1px solid #e2e8f0;
     }
 
     /* 预览区域内容 */
     .ai-layout-preview-content {
         flex: 1;
         overflow-y: auto;
+        min-height: 0;
+        height: calc(100% - 112px);
+    }
+
+    .markdown-preview {
         padding: 24px;
     }
 
     /* 预览区域底部 */
     .ai-layout-preview-footer {
+        flex-shrink: 0;
         padding: 16px 24px;
-        border-top: 1px solid #e2e8f0;
         background: white;
-        position: sticky;
-        bottom: 0;
-        z-index: 1;
+        border-top: 1px solid #e2e8f0;
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
     }
 
     /* 滚动条美化 */
