@@ -423,7 +423,7 @@ function bindTeachingDesignEvents() {
             await new Promise(resolve => setTimeout(resolve, 1500));
             
             // 获取示例教学设计方案内容
-            const response = await fetch('./docs/教案示例/七年级数学相交线教案.md');
+            const response = await fetch('docs/教案示例/七年级数学相交线教案.md');
             if (!response.ok) {
                 throw new Error('获取教学设计方案失败');
             }
