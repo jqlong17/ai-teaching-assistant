@@ -99,7 +99,7 @@ class My {
             <div class="my-content">
                 <div class="user-info">
                     <div class="user-avatar">
-                        <img src="./src/assets/images/experts/数字人示意图.png" alt="用户头像">
+                        <img src="./src/assets/images/experts/20250213175712.jpg" alt="用户头像">
                     </div>
                     <div class="user-details">
                         <h2>张老师</h2>

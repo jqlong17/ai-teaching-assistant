@@ -3,7 +3,7 @@ const experts = [
     {
         id: 'math',
         name: '章建跃',
-        avatar: './src/assets/images/experts/数字人示意图.png',
+        avatar: './src/assets/images/experts/20250213175712.jpg',
         qrcode: 'https://ai-teaching-assistant-three.vercel.app/#/',
         description: '著名数学教育专家，教育部基础教育课程教材专家工作委员会委员，国家级教学成果奖获得者。',
         detailedDescription: `
