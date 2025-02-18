@@ -113,6 +113,52 @@ let chatState = {
 // 在 experts 数组后添加
 let chatMode = 'immersive'; // 修改默认模式为 'immersive'
 
+// 思考步骤配置
+const thinkingSteps = [
+    {
+        step: 1,
+        message: "正在分析课程标准和教材要求...",
+        duration: 2000,
+        completed: false
+    },
+    {
+        step: 2,
+        message: "正在进行学情分析与学习者特征诊断...",
+        duration: 2000,
+        completed: false
+    },
+    {
+        step: 3,
+        message: "正在明确教学目标与重难点分析...",
+        duration: 2000,
+        completed: false
+    },
+    {
+        step: 4,
+        message: "正在设计教学策略与教学方法...",
+        duration: 2000,
+        completed: false
+    },
+    {
+        step: 5,
+        message: "正在构建教学环节与课堂活动...",
+        duration: 2000,
+        completed: false
+    },
+    {
+        step: 6,
+        message: "正在设计多元化教学评价方案...",
+        duration: 2000,
+        completed: false
+    },
+    {
+        step: 7,
+        message: "正在整合教学资源并生成完整教案...",
+        duration: 2000,
+        completed: false
+    }
+];
+
 // 渲染专家选择页面
 function renderExpertList() {
     const container = document.getElementById('page-container');
@@ -294,38 +340,50 @@ function bindChatEvents() {
     const input = document.querySelector('.chat-input');
     const sendButton = document.querySelector('.send-btn');
     
-    // 发送按钮点击事件
-    sendButton.addEventListener('click', () => {
+    // 移除已有的事件监听器
+    sendButton.removeEventListener('click', handleSendButtonClick);
+    input.removeEventListener('keypress', handleKeyPress);
+    input.removeEventListener('input', handleInput);
+    backButton.removeEventListener('click', handleBackButton);
+    
+    // 发送按钮点击事件处理函数
+    function handleSendButtonClick() {
         const content = input.value.trim();
         if (content) {
             handleUserMessage(content);
             input.value = '';
             input.style.height = 'auto';
         }
-    });
+    }
     
-    // 回车发送
-    input.addEventListener('keypress', (e) => {
+    // 回车发送处理函数
+    function handleKeyPress(e) {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            sendButton.click();
+            handleSendButtonClick();
         }
-    });
+    }
     
-    // 自动调整输入框高度
-    input.addEventListener('input', () => {
+    // 输入框高度自适应处理函数
+    function handleInput() {
         input.style.height = 'auto';
         input.style.height = input.scrollHeight + 'px';
-    });
+    }
     
-    // 返回按钮
-    backButton.addEventListener('click', () => {
+    // 返回按钮处理函数
+    function handleBackButton() {
         renderExpertList();
-    });
+    }
+    
+    // 添加事件监听器
+    sendButton.addEventListener('click', handleSendButtonClick);
+    input.addEventListener('keypress', handleKeyPress);
+    input.addEventListener('input', handleInput);
+    backButton.addEventListener('click', handleBackButton);
 }
 
 // 处理用户消息
-function handleUserMessage(content) {
+async function handleUserMessage(content) {
     if (!content || chatState.isLoading) return;
     
     // 添加用户消息
@@ -334,8 +392,21 @@ function handleUserMessage(content) {
         content
     });
     
-    // 获取回复
-    handleAssistantResponse(content);
+    // 设置加载状态
+    chatState.isLoading = true;
+    
+    try {
+        // 判断是否是教案设计相关的请求
+        if (content.includes('教案') || content.includes('教学设计') || content.includes('课程设计')) {
+            await showThinkingProcess(content);
+        } else {
+            // 获取回复
+            await handleAssistantResponse(content);
+        }
+    } finally {
+        // 确保无论如何都会重置加载状态
+        chatState.isLoading = false;
+    }
 }
 
 // 添加消息到列表
@@ -367,6 +438,7 @@ function addMessage(message) {
         ${avatar}
         <div class="message-content">
             <div class="message-text">${message.type === 'assistant' ? marked.parse(message.content) : message.content}</div>
+            ${message.isThinking ? '<div class="thinking-indicator"></div>' : ''}
         </div>
         ${audioWave}
     `;
@@ -387,9 +459,13 @@ function addMessage(message) {
 
 // 处理助手回复
 async function handleAssistantResponse(userMessage) {
-    chatState.isLoading = true;
-    
     try {
+        // 如果是教案相关的请求，使用新的文档生成UI
+        if (userMessage.includes('教案') || userMessage.includes('教学设计') || userMessage.includes('课程设计')) {
+            await showDocumentGenerationUI(userMessage);
+            return;
+        }
+
         // 激活专家头像下方的音频波形
         const expertWave = document.querySelector('.expert-side .audio-wave');
         if (expertWave) {
@@ -445,48 +521,18 @@ async function handleAssistantResponse(userMessage) {
         
         // 处理流式响应
         let fullResponse = '';
-        try {
-            for await (const chunk of window.api.handleStream(stream)) {
-                console.log('收到响应块:', chunk);
-                if (chunk.event === 'message') {
-                    const content = chunk.answer || chunk.message || '';
-                    fullResponse += content;
-                    messageText.innerHTML = marked.parse(fullResponse);
-                    messageList.scrollTop = messageList.scrollHeight;
-                }
-            }
-        } catch (streamError) {
-            console.error('处理响应流时出错:', streamError);
-            messageText.textContent = '抱歉，处理响应时出错了';
+        
+        for await (const chunk of stream) {
+            fullResponse += chunk;
+            messageText.innerHTML = marked.parse(fullResponse);
+            messageList.scrollTop = messageList.scrollHeight;
         }
-        
-        // 保存消息
-        chatState.messages.push({
-            type: 'user',
-            content: userMessage
-        }, {
-            type: 'assistant',
-            content: fullResponse || '抱歉，没有收到有效的回复'
-        });
-        
-        // 停用专家头像下方的音频波形
-        if (expertWave) {
-            expertWave.classList.add('inactive');
-        }
-        
-    } catch (error) {
-        console.error('获取回复失败:', error);
-        // 停用专家头像下方的音频波形
+    } finally {
+        // 停止音频波形动画
         const expertWave = document.querySelector('.expert-side .audio-wave');
         if (expertWave) {
             expertWave.classList.add('inactive');
         }
-        addMessage({
-            type: 'system',
-            content: '抱歉，获取回复失败，请稍后重试。'
-        });
-    } finally {
-        chatState.isLoading = false;
     }
 }
 
@@ -530,4 +576,225 @@ window.chat = {
 window.addEventListener('load', init);
 
 // 路由变化时初始化
-window.addEventListener('hashchange', init); 
+window.addEventListener('hashchange', init);
+
+// 添加思考过程显示函数
+async function showThinkingProcess(userMessage) {
+    // 显示用户消息
+    addMessage({
+        type: 'user',
+        content: userMessage
+    });
+
+    // 显示确认消息
+    addMessage({
+        type: 'assistant',
+        content: '我注意到您需要一份详细的教学设计文档。我可以帮您生成一份完整的教案，您要现在开始生成吗？\n\n[确认开始](confirm) | [取消](cancel)'
+    });
+
+    // 等待用户确认
+    return new Promise((resolve) => {
+        // 添加一次性点击事件监听器
+        const handleConfirmClick = async (e) => {
+            const link = e.target.closest('a');
+            if (!link) return;
+
+            e.preventDefault();
+            const action = link.getAttribute('href');
+            
+            // 移除事件监听器
+            document.removeEventListener('click', handleConfirmClick);
+
+            if (action === 'confirm') {
+                // 用户确认，开始生成文档
+                // 创建一个思考中的消息
+                const thinkingMessage = {
+                    type: 'assistant',
+                    content: '让我思考一下...',
+                    isThinking: true
+                };
+                addMessage(thinkingMessage);
+
+                // 依次显示每个思考步骤
+                for (const step of thinkingSteps) {
+                    await new Promise(resolve => setTimeout(resolve, step.duration));
+                    step.completed = true;
+                    thinkingMessage.content = generateThinkingContent();
+                    // 更新最后一条消息的内容
+                    const lastMessage = document.querySelector('.message-list .message:last-child .message-text');
+                    lastMessage.innerHTML = marked.parse(thinkingMessage.content);
+                }
+
+                // 显示最终结果，提供示例文档下载链接
+                addMessage({
+                    type: 'assistant',
+                    content: `教案已生成完毕！\n\n[点击下载教案](/docs/教案示例/七年级数学相交线教案.md)`
+                });
+            } else {
+                // 用户取消
+                addMessage({
+                    type: 'assistant',
+                    content: '好的，如果您之后需要生成教案，随时告诉我。'
+                });
+            }
+            resolve();
+        };
+
+        // 添加事件监听器
+        document.addEventListener('click', handleConfirmClick);
+    });
+}
+
+// 生成思考内容（包含打勾效果）
+function generateThinkingContent() {
+    return thinkingSteps.map(step => 
+        `${step.completed ? '✓' : '○'} ${step.message}`
+    ).join('\n\n');
+}
+
+// 生成教案文档（示例函数）
+function generateTeachingPlan(userMessage) {
+    // 这里添加生成Word文档的逻辑
+    return '#'; // 临时返回一个链接
+}
+
+// 修改发送消息的处理函数
+async function handleSendMessage(message) {
+    if (!message.trim()) return;
+    
+    chatState.isLoading = true;
+    
+    // 如果消息包含关键词，触发教案生成流程
+    if (message.includes('教案') || message.includes('教学设计') || message.includes('课程设计')) {
+        await showThinkingProcess(message);
+    } else {
+        // 普通对话流程
+        addMessage({
+            type: 'user',
+            content: message
+        });
+        
+        // 这里是原有的消息处理逻辑
+        // ... existing code ...
+    }
+    
+    chatState.isLoading = false;
+}
+
+// 显示文档生成UI
+async function showDocumentGenerationUI(userMessage) {
+    const steps = [
+        '分析教学内容',
+        '分析学情',
+        '确定教学目标',
+        '设计教学过程',
+        '设计教学评价'
+    ];
+
+    // 添加确认消息
+    const messageList = document.querySelector('.message-list');
+    const confirmMessage = document.createElement('div');
+    confirmMessage.className = 'message assistant';
+    confirmMessage.innerHTML = `
+        <div class="message-avatar">
+            <img src="${chatState.currentExpert.avatar}" alt="${chatState.currentExpert.name}">
+        </div>
+        <div class="message-content document-generation">
+            <div class="confirmation-message">我发现您需要生成教学设计文档，需要我现在开始生成吗？</div>
+            <div class="confirmation-buttons">
+                <button class="confirm-btn">开始生成</button>
+                <button class="cancel-btn">暂不需要</button>
+            </div>
+        </div>
+    `;
+    messageList.appendChild(confirmMessage);
+    messageList.scrollTop = messageList.scrollHeight;
+
+    // 等待用户确认
+    const userChoice = await new Promise((resolve) => {
+        const confirmBtn = confirmMessage.querySelector('.confirm-btn');
+        const cancelBtn = confirmMessage.querySelector('.cancel-btn');
+
+        confirmBtn.addEventListener('click', () => resolve(true));
+        cancelBtn.addEventListener('click', () => resolve(false));
+    });
+
+    if (!userChoice) {
+        // 用户取消
+        addMessage({
+            type: 'assistant',
+            content: '好的，如果您之后需要生成教案，随时告诉我。'
+        });
+        return;
+    }
+
+    // 开始生成文档
+    const progressMessage = document.createElement('div');
+    progressMessage.className = 'message assistant';
+    progressMessage.innerHTML = `
+        <div class="message-avatar">
+            <img src="${chatState.currentExpert.avatar}" alt="${chatState.currentExpert.name}">
+        </div>
+        <div class="message-content document-progress">
+            <div class="progress-bar-container">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="steps-container">
+                ${steps.map(step => `
+                    <div class="step">
+                        <div class="step-icon"></div>
+                        <div class="step-label">${step}</div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+    messageList.appendChild(progressMessage);
+    messageList.scrollTop = messageList.scrollHeight;
+
+    // 处理每个步骤
+    const stepsElements = progressMessage.querySelectorAll('.step');
+    const progressBar = progressMessage.querySelector('.progress-bar');
+
+    for (let i = 0; i < steps.length; i++) {
+        // 更新当前步骤状态
+        stepsElements[i].classList.add('active');
+        
+        // 等待2秒
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // 完成步骤
+        stepsElements[i].classList.remove('active');
+        stepsElements[i].classList.add('completed');
+        
+        // 更新进度条
+        const progress = ((i + 1) / steps.length) * 100;
+        progressBar.style.width = `${progress}%`;
+    }
+
+    // 显示完成消息
+    const completeMessage = document.createElement('div');
+    completeMessage.className = 'message assistant';
+    completeMessage.innerHTML = `
+        <div class="message-avatar">
+            <img src="${chatState.currentExpert.avatar}" alt="${chatState.currentExpert.name}">
+        </div>
+        <div class="message-content document-complete">
+            <div class="complete-message">教学设计文档已生成完成！</div>
+            <div class="document-preview">
+                <div class="preview-header">教学设计文档.docx</div>
+                <div class="preview-content">
+                    <!-- 这里可以添加文档预览内容 -->
+                </div>
+            </div>
+            <button class="download-btn">下载文档</button>
+        </div>
+    `;
+    messageList.appendChild(completeMessage);
+    messageList.scrollTop = messageList.scrollHeight;
+
+    // 绑定下载按钮事件
+    completeMessage.querySelector('.download-btn').addEventListener('click', () => {
+        alert('文档下载开始');
+    });
+} 

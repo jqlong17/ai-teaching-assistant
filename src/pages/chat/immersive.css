@@ -291,9 +291,9 @@
 /* 添加专家输出文本样式 */
 .expert-output {
     width: 100%;
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 16px 24px;
+    max-width: 500px;
+    margin: 8px auto;
+    padding: 0 12px;
     background: rgba(255, 255, 255, 0.9);
     border-radius: 12px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
@@ -568,4 +568,231 @@
     display: flex;
     opacity: 1;
     transform: translateY(0);
+}
+
+/* 文档生成相关样式 */
+.document-step {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #333;
+    transition: all 0.3s ease;
+    height: 32px;
+}
+
+.step-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #1976D2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.step-icon.completed {
+    background: #4CAF50;
+}
+
+.step-icon.active {
+    animation: pulse 1s infinite;
+}
+
+.step-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.step-text {
+    margin: 0;
+}
+
+.step-progress {
+    font-size: 12px;
+    color: #666;
+}
+
+/* 文档完成样式 */
+.document-complete {
+    background: white;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin: 4px 0;
+}
+
+.complete-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.file-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1976D2;
+}
+
+.file-info {
+    flex: 1;
+}
+
+.file-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #333;
+    margin: 0;
+}
+
+.file-meta {
+    font-size: 12px;
+    color: #666;
+    margin: 0;
+}
+
+.download-btn {
+    background: #1976D2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.download-btn:hover {
+    background: #1565C0;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+/* 确认对话框样式 */
+.document-confirmation {
+    background: white;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin: 4px 0;
+}
+
+.confirmation-message {
+    font-size: 13px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.confirmation-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.confirmation-buttons button {
+    padding: 4px 12px;
+    border-radius: 4px;
+    border: none;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.confirm-btn {
+    background: #1976D2;
+    color: white;
+}
+
+.cancel-btn {
+    background: #f5f5f5;
+    color: #666;
+}
+
+/* 数字人思考表情 */
+.digital-human-image.thinking {
+    animation: thinking 2s infinite ease-in-out;
+}
+
+@keyframes thinking {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* 禁用状态样式 */
+.control-btn:disabled,
+.text-input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.message {
+    margin: 12px 0;
+    display: flex;
+    gap: 8px;
+    animation: fadeIn 0.3s ease;
+}
+
+.message.user {
+    justify-content: flex-end;
+}
+
+.message-content {
+    max-width: 80%;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.message.user .message-content {
+    background: #1976D2;
+    color: white;
+    border-top-right-radius: 4px;
+}
+
+.message.assistant .message-content {
+    background: #f5f7fa;
+    color: #333;
+    border-top-left-radius: 4px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 } 

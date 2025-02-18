@@ -439,6 +439,7 @@
     position: relative;
     font-size: 16px;
     line-height: 1.6;
+    transition: all 0.3s ease;
 }
 
 /* 用户消息样式 */
@@ -1216,4 +1217,246 @@
     height: 50px;
     background: #fff;
     border-top: 1px solid #eee;
+}
+
+/* 思考过程样式 */
+.thinking-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+.thinking-indicator::after {
+    content: '...';
+    animation: thinking 1.5s infinite;
+    font-size: 20px;
+    letter-spacing: 2px;
+}
+
+@keyframes thinking {
+    0% { content: '.'; }
+    33% { content: '..'; }
+    66% { content: '...'; }
+    100% { content: '.'; }
+}
+
+/* 思考过程消息特殊样式 */
+.message.assistant .message-content.thinking {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+}
+
+/* 步骤显示动画 */
+.message-text {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.3s ease;
+}
+
+.message-text.updating {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+/* 下载按钮样式 */
+.message-content a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #1976D2;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    margin-top: 12px;
+    transition: all 0.3s ease;
+}
+
+.message-content a:hover {
+    background: #1565C0;
+    transform: translateY(-1px);
+}
+
+/* 文档生成相关样式 */
+.message-content.document-generation,
+.message-content.document-progress,
+.message-content.document-complete {
+    width: 100%;
+    max-width: 500px;
+    padding: 16px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 确认消息样式 */
+.confirmation-message {
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.confirmation-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.confirmation-buttons button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.confirm-btn {
+    background: #1976D2;
+    color: white;
+}
+
+.confirm-btn:hover {
+    background: #1565C0;
+}
+
+.cancel-btn {
+    background: #f5f5f5;
+    color: #666;
+}
+
+.cancel-btn:hover {
+    background: #e0e0e0;
+}
+
+/* 进度显示样式 */
+.progress-bar-container {
+    width: 100%;
+    height: 4px;
+    background: #f0f0f0;
+    border-radius: 2px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #1976D2;
+    width: 0;
+    transition: width 0.5s ease;
+}
+
+.steps-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    border-radius: 6px;
+    background: #f5f7fa;
+    transition: all 0.3s ease;
+}
+
+.step.active {
+    background: rgba(25, 118, 210, 0.1);
+    animation: pulse 1.5s infinite;
+}
+
+.step.completed {
+    background: #E8F5E9;
+}
+
+.step-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.step.active .step-icon {
+    border-color: #1976D2;
+    animation: spin 1s infinite linear;
+}
+
+.step.completed .step-icon {
+    border-color: #4CAF50;
+    background: #4CAF50;
+}
+
+.step.completed .step-icon::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+}
+
+.step-label {
+    font-size: 14px;
+    color: #333;
+    flex: 1;
+}
+
+/* 完成消息样式 */
+.document-complete .complete-message {
+    font-size: 16px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.document-preview {
+    background: #f5f7fa;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 16px;
+}
+
+.preview-header {
+    font-size: 14px;
+    color: #1976D2;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.preview-header::before {
+    content: '📄';
+}
+
+.download-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    background: #1976D2;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.download-btn:hover {
+    background: #1565C0;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
 } 
