@@ -232,12 +232,11 @@ class ImmersiveChat {
     async handleUserInput(content) {
         if (!content) return;
         
-        // 添加用户消息到对话界面
         const outputElement = document.querySelector('.expert-output');
         const textElement = outputElement.querySelector('.text');
         
-        // 确保expert-output可见
-        outputElement.classList.add('show');
+        // 清空之前的消息
+        textElement.innerHTML = '';
         
         // 显示用户的输入
         const userMessage = document.createElement('div');
@@ -252,7 +251,6 @@ class ImmersiveChat {
 
         // 检测是否需要生成文档
         if (this.detectDocumentGeneration(content)) {
-            console.log('检测到需要生成文档');
             this.showDocumentConfirmation();
         } else {
             try {
@@ -283,9 +281,6 @@ class ImmersiveChat {
                 this.streamText('抱歉，处理您的消息时出现了问题，请重试');
             }
         }
-        
-        // 滚动到底部
-        textElement.scrollTop = textElement.scrollHeight;
     }
 
     // 检测是否需要生成文档
@@ -381,16 +376,22 @@ class ImmersiveChat {
         const outputElement = document.querySelector('.expert-output');
         const textElement = outputElement.querySelector('.text');
         
-        outputElement.classList.add('show');
-        textElement.textContent = '';
+        // 清空之前的消息
+        textElement.innerHTML = '';
         
+        // 创建新的消息元素
+        const messageElement = document.createElement('div');
+        messageElement.className = 'message assistant';
+        messageElement.innerHTML = `<div class="message-content"></div>`;
+        textElement.appendChild(messageElement);
+        
+        const contentElement = messageElement.querySelector('.message-content');
+        
+        // 逐字显示文本
         for (let i = 0; i < text.length; i++) {
-            textElement.textContent += text[i];
-            await new Promise(resolve => setTimeout(resolve, 50)); // 控制打字速度
+            contentElement.textContent += text[i];
+            await new Promise(resolve => setTimeout(resolve, 50));
         }
-        
-        // 显示完成后隐藏打字动画
-        outputElement.querySelector('.typing').style.display = 'none';
     }
 }
 

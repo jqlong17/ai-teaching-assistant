@@ -101,10 +101,13 @@ const experts = [
 ];
 
 // 页面状态
-let chatState = {
+const chatState = {
     currentExpert: null,
-    messages: [],
+    conversationId: null,
     isLoading: false,
+    typingInterval: null, // 用于存储打字机效果的 interval
+    isTyping: false,      // 用于跟踪是否正在打字
+    messages: [],
     isVoiceMode: true, // 默认使用语音输入
     isRecording: false,
     recognition: null
@@ -318,7 +321,11 @@ function enterChatRoom(expert) {
             <div class="chat-input-area">
                 <div class="chat-input-wrapper">
                     <textarea class="chat-input" placeholder="输入你的问题..." rows="1"></textarea>
-                    <button class="send-btn">发送</button>
+                    <button class="send-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z" fill="currentColor"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
@@ -423,7 +430,7 @@ function addMessage(message) {
         ? '<div class="message-avatar">我</div>'
         : `<div class="message-avatar"><img src="${expert.avatar}" alt="${expert.name}"></div>`;
     
-    // 为助手消息添加音频波形
+    // 为助手消息添加音频波形和打断按钮
     const audioWave = message.type === 'assistant' 
         ? `<div class="audio-wave">
             <div class="wave-bar"></div>
@@ -431,13 +438,14 @@ function addMessage(message) {
             <div class="wave-bar"></div>
             <div class="wave-bar"></div>
             <div class="wave-bar"></div>
-           </div>`
+           </div>
+           <button class="interrupt-btn" style="display: none;">打断</button>`
         : '';
     
     messageEl.innerHTML = `
         ${avatar}
         <div class="message-content">
-            <div class="message-text">${message.type === 'assistant' ? marked.parse(message.content) : message.content}</div>
+            <div class="message-text"></div>
             ${message.isThinking ? '<div class="thinking-indicator"></div>' : ''}
         </div>
         ${audioWave}
@@ -446,14 +454,42 @@ function addMessage(message) {
     messageList.appendChild(messageEl);
     messageList.scrollTop = messageList.scrollHeight;
 
-    // 如果是助手消息，添加动画效果
+    // 如果是助手消息，添加打字机效果和打断功能
     if (message.type === 'assistant') {
+        const textContainer = messageEl.querySelector('.message-text');
+        const interruptBtn = messageEl.querySelector('.interrupt-btn');
         const wave = messageEl.querySelector('.audio-wave');
+        
+        // 显示打断按钮
+        interruptBtn.style.display = 'block';
         wave.classList.remove('inactive');
-        // 3秒后停止动画
-        setTimeout(() => {
+
+        // 打字机效果
+        let index = 0;
+        const text = message.content;
+        chatState.typingInterval = setInterval(() => {
+            if (index < text.length) {
+                textContainer.innerHTML = marked.parse(text.substring(0, index + 1));
+                index++;
+                messageList.scrollTop = messageList.scrollHeight;
+            } else {
+                clearInterval(chatState.typingInterval);
+                wave.classList.add('inactive');
+                interruptBtn.style.display = 'none';
+            }
+        }, 50);
+
+        // 打断按钮点击事件
+        interruptBtn.addEventListener('click', () => {
+            clearInterval(chatState.typingInterval);
+            textContainer.innerHTML = marked.parse(text);
             wave.classList.add('inactive');
-        }, 3000);
+            interruptBtn.style.display = 'none';
+            messageList.scrollTop = messageList.scrollHeight;
+        });
+    } else {
+        // 用户消息直接显示
+        messageEl.querySelector('.message-text').textContent = message.content;
     }
 }
 
